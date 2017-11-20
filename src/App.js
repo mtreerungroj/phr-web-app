@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import Menubar from './components/Menubar'
 import Login from './components/Login'
-import Footer from './components/Footer'
 import Page404 from './components/Page404'
 import Index from './components/protected/Index'
 
@@ -48,14 +48,12 @@ export default class App extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <BrowserRouter>
           <div>
-            <div>Menubar</div>
+            <Menubar authed={this.state.authed} />
             <Switch>
               <Route exact path='/' component={props => <Login />} />
               <PrivateRoute authed={this.state.authed} path='/home' component={props => <Index />} />
               <Route render={() => <Page404 />} />
             </Switch>
-            <br />
-            <Footer />
           </div>
         </BrowserRouter>
       </MuiThemeProvider>
