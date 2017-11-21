@@ -28,13 +28,23 @@ export default class Login extends Component {
     return 0
   }
 
-  handleChange = e => {
+  _handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  handleSubmit = e => {
+  _handleSubmit = e => {
     e.preventDefault()
     this.validateForm() && this.props.handleLoginSubmit(this.state.username, this.state.password)
+  }
+
+  handleForgetPasswordClick = e => {
+    e.preventDefault()
+    console.log('Forget password clicked!')
+  }
+
+  handleRegisterClick = e => {
+    e.preventDefault()
+    console.log('Registration clicked!')
   }
 
   render () {
@@ -44,7 +54,7 @@ export default class Login extends Component {
           <div style={styles.avatar}>
             <Avatar backgroundColor={pink500} icon={<LockIcon />} size={60} />
           </div>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this._handleSubmit}>
             <div style={styles.form}>
               <div style={styles.input}>
                 <TextField
@@ -52,7 +62,7 @@ export default class Login extends Component {
                   type='email'
                   errorText={this.state.usernameErrorText}
                   floatingLabelText='ชื่อผู้ใช้งาน'
-                  onChange={this.handleChange}
+                  onChange={this._handleChange}
                   fullWidth
                 />
               </div>
@@ -62,13 +72,21 @@ export default class Login extends Component {
                   type='password'
                   errorText={this.state.passwordErrorText}
                   floatingLabelText='รหัสผ่าน'
-                  onChange={this.handleChange}
+                  onChange={this._handleChange}
                   fullWidth
                 />
               </div>
             </div>
             <CardActions>
-              <RaisedButton type='submit' label='เข้าสู่ระบบ' primary fullWidth />
+              <div style={styles.button}>
+                <RaisedButton type='submit' label='เข้าสู่ระบบ' primary fullWidth />
+              </div>
+              <div style={styles.button}>
+                <RaisedButton label='ลงทะเบียน' onClick={this.handleRegisterClick} primary fullWidth />
+              </div>
+              <div style={styles.forgetPassword}>
+                <a href='' onClick={this.handleForgetPasswordClick}>ลืมรหัสผ่าน?</a>
+              </div>
             </CardActions>
           </form>
         </Card>
@@ -99,5 +117,13 @@ const styles = {
   },
   input: {
     display: 'flex'
+  },
+  button: {
+    padding: '0 0 0.5em 0.5em'
+  },
+  forgetPassword: {
+    textAlign: 'right',
+    fontSize: 12,
+    fontStyle: 'italic'
   }
 }
