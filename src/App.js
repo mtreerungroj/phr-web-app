@@ -37,15 +37,14 @@ export default class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      authed: false
+      authed: true
     }
   }
-
-  componentDidMount () {}
 
   handleLoginSubmit = (username, password) => {
     console.log(username)
     console.log(password)
+    window.location.href = '/home'
   }
 
   render () {
@@ -56,7 +55,7 @@ export default class App extends Component {
             <Menubar authed={this.state.authed} />
             <Switch>
               <Route exact path='/' component={props => <Login handleLoginSubmit={this.handleLoginSubmit} />} />
-              <PrivateRoute authed={this.state.authed} path='/home' component={props => <Index />} />
+              <PrivateRoute authed={this.state.authed} path='/home' component={props => <Index />} />}
               <Route render={() => <Page404 />} />
             </Switch>
           </div>

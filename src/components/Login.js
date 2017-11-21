@@ -11,11 +11,18 @@ export default class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isLoading: true,
       username: '',
       password: '',
       usernameErrorText: '',
       passwordErrorText: ''
     }
+  }
+
+  componentDidMount () {
+    const isUser = true
+    isUser && (window.location.href = '/home')
+    this.setState({ isLoading: false })
   }
 
   validateForm = () => {
@@ -48,8 +55,9 @@ export default class Login extends Component {
   }
 
   render () {
-    return (
-      <div style={styles.main}>
+    return this.state.isLoading
+      ? <div>Loading...</div>
+      : <div style={styles.main}>
         <Card style={styles.card}>
           <div style={styles.avatar}>
             <Avatar backgroundColor={pink500} icon={<LockIcon />} size={60} />
@@ -64,7 +72,7 @@ export default class Login extends Component {
                   floatingLabelText='ชื่อผู้ใช้งาน'
                   onChange={this._handleChange}
                   fullWidth
-                />
+                  />
               </div>
               <div style={styles.input}>
                 <TextField
@@ -74,7 +82,7 @@ export default class Login extends Component {
                   floatingLabelText='รหัสผ่าน'
                   onChange={this._handleChange}
                   fullWidth
-                />
+                  />
               </div>
             </div>
             <CardActions>
@@ -91,7 +99,6 @@ export default class Login extends Component {
           </form>
         </Card>
       </div>
-    )
   }
 }
 
