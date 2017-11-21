@@ -5,6 +5,9 @@ import Login from './components/Login'
 import Page404 from './components/Page404'
 import Index from './components/protected/Index'
 
+import firebase from './services/firebase'
+import { getUserStatus } from './services/getUserStatus'
+
 // Theme
 import { lightBlue500, lightBlue100, pink500, pink100, green500, grey100, grey300 } from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -30,38 +33,55 @@ const muiTheme = getMuiTheme({
 })
 
 function PrivateRoute ({ component: Component, authed }) {
-  return <Route render={props => (authed === true ? <Component {...props} /> : <Redirect to={{ pathname: '/', state: { from: props.location } }} />)} />
+  return <Route render={props => (authed === true ? <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />)} />
 }
 
 export default class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      authed: true
+      authed: false,
+      isLoading: true
     }
   }
 
-  handleLoginSubmit = (username, password) => {
-    console.log(username)
-    console.log(password)
-    window.location.href = '/home'
+  componentDidMount () {
+    const that = this
+    getUserStatus().then(res => that.setState(res)).catch(res => that.setState(res))
+  }
+
+  handleLoginSubmit = (email, password) => {
+    this.setState({ isLoading: true })
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({ authed: true })
+      })
+      .catch(error => {
+        alert('ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง')
+      })
+    this.setState({ isLoading: false })
   }
 
   render () {
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+    return this.state.isLoading
+      ? <div>Loading...</div>
+      : <MuiThemeProvider muiTheme={muiTheme}>
         <BrowserRouter>
           <div style={styles.container}>
-            <Menubar authed={this.state.authed} />
-            <Switch>
-              <Route exact path='/' component={props => <Login handleLoginSubmit={this.handleLoginSubmit} />} />
-              <PrivateRoute authed={this.state.authed} path='/home' component={props => <Index />} />}
-              <Route render={() => <Page404 />} />
-            </Switch>
+            {!this.state.authed
+                ? <Login handleLoginSubmit={this.handleLoginSubmit} />
+                : <div>
+                  <Menubar authed={this.state.authed} />
+                  <Switch>
+                    <PrivateRoute authed={this.state.authed} path='/' component={props => <Index />} />}
+                      <Route render={() => <Page404 />} />
+                  </Switch>
+                </div>}
           </div>
         </BrowserRouter>
       </MuiThemeProvider>
-    )
   }
 }
 
