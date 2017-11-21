@@ -12,9 +12,9 @@ export default class Login extends Component {
     super(props)
     this.state = {
       isLoading: true,
-      username: '',
+      email: '',
       password: '',
-      usernameErrorText: '',
+      emailErrorText: '',
       passwordErrorText: ''
     }
   }
@@ -26,11 +26,11 @@ export default class Login extends Component {
   }
 
   validateForm = () => {
-    if (this.state.username.length > 0) {
+    if (this.state.email.length > 0) {
       if (this.state.password.length > 0) return 1
       else this.setState({ passwordErrorText: 'กรุณาใส่รหัสผ่าน' })
     } else {
-      this.setState({ usernameErrorText: 'กรุณาใส่ชื่อผู้ใช้งาน' })
+      this.setState({ emailErrorText: 'กรุณาใส่ชื่อผู้ใช้งาน' })
     }
     return 0
   }
@@ -41,7 +41,7 @@ export default class Login extends Component {
 
   _handleSubmit = e => {
     e.preventDefault()
-    this.validateForm() && this.props.handleLoginSubmit(this.state.username, this.state.password)
+    this.validateForm() && this.props.handleLoginSubmit(this.state.email, this.state.password)
   }
 
   handleForgetPasswordClick = e => {
@@ -66,9 +66,9 @@ export default class Login extends Component {
             <div style={styles.form}>
               <div style={styles.input}>
                 <TextField
-                  name='username'
+                  name='email'
                   type='email'
-                  errorText={this.state.usernameErrorText}
+                  errorText={this.state.emailErrorText}
                   floatingLabelText='ชื่อผู้ใช้งาน'
                   onChange={this._handleChange}
                   fullWidth
