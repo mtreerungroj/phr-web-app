@@ -20,23 +20,20 @@ export default class Menubar extends Component {
 
   render () {
     return (
-      <div>
+      <div style={!this.state.authed ? { visibility: 'hidden' } : {}}>
         <div>
-          <div>
-            <AppBar
-              title='ระบบข้อมูลสุขภาพส่วนบุคคลสำหรับผู้ป่วยหลังผ่าตัดหัวใจ'
-              iconClassNameRight='muidocs-icon-navigation-expand-more'
-              onLeftIconButtonTouchTap={this.handleLeftIconButtonTouchTap}
-            />
-          </div>
-          <div>
-            <Drawer docked={false} open={this.state.isDrawerOpen} onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}>
-              <AppBar showMenuIconButton={false} title='เมนู' />
-
-              <MenuItem onClick={this.handleClose}>ลงทะเบียนผู้ป่วย</MenuItem>
-              <MenuItem onClick={this.handleClose}>ออกจากระบบ</MenuItem>
-            </Drawer>
-          </div>
+          <AppBar
+            title='ระบบข้อมูลสุขภาพส่วนบุคคลสำหรับผู้ป่วยหลังผ่าตัดหัวใจ'
+            iconClassNameRight='muidocs-icon-navigation-expand-more'
+            onLeftIconButtonTouchTap={this.handleLeftIconButtonTouchTap}
+          />
+        </div>
+        <div>
+          <Drawer docked={false} open={this.state.isDrawerOpen} onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}>
+            <AppBar showMenuIconButton={false} title='เมนู' />
+            <MenuItem onClick={this.handleClose}>ลงทะเบียนผู้ป่วย</MenuItem>
+            <MenuItem onClick={this.handleClose}>ออกจากระบบ</MenuItem>
+          </Drawer>
         </div>
       </div>
     )
