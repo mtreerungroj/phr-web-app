@@ -5,9 +5,7 @@ import Login from './components/Login'
 import Page404 from './components/Page404'
 import Index from './components/protected/Index'
 
-import { getUserStatus } from './services/getUserStatus'
-import { signIn } from './services/signIn'
-import { signOut } from './services/signOut'
+import { getUserStatus, signIn, signOut } from './services/helpers'
 
 // Theme
 import { lightBlue500, lightBlue100, pink500, pink100, green500, grey100, grey300 } from 'material-ui/styles/colors'
