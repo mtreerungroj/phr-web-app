@@ -82,7 +82,7 @@ export default class Login extends Component {
                 <RaisedButton type='submit' label='เข้าสู่ระบบ' primary fullWidth />
               </div>
               <div style={styles.button}>
-                <RaisedButton label='ลงทะเบียน' onClick={this.handleRegisterClick} primary fullWidth />
+                <RaisedButton label='ลงทะเบียนสำหรับแพทย์และพยาบาล' onClick={this.handleRegisterClick} primary fullWidth />
               </div>
               <div style={styles.forgetPassword}>
                 <a href='' onClick={this.handleForgetPasswordClick}>ลืมรหัสผ่าน?</a>
