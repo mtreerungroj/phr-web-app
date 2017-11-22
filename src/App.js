@@ -7,6 +7,7 @@ import Index from './components/protected/Index'
 
 import firebase from './services/firebase'
 import { getUserStatus } from './services/getUserStatus'
+import { signIn } from './services/signIn'
 
 // Theme
 import { lightBlue500, lightBlue100, pink500, pink100, green500, grey100, grey300 } from 'material-ui/styles/colors'
@@ -51,17 +52,9 @@ export default class App extends Component {
   }
 
   handleLoginSubmit = (email, password) => {
-    this.setState({ isLoading: true })
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ authed: true })
-      })
-      .catch(error => {
-        alert('ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง')
-      })
-    this.setState({ isLoading: false })
+    const that = this
+    that.setState({ isLoading: true })
+    signIn(email, password).then(res => that.setState(res)).catch(res => that.setState(res))
   }
 
   handleLogoutSubmit = () => {
