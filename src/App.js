@@ -5,9 +5,9 @@ import Login from './components/Login'
 import Page404 from './components/Page404'
 import Index from './components/protected/Index'
 
-import firebase from './services/firebase'
 import { getUserStatus } from './services/getUserStatus'
 import { signIn } from './services/signIn'
+import { signOut } from './services/signOut'
 
 // Theme
 import { lightBlue500, lightBlue100, pink500, pink100, green500, grey100, grey300 } from 'material-ui/styles/colors'
@@ -58,18 +58,9 @@ export default class App extends Component {
   }
 
   handleLogoutSubmit = () => {
-    this.setState({ isLoading: true })
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.setState({ authed: false })
-        alert('ออกจากระบบสำเร็จ')
-      })
-      .catch(error => {
-        alert('เกิดข้อผิดพลาด', error)
-      })
-    this.setState({ isLoading: false })
+    const that = this
+    that.setState({ isLoading: true })
+    signOut().then(res => that.setState(res)).catch(res => that.setState(res))
   }
 
   render () {
