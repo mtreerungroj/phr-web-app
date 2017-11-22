@@ -18,6 +18,11 @@ export default class Menubar extends Component {
 
   handleClose = () => this.setState({ isDrawerOpen: false })
 
+  handleLogout = () => {
+    this.props.handleLogoutSubmit()
+    this.handleClose()
+  }
+
   render () {
     return (
       <div style={!this.state.authed ? { visibility: 'hidden' } : {}}>
@@ -32,7 +37,7 @@ export default class Menubar extends Component {
           <Drawer docked={false} open={this.state.isDrawerOpen} onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}>
             <AppBar showMenuIconButton={false} title='เมนู' />
             <MenuItem onClick={this.handleClose}>ลงทะเบียนผู้ป่วย</MenuItem>
-            <MenuItem onClick={this.handleClose}>ออกจากระบบ</MenuItem>
+            <MenuItem onClick={this.handleLogout}>ออกจากระบบ</MenuItem>
           </Drawer>
         </div>
       </div>

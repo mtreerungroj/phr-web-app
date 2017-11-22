@@ -64,6 +64,21 @@ export default class App extends Component {
     this.setState({ isLoading: false })
   }
 
+  handleLogoutSubmit = () => {
+    this.setState({ isLoading: true })
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.setState({ authed: false })
+        alert('ออกจากระบบสำเร็จ')
+      })
+      .catch(error => {
+        alert('เกิดข้อผิดพลาด', error)
+      })
+    this.setState({ isLoading: false })
+  }
+
   render () {
     return this.state.isLoading
       ? <div>Loading...</div>
@@ -73,7 +88,7 @@ export default class App extends Component {
             {!this.state.authed
                 ? <Login handleLoginSubmit={this.handleLoginSubmit} />
                 : <div>
-                  <Menubar authed={this.state.authed} />
+                  <Menubar authed={this.state.authed} handleLogoutSubmit={this.handleLogoutSubmit} />
                   <Switch>
                     <PrivateRoute authed={this.state.authed} path='/' component={props => <Index />} />}
                       <Route render={() => <Page404 />} />
