@@ -10,7 +10,7 @@ const signIn = (email, password) => {
         resolve({ authed: true, isLoading: false })
       })
       .catch(error => {
-        reject({ isDialogOpen: false, errorMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
+        reject({ isDialogOpen: true, errorMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
       })
   })
 }
