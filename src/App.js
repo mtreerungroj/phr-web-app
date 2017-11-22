@@ -40,7 +40,9 @@ export default class App extends Component {
     super(props)
     this.state = {
       authed: false,
-      isLoading: true
+      isLoading: true,
+      isDialogOpen: false,
+      dialogMessage: ''
     }
   }
 

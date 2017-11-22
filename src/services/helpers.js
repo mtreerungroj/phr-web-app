@@ -19,7 +19,7 @@ const signIn = (email, password) => {
         resolve({ authed: true, isLoading: false })
       })
       .catch(error => {
-        reject({ isDialogOpen: true, errorMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
+        reject({ isDialogOpen: true, dialogMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
       })
   })
 }
@@ -30,10 +30,10 @@ const signOut = (email, password) => {
       .auth()
       .signOut()
       .then(() => {
-        resolve({ authed: false, isDialogOpen: true, message: 'ออกจากระบบสำเร็จ', isLoading: false })
+        resolve({ authed: false, isDialogOpen: true, dialogMessage: 'ออกจากระบบสำเร็จ', isLoading: false })
       })
       .catch(error => {
-        reject({ isDialogOpen: true, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', isLoading: false })
+        reject({ isDialogOpen: true, dialogMessage: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', isLoading: false })
       })
   })
 }
