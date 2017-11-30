@@ -5,7 +5,7 @@ import Avatar from 'material-ui/Avatar'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
-import { pink500 } from 'material-ui/styles/colors'
+import { pink500, grey600 } from 'material-ui/styles/colors'
 
 export default class Login extends Component {
   constructor (props) {
@@ -42,9 +42,14 @@ export default class Login extends Component {
     console.log('Forget password clicked!')
   }
 
-  handleRegisterClick = e => {
+  handleRegisterNurseClick = e => {
     e.preventDefault()
-    console.log('Registration clicked!')
+    console.log('Registration for nurse and doctor clicked!')
+  }
+
+  handleRegisterPatientClick = e => {
+    e.preventDefault()
+    console.log('Registration for patient clicked!')
   }
 
   render () {
@@ -81,11 +86,17 @@ export default class Login extends Component {
               <div style={styles.button}>
                 <RaisedButton type='submit' label='เข้าสู่ระบบ' primary fullWidth />
               </div>
-              <div style={styles.button}>
-                <RaisedButton label='ลงทะเบียนสำหรับแพทย์และพยาบาล' onClick={this.handleRegisterClick} primary fullWidth />
-              </div>
               <div style={styles.forgetPassword}>
                 <a href='' onClick={this.handleForgetPasswordClick}>ลืมรหัสผ่าน?</a>
+              </div>
+              <div style={styles.textBreak}>
+                หรือ
+              </div>
+              <div style={styles.button}>
+                <RaisedButton label='ลงทะเบียนแพทย์และพยาบาล' onClick={this.handleRegisterNurseClick} fullWidth />
+              </div>
+              <div style={styles.button}>
+                <RaisedButton label='ลงทะเบียนผู้ป่วยใหม่' onClick={this.handleRegisterPatientClick} fullWidth />
               </div>
             </CardActions>
           </form>
@@ -125,5 +136,11 @@ const styles = {
     textAlign: 'right',
     fontSize: 12,
     fontStyle: 'italic'
+  },
+  textBreak: {
+    textAlign: 'center',
+    padding: '0.5em 0em 1em 1em',
+    fontSize: 12,
+    color: grey600
   }
 }
