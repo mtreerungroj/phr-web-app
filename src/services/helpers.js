@@ -16,7 +16,8 @@ const signIn = (email, password) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        resolve({ authed: true, isLoading: false })
+        const uid = firebase.auth().currentUser.uid
+        resolve({ authed: true, isLoading: false, uid })
       })
       .catch(error => {
         reject({ isDialogOpen: true, dialogMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
