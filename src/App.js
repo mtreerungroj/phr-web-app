@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import Menubar from './components/Menubar'
 import Login from './components/Login'
 import Page404 from './components/Page404'
-import Index from './components/protected/Index'
+import IndexStaff from './components/protected/Index.staff'
+import IndexPatient from './components/protected/Index.patient'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -74,7 +75,12 @@ export default class App extends Component {
                 : <div>
                   <Menubar authed={this.state.authed} handleLogoutSubmit={this.handleLogoutSubmit} />
                   <Switch>
-                    <PrivateRoute authed={this.state.authed} path='/' component={props => <Index />} />}
+                    <PrivateRoute
+                      authed={this.state.authed}
+                      path='/'
+                      component={props => (this.state.profile.role == 'staff' ? <IndexStaff /> : <IndexPatient />)}
+                      />
+                      }
                       <Route render={() => <Page404 />} />
                   </Switch>
                 </div>}
