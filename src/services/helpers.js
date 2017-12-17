@@ -1,11 +1,20 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
+const server_ip = 'http://192.168.1.38:5000/'
+
 const getUserStatus = () => {
   return new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged(user => {
-      if (user) resolve({ authed: true, isLoading: false })
-      else reject({ authed: false, isLoading: false })
+      if (user) {
+        const uid = user.uid
+        const path = server_ip + 'profile/info?appid=PHRapp&userid=' + uid
+
+        fetch(path).then(res => res.json()).then(res => {
+          const profile = res.data.profile
+          resolve({ authed: true, isLoading: false, uid, profile })
+        })
+      } else reject({ authed: false, isLoading: false })
     })
   })
 }
@@ -17,7 +26,14 @@ const signIn = (email, password) => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         const uid = firebase.auth().currentUser.uid
-        resolve({ authed: true, isLoading: false, uid })
+        const path = server_ip + 'profile/info?appid=PHRapp&userid=' + uid
+
+        // console.log(path)
+
+        fetch(path).then(res => res.json()).then(res => {
+          const profile = res.data.profile
+          resolve({ authed: true, isLoading: false, uid, profile })
+        })
       })
       .catch(error => {
         reject({ isDialogOpen: true, dialogMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
