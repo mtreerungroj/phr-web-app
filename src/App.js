@@ -6,7 +6,7 @@ import Login from './components/Login'
 import Page404 from './components/Page404'
 import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
-import Registration from './components/Registration'
+import Registration from './components/registration/Registration'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -72,7 +72,7 @@ export default class App extends Component {
 
   render () {
     return this.state.isLoading
-      ? <div>Loading...</div>
+      ? <div style={styles.container}>Loading...</div>
       : <MuiThemeProvider muiTheme={muiTheme}>
         <BrowserRouter>
           <div style={styles.container}>
