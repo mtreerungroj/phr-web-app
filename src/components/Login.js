@@ -42,14 +42,9 @@ export default class Login extends Component {
     console.log('Forget password clicked!')
   }
 
-  handleRegisterNurseClick = e => {
+  handleRegisterClick = e => {
     e.preventDefault()
-    console.log('Registration for nurse and doctor clicked!')
-  }
-
-  handleRegisterPatientClick = e => {
-    e.preventDefault()
-    console.log('Registration for patient clicked!')
+    this.props.handleChangePath('register')
   }
 
   render () {
@@ -93,10 +88,7 @@ export default class Login extends Component {
                 หรือ
               </div>
               <div style={styles.button}>
-                <RaisedButton label='ลงทะเบียนแพทย์และพยาบาล' onClick={this.handleRegisterNurseClick} fullWidth />
-              </div>
-              <div style={styles.button}>
-                <RaisedButton label='ลงทะเบียนผู้ป่วยใหม่' onClick={this.handleRegisterPatientClick} fullWidth />
+                <RaisedButton label='ลงทะเบียนใหม่' onClick={this.handleRegisterClick} fullWidth />
               </div>
             </CardActions>
           </form>

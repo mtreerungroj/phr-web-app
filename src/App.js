@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import Menubar from './components/Menubar'
+
 import Login from './components/Login'
 import Page404 from './components/Page404'
 import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
+import Registration from './components/Registration'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -64,6 +66,10 @@ export default class App extends Component {
     signOut().then(res => that.setState(res)).catch(res => that.setState(res))
   }
 
+  handleChangePath = path => {
+    window.location.href = '/' + path
+  }
+
   render () {
     return this.state.isLoading
       ? <div>Loading...</div>
@@ -71,7 +77,10 @@ export default class App extends Component {
         <BrowserRouter>
           <div style={styles.container}>
             {!this.state.authed
-                ? <Login handleLoginSubmit={this.handleLoginSubmit} />
+                ? <div>
+                  <Route exact path='/' render={() => <Login handleLoginSubmit={this.handleLoginSubmit} handleChangePath={this.handleChangePath} />} />
+                  <Route path='/register' render={() => <Registration />} />
+                </div>
                 : <div>
                   <Menubar authed={this.state.authed} handleLogoutSubmit={this.handleLogoutSubmit} />
                   <Switch>
@@ -80,8 +89,7 @@ export default class App extends Component {
                       path='/'
                       component={props => (this.state.profile.role === 'staff' ? <IndexStaff /> : <IndexPatient />)}
                       />
-                      }
-                      <Route render={() => <Page404 />} />
+                    <Route render={() => <Page404 />} />
                   </Switch>
                 </div>}
           </div>
