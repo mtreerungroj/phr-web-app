@@ -105,7 +105,7 @@ Login.propTypes = {
 const styles = {
   main: {
     display: 'flex',
-    minHeight: '80vh'
+    minHeight: '100vh'
   },
   card: {
     minWidth: 300,
