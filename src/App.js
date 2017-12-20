@@ -15,15 +15,13 @@ import { lightBlue500, lightBlue100, pink500, pink100, green500, grey100, grey30
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-// Font
-import 'typeface-roboto'
-
 // Click handler
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 // Theme
 const muiTheme = getMuiTheme({
+  fontFamily: 'Kanit, sans-serif',
   palette: {
     primary1Color: lightBlue500,
     primary2Color: pink500,
