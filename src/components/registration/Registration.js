@@ -8,20 +8,24 @@ export default class Registration extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      state: 0,
+      level: 0,
       isStaff: false
     }
   }
 
-  handleChangeState = (state, isStaff = false) => {
-    this.setState({ state, isStaff })
+  handleChangeLevel = (level, isStaff = false) => {
+    this.setState({ level, isStaff })
+  }
+
+  _handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   renderElement = () => {
-    if (this.state.state === 0) return <Step0Register handleChangeState={this.handleChangeState} />
+    if (this.state.level === 0) return <Step0Register handleChangeLevel={this.handleChangeLevel} />
     else if (this.state.isStaff) return <Step1Staff />
     else {
-      switch (this.state.state) {
+      switch (this.state.level) {
         case 1:
           return <Step1Patient />
         default:
