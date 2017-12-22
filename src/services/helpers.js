@@ -64,7 +64,9 @@ const createUser = (email, password) => {
         resolve({ isAuthed: true })
       })
       .catch(error => {
-        reject({ isDialogOpen: true, dialogMessage: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', errorCode: error.code, errorMessage: error.message })
+        let dialogMessage = 'กรุณาลองใหม่อีกครั้ง'
+        if (error.code === 'auth/email-already-in-use') dialogMessage = 'อีเมลนี้ถูกใช้งานแล้ว ' + dialogMessage
+        reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
       })
   })
 }
