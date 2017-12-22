@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+
 import Page404 from '../Page404'
 import Step0Register from './Step0.register'
 import Step1Staff from './Step1.staff'
 import Step1Patient from './Step1.patient'
+
 import { createUser } from '../../services/helpers'
 
 export default class Registration extends Component {
@@ -12,6 +17,8 @@ export default class Registration extends Component {
       isAuthed: false,
       level: 0,
       isStaff: false,
+      isDialogOpen: false,
+      dialogMessage: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -50,8 +57,11 @@ export default class Registration extends Component {
 
   _handleCreateUser = e => {
     e.preventDefault()
-    this.validateForm() && console.log('create user')
-    // createUser(this.state.email, this.state.password)
+    this.validateForm() && createUser(this.state.email, this.state.password).then(res => this.setState(res)).catch(res => this.setState(res))
+  }
+
+  _handleCloseDialog = () => {
+    this.setState({ isDialogOpen: false })
   }
 
   renderElement = () => {
@@ -68,10 +78,13 @@ export default class Registration extends Component {
   }
 
   render () {
-    console.log(this.state)
+    const actions = [<FlatButton label='ตกลง' primary keyboardFocused onClick={this._handleCloseDialog} />]
+
     return (
       <div style={styles.container}>
-        <div />
+        <Dialog title='เกิดข้อผิดพลาด' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this._handleCloseDialog}>
+          {this.state.dialogMessage}
+        </Dialog>
         {this.renderElement()}
       </div>
     )
