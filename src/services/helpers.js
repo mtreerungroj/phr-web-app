@@ -1,7 +1,7 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://192.168.1.38:5000/'
+const server_ip = 'http://192.168.1.54:5000/'
 
 const getUserStatus = () => {
   return new Promise((resolve, reject) => {
@@ -11,7 +11,8 @@ const getUserStatus = () => {
         const path = server_ip + 'profile/info?appid=PHRapp&userid=' + uid
 
         fetch(path).then(res => res.json()).then(res => {
-          const profile = res.data.profile
+          let profile = {}
+          if (res.data) profile = res.data.profile
           resolve({ authed: true, isLoading: false, uid, profile })
         })
       } else reject({ authed: false, isLoading: false })
@@ -27,8 +28,6 @@ const signIn = (email, password) => {
       .then(() => {
         const uid = firebase.auth().currentUser.uid
         const path = server_ip + 'profile/info?appid=PHRapp&userid=' + uid
-
-        // console.log(path)
 
         fetch(path).then(res => res.json()).then(res => {
           const profile = res.data.profile
@@ -61,7 +60,7 @@ const createUser = (email, password) => {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        resolve({ isAuthed: true })
+        resolve({ isAuthed: true, level: 2, isStaff: true })
       })
       .catch(error => {
         let dialogMessage = 'กรุณาลองใหม่อีกครั้ง'
