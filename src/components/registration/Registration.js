@@ -42,7 +42,7 @@ export default class Registration extends Component {
       if (this.state.password.length > 0) {
         if (this.state.password.length > 7) {
           if (this.state.password === this.state.confirmPassword) {
-            this.setState({ passwordErrorText: '', confirmPasswordErrorText: '' })
+            this.setState({ emailErrorText: '', passwordErrorText: '', confirmPasswordErrorText: '' })
             return 1
           } else {
             if (this.state.confirmPassword.length < 1) this.setState({ passwordErrorText: '', confirmPasswordErrorText: 'กรุณายืนยันรหัสผ่าน' })
@@ -73,6 +73,7 @@ export default class Registration extends Component {
           return (
             <Step1Staff
               {...this.state}
+              validateForm={this.validateForm}
               handleChangeLevel={this.handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleCreateUser={this._handleCreateUser}
@@ -89,6 +90,7 @@ export default class Registration extends Component {
           return (
             <Step1Patient
               {...this.state}
+              validateForm={this.validateForm}
               handleChangeLevel={this.handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleCreateUser={this._handleCreateUser}

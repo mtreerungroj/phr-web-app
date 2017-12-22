@@ -12,7 +12,7 @@ export default class Step1Staff extends Component {
 
   _handleOpenDialog = e => {
     e.preventDefault()
-    this.setState({ isDialogOpen: true })
+    this.props.validateForm() && this.setState({ isDialogOpen: true })
   }
 
   _handleCloseDialog = e => {
