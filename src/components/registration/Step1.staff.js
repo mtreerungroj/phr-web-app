@@ -2,16 +2,44 @@ import React, { Component } from 'react'
 import { Card, CardActions } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
 export default class Step1Staff extends Component {
+  state = {
+    isDialogOpen: false
+  }
+
+  _handleOpenDialog = e => {
+    e.preventDefault()
+    this.setState({ isDialogOpen: true })
+  }
+
+  _handleCloseDialog = e => {
+    this.setState({ isDialogOpen: false })
+  }
+
+  _handleCloseDialogWithSubmit = e => {
+    this.props._handleCreateUser(e)
+    this.setState({ isDialogOpen: false })
+  }
+
   render () {
+    const actions = [
+      <FlatButton label='ยกเลิก' primary onClick={this._handleCloseDialog} />,
+      <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseDialogWithSubmit} />
+    ]
+
     return (
       <div style={styles.main}>
+        <Dialog title='ยืนยันการลงทะเบียน' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this._handleCloseDialog}>
+          อีเมลที่ใช้สำหรับลงทะเบียนจะไม่สามารถเปลี่ยนได้ในภายหลัง
+        </Dialog>
         <Card style={styles.card}>
           <div style={styles.header}>
             ลงทะเบียนสำหรับแพทย์และพยาบาล
           </div>
-          <form onSubmit={this.props._handleCreateUser}>
+          <form onSubmit={this._handleOpenDialog}>
             <div style={styles.form}>
               <div style={styles.input}>
                 <TextField
