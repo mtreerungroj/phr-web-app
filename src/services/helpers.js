@@ -55,4 +55,18 @@ const signOut = (email, password) => {
   })
 }
 
-export { getUserStatus, signIn, signOut }
+const createUser = (email, password) => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        resolve({ isAuthed: true })
+      })
+      .catch(error => {
+        reject({ isDialogOpen: true, dialogMessage: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', errorCode: error.code, errorMessage: error.message })
+      })
+  })
+}
+
+export { getUserStatus, signIn, signOut, createUser }
