@@ -15,7 +15,9 @@ export default class Registration extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      emailErrorText: ''
+      emailErrorText: '',
+      passwordErrorText: '',
+      confirmPasswordErrorText: ''
     }
   }
 
@@ -29,9 +31,17 @@ export default class Registration extends Component {
 
   validateForm = () => {
     if (this.state.email.length > 0) {
-      // add condition here
-      if (this.state.password.length > 0) return 1
-      else this.setState({ passwordErrorText: 'กรุณากรอกรหัสผ่าน' })
+      if (this.state.password.length > 0) {
+        if (this.state.password.length > 7) {
+          if (this.state.password === this.state.confirmPassword) {
+            this.setState({ passwordErrorText: '', confirmPasswordErrorText: '' })
+            return 1
+          } else {
+            if (this.state.confirmPassword.length < 1) this.setState({ passwordErrorText: '', confirmPasswordErrorText: 'กรุณายืนยันรหัสผ่าน' })
+            else this.setState({ passwordErrorText: '', confirmPasswordErrorText: 'รหัสผ่านไม่ตรงกัน' })
+          }
+        } else this.setState({ passwordErrorText: 'กรุณากรอกรหัสผ่านอย่างน้อย 8 หลัก' })
+      } else this.setState({ passwordErrorText: 'กรุณากรอกรหัสผ่าน' })
     } else {
       this.setState({ emailErrorText: 'กรุณากรอกอีเมล' })
     }
