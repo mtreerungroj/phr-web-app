@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
+import { Card } from 'material-ui/Card'
 
 export default class Step0Register extends Component {
   render () {
     return (
-      <div style={styles.container}>
+      <Card style={styles.container}>
+
         <div style={styles.inner}>
           ลงทะเบียนสำหรับ
         </div>
@@ -13,7 +15,7 @@ export default class Step0Register extends Component {
           หรือ
           <RaisedButton primary label='ผู้ป่วย' onClick={() => this.props.handleChangeLevel(1)} style={styles.button} />
         </div>
-      </div>
+      </Card>
     )
   }
 }
@@ -22,12 +24,14 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minWidth: 300,
+    margin: 'auto'
   },
   inner: {
-    margin: 20
+    margin: 20,
+    textAlign: 'center'
   },
   button: {
     margin: 12
