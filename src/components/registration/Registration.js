@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Page404 from '../Page404'
 import Step0Register from './Step0.register'
 import Step1Staff from './Step1.staff'
+import Step2Staff from './Step2.staff'
 import Step1Patient from './Step1.patient'
 
 import { createUser } from '../../services/helpers'
@@ -66,8 +67,16 @@ export default class Registration extends Component {
 
   renderElement = () => {
     if (this.state.level === 0) return <Step0Register handleChangeLevel={this.handleChangeLevel} />
-    else if (this.state.isStaff) return <Step1Staff {...this.state} _handleChangeValue={this._handleChangeValue} _handleCreateUser={this._handleCreateUser} />
-    else {
+    else if (this.state.isStaff) {
+      switch (this.state.level) {
+        case 1:
+          return <Step1Staff {...this.state} _handleChangeValue={this._handleChangeValue} _handleCreateUser={this._handleCreateUser} />
+        case 2:
+          return <Step2Staff {...this.state} />
+        default:
+          return <Page404 />
+      }
+    } else {
       switch (this.state.level) {
         case 1:
           return <Step1Patient />
