@@ -70,7 +70,14 @@ export default class Registration extends Component {
     else if (this.state.isStaff) {
       switch (this.state.level) {
         case 1:
-          return <Step1Staff {...this.state} _handleChangeValue={this._handleChangeValue} _handleCreateUser={this._handleCreateUser} />
+          return (
+            <Step1Staff
+              {...this.state}
+              handleChangeLevel={this.handleChangeLevel}
+              _handleChangeValue={this._handleChangeValue}
+              _handleCreateUser={this._handleCreateUser}
+            />
+          )
         case 2:
           return <Step2Staff {...this.state} />
         default:
@@ -79,7 +86,14 @@ export default class Registration extends Component {
     } else {
       switch (this.state.level) {
         case 1:
-          return <Step1Patient />
+          return (
+            <Step1Patient
+              {...this.state}
+              handleChangeLevel={this.handleChangeLevel}
+              _handleChangeValue={this._handleChangeValue}
+              _handleCreateUser={this._handleCreateUser}
+            />
+          )
         default:
           return <Page404 />
       }
