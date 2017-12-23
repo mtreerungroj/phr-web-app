@@ -2,18 +2,19 @@ import 'firebase/auth'
 import firebase from './firebase'
 
 const server_ip = 'http://192.168.1.54:5000/'
+const appid = 'hphrapp'
 
 const getUserStatus = () => {
   return new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        const uid = user.uid
-        const path = server_ip + 'profile/info?appid=PHRapp&userid=' + uid
+        const userid = user.uid
+        const path = server_ip + 'profile/info?appid=' + appid + '&userid=' + userid
 
         fetch(path).then(res => res.json()).then(res => {
           let profile = {}
           if (res.data) profile = res.data.profile
-          resolve({ authed: true, isLoading: false, uid, profile })
+          resolve({ authed: true, isLoading: false, userid, profile })
         })
       } else reject({ authed: false, isLoading: false })
     })
@@ -27,7 +28,7 @@ const signIn = (email, password) => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         const uid = firebase.auth().currentUser.uid
-        const path = server_ip + 'profile/info?appid=PHRapp&userid=' + uid
+        const path = server_ip + 'profile/info?appid=' + appid + '&userid=' + uid
 
         fetch(path).then(res => res.json()).then(res => {
           const profile = res.data.profile
@@ -61,7 +62,6 @@ const createUser = (email, password, isStaff) => {
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         const userid = firebase.auth().currentUser.uid
-        const appid = 'hphrapp'
         resolve({ isAuthed: true, level: 2, isStaff, userid, appid })
       })
       .catch(error => {
