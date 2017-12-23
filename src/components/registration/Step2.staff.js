@@ -8,9 +8,9 @@ export default class Step2Staff extends Component {
     return (
       <Card style={styles.container}>
         <div style={styles.topContent}>
-          อีเมล: {this.props.email}
+          อีเมล: <span style={styles.boldText}>{this.props.email}</span>
           <br />
-          รหัส PIN: (get from server)
+          รหัส PIN: <span style={styles.boldText}>(get from server)</span>
           <br />
           <div style={styles.notation}>
             หมายเหตุ: โปรดจดจำรหัส PIN นี้ เนื่องจากระบบจะใช้รหัส PIN สำหรับยืนยันตัวตนของคุณ
@@ -43,10 +43,6 @@ const styles = {
     borderRadius: 20,
     boxShadow: 10
   },
-  header: {
-    textAlign: 'center'
-    // backgroundColor: 'red'
-  },
   topContent: {
     padding: 10,
     marginBottom: 5,
@@ -55,8 +51,14 @@ const styles = {
     borderColor: cyan500,
     backgroundColor: grey200
   },
+  header: {
+    textAlign: 'center'
+  },
   notation: {
     fontSize: 12,
     color: grey600
+  },
+  boldText: {
+    fontWeight: 'bold'
   }
 }
