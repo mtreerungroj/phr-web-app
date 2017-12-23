@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import Snackbar from 'material-ui/Snackbar'
 
 import Page404 from '../Page404'
 import Step0Register from './Step0.register'
@@ -9,7 +10,7 @@ import Step1Staff from './Step1.staff'
 import Step2Staff from './Step2.staff'
 import Step1Patient from './Step1.patient'
 
-import { createUser } from '../../services/helpers'
+import { createUser, updateProfile } from '../../services/helpers'
 
 export default class Registration extends Component {
   constructor (props) {
@@ -18,6 +19,8 @@ export default class Registration extends Component {
       isAuthed: false,
       level: 0,
       isStaff: false,
+      isComplete: false,
+      completeMessage: 'ลงทะเบียนสำเร็จ',
       isDialogOpen: false,
       dialogMessage: '',
       email: '',
@@ -34,7 +37,6 @@ export default class Registration extends Component {
   }
 
   _handleChangeValue = e => {
-    console.log(e)
     this.setState({ [e.target.name]: e.target.value })
   }
 
@@ -68,9 +70,14 @@ export default class Registration extends Component {
   }
 
   updateProfile = () => {
-    // update database
-    console.log('update database')
-    console.log(this.state)
+    const { role, firstname, lastname, personalid, hospitalid, phone } = this.state
+    const profile = { role, firstname, lastname, personalid, hospitalid, phone }
+    updateProfile(this.state.userid, this.state.appid, profile)
+      .then(res => {
+        this.setState(res)
+        // window.location.href = '/'
+      })
+      .catch(res => this.setState(res))
   }
 
   _handleCloseDialog = () => {
@@ -129,6 +136,7 @@ export default class Registration extends Component {
         <Dialog title='เกิดข้อผิดพลาด' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this._handleCloseDialog}>
           {this.state.dialogMessage}
         </Dialog>
+        <Snackbar open={this.state.isComplete} message={this.state.completeMessage} autoHideDuration={3000} />
         {this.renderElement()}
       </div>
     )
