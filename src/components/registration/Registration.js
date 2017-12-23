@@ -61,9 +61,15 @@ export default class Registration extends Component {
     return 0
   }
 
-  _handleCreateUser = e => {
+  _handleCreateUser = (e, isStaff = false) => {
     e.preventDefault()
-    this.validateForm() && createUser(this.state.email, this.state.password).then(res => this.setState(res)).catch(res => this.setState(res))
+    this.validateForm() && createUser(this.state.email, this.state.password, isStaff).then(res => this.setState(res)).catch(res => this.setState(res))
+  }
+
+  updateProfile = () => {
+    // update database
+    console.log('update database')
+    console.log(this.state)
   }
 
   _handleCloseDialog = () => {
@@ -85,7 +91,14 @@ export default class Registration extends Component {
             />
           )
         case 2:
-          return <Step2Staff {...this.state} _handleChangeValue={this._handleChangeValue} _handleChangeManualValue={this._handleChangeManualValue} />
+          return (
+            <Step2Staff
+              {...this.state}
+              _handleChangeValue={this._handleChangeValue}
+              _handleChangeManualValue={this._handleChangeManualValue}
+              updateProfile={this.updateProfile}
+            />
+          )
         default:
           return <Page404 />
       }

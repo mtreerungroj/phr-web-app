@@ -21,7 +21,7 @@ export default class Step1Staff extends Component {
   }
 
   _handleCloseDialogWithSubmit = e => {
-    this.props._handleCreateUser(e)
+    this.props._handleCreateUser(e, true)
     this.setState({ isDialogOpen: false })
   }
 
