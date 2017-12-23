@@ -20,8 +20,10 @@ export default class Step2Staff extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isDialogOpen: false,
-      dialogMessage: 'คุณสามารถแก้ไขข้อมูลประวัติส่วนตัวได้ในภายหลัง'
+      isConfirmDialogOpen: false,
+      confirmDialogMessage: 'คุณสามารถแก้ไขข้อมูลประวัติส่วนตัวได้ในภายหลัง',
+      isValidateDialogOpen: false,
+      ValidateDialogMessage: 'กรุณากรอกข้อมูลให้ครบก่อนจะบันทึกข้อมูล'
     }
   }
 
@@ -33,29 +35,58 @@ export default class Step2Staff extends Component {
     return hospitals.map(hospital => <MenuItem key={hospital.hospitalid} value={hospital.hospitalid} label={hospital.name} primaryText={hospital.name} />)
   }
 
-  _handleOpenDialog = e => {
+  _handleOpenConfirmDialog = e => {
     e.preventDefault()
-    this.setState({ isDialogOpen: true })
+    this.setState({ isConfirmDialogOpen: true })
   }
 
-  _handleCloseDialog = e => {
-    this.setState({ isDialogOpen: false })
+  _handleCloseConfirmDialog = e => {
+    this.setState({ isConfirmDialogOpen: false })
   }
 
-  _handleCloseDialogWithSubmit = e => {
-    this.props.updateProfile()
-    this.setState({ isDialogOpen: false })
+  _handleCloseValidateDialog = e => {
+    this.setState({ isValidateDialogOpen: false })
+  }
+
+  validateForm = () => {
+    if ((this.props.hospitalid && this.props.role && this.props.personalid && this.props.firstname && this.props.lastname && this.props.phone) == undefined) {
+      this.setState({ isValidateDialogOpen: true })
+      return 0
+    }
+    return 1
+  }
+
+  _handleCloseConfirmDialogWithSubmit = e => {
+    this.validateForm() && this.props.updateProfile()
+    this.setState({ isConfirmDialogOpen: false })
   }
 
   render () {
-    const actions = [
-      <FlatButton label='ยกเลิก' primary onClick={this._handleCloseDialog} />,
-      <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseDialogWithSubmit} />
+    const confirmActions = [
+      <FlatButton label='ยกเลิก' primary onClick={this._handleCloseConfirmDialog} />,
+      <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseConfirmDialogWithSubmit} />
     ]
+    const validateActions = [<FlatButton label='ตกลง' primary onClick={this._handleCloseValidateDialog} />]
+
     return (
       <Card style={styles.container}>
-        <Dialog title='ยืนยันการลงทะเบียน' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this._handleCloseDialog}>
-          {this.state.dialogMessage}
+        <Dialog
+          title='ยืนยันการลงทะเบียน'
+          actions={confirmActions}
+          modal={false}
+          open={this.state.isConfirmDialogOpen}
+          onRequestClose={this._handleCloseConfirmDialog}
+        >
+          {this.state.confirmDialogMessage}
+        </Dialog>
+        <Dialog
+          title='เกิดข้อผิดพลาด'
+          actions={validateActions}
+          modal={false}
+          open={this.state.isValidateDialogOpen}
+          onRequestClose={this._handleCloseConfirmDialog}
+        >
+          {this.state.ValidateDialogMessage}
         </Dialog>
         <div style={styles.topContent}>
           อีเมล: <span style={styles.boldText}>{this.props.email}</span>
@@ -70,7 +101,7 @@ export default class Step2Staff extends Component {
           กรอกข้อมูลประวัติส่วนตัวเพื่อสิ้นสุดการลงทะเบียน
         </div>
 
-        <form style={{ width: '80%', margin: 'auto' }} onSubmit={this._handleOpenDialog}>
+        <form style={{ width: '80%', margin: 'auto' }} onSubmit={this._handleOpenConfirmDialog}>
           <SelectField
             value={this.props.hospitalid}
             floatingLabelText='โรงพยาบาล'
