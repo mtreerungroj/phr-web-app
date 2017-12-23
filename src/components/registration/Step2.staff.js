@@ -5,6 +5,8 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
 
 const hospitals = [
   { hospitalid: '13779', name: 'รพ.สงขลานครินทร์ วิทยาเขตหาดใหญ่' },
@@ -14,16 +16,44 @@ const hospitals = [
 ]
 
 export default class Step2Staff extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isDialogOpen: false,
+      dialogMessage: 'คุณสามารถแก้ไขข้อมูลประวัติส่วนตัวได้ในภายหลัง'
+    }
+  }
+
   _handleChangeValue = (event, index, value) => this.props._handleChangeManualValue('hospitalid', value)
 
   menuItems (hospitals) {
     return hospitals.map(hospital => <MenuItem key={hospital.hospitalid} value={hospital.hospitalid} label={hospital.name} primaryText={hospital.name} />)
   }
 
+  _handleOpenDialog = e => {
+    e.preventDefault()
+    this.setState({ isDialogOpen: true })
+  }
+
+  _handleCloseDialog = e => {
+    this.setState({ isDialogOpen: false })
+  }
+
+  _handleCloseDialogWithSubmit = e => {
+    this.props.updateProfile()
+    this.setState({ isDialogOpen: false })
+  }
+
   render () {
-    console.log(this.props)
+    const actions = [
+      <FlatButton label='ยกเลิก' primary onClick={this._handleCloseDialog} />,
+      <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseDialogWithSubmit} />
+    ]
     return (
       <Card style={styles.container}>
+        <Dialog title='ยืนยันการลงทะเบียน' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this._handleCloseDialog}>
+          {this.state.dialogMessage}
+        </Dialog>
         <div style={styles.topContent}>
           อีเมล: <span style={styles.boldText}>{this.props.email}</span>
           <br />
