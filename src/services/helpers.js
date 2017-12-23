@@ -54,13 +54,15 @@ const signOut = (email, password) => {
   })
 }
 
-const createUser = (email, password) => {
+const createUser = (email, password, isStaff) => {
   return new Promise((resolve, reject) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        resolve({ isAuthed: true, level: 2, isStaff: true })
+        const userid = firebase.auth().currentUser.uid
+        const appid = 'hphrapp'
+        resolve({ isAuthed: true, level: 2, isStaff, userid, appid })
       })
       .catch(error => {
         let dialogMessage = 'กรุณาลองใหม่อีกครั้ง'
