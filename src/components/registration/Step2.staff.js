@@ -49,7 +49,7 @@ export default class Step2Staff extends Component {
   }
 
   validateForm = () => {
-    if ((this.props.hospitalid && this.props.role && this.props.personalid && this.props.firstname && this.props.lastname && this.props.phone) == undefined) {
+    if ((this.props.hospitalid && this.props.role && this.props.personalid && this.props.firstname && this.props.lastname && this.props.phone) === undefined) {
       this.setState({ isValidateDialogOpen: true })
       return 0
     }
