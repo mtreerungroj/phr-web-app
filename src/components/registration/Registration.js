@@ -42,7 +42,7 @@ export default class Registration extends Component {
     this.setState({ [key]: value })
   }
 
-  validateForm = () => {
+  validateRegistrationForm = () => {
     if (this.state.email.length > 0) {
       if (this.state.password.length > 0) {
         if (this.state.password.length > 7) {
@@ -63,7 +63,8 @@ export default class Registration extends Component {
 
   _handleCreateUser = (e, isStaff = false) => {
     e.preventDefault()
-    this.validateForm() && createUser(this.state.email, this.state.password, isStaff).then(res => this.setState(res)).catch(res => this.setState(res))
+    this.validateRegistrationForm() &&
+      createUser(this.state.email, this.state.password, isStaff).then(res => this.setState(res)).catch(res => this.setState(res))
   }
 
   updateProfile = () => {
@@ -84,7 +85,7 @@ export default class Registration extends Component {
           return (
             <Step1Staff
               {...this.state}
-              validateForm={this.validateForm}
+              validateForm={this.validateRegistrationForm}
               handleChangeLevel={this.handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleCreateUser={this._handleCreateUser}
@@ -108,7 +109,7 @@ export default class Registration extends Component {
           return (
             <Step1Patient
               {...this.state}
-              validateForm={this.validateForm}
+              validateForm={this.validateRegistrationForm}
               handleChangeLevel={this.handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleCreateUser={this._handleCreateUser}
