@@ -72,4 +72,24 @@ const createUser = (email, password, isStaff) => {
   })
 }
 
-export { getUserStatus, signIn, signOut, createUser }
+const updateProfile = (userid, appid, profile) => {
+  return new Promise((resolve, reject) => {
+    const path = server_ip + 'profile/info?appid=' + appid + '&userid=' + userid
+    const data = { userid, appid, profile }
+
+    fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(() => resolve({ isComplete: true }))
+      .catch(error => {
+        const dialogMessage = 'กรุณาลองใหม่อีกครั้ง' + error.message
+        reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
+      })
+  })
+}
+
+export { getUserStatus, signIn, signOut, createUser, updateProfile }
