@@ -7,7 +7,8 @@ import FlatButton from 'material-ui/FlatButton'
 
 export default class Step1Staff extends Component {
   state = {
-    isDialogOpen: false
+    isDialogOpen: false,
+    dialogMessage: 'อีเมลที่ใช้สำหรับลงทะเบียนจะไม่สามารถเปลี่ยนได้ในภายหลัง'
   }
 
   _handleOpenDialog = e => {
@@ -33,7 +34,7 @@ export default class Step1Staff extends Component {
     return (
       <div style={styles.main}>
         <Dialog title='ยืนยันการลงทะเบียน' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this._handleCloseDialog}>
-          อีเมลที่ใช้สำหรับลงทะเบียนจะไม่สามารถเปลี่ยนได้ในภายหลัง
+          {this.state.dialogMessage}
         </Dialog>
         <Card style={styles.card}>
           <div style={styles.header}>
