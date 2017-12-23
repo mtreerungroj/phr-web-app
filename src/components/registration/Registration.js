@@ -34,7 +34,12 @@ export default class Registration extends Component {
   }
 
   _handleChangeValue = e => {
+    console.log(e)
     this.setState({ [e.target.name]: e.target.value })
+  }
+
+  _handleChangeManualValue = (key, value) => {
+    this.setState({ [key]: value })
   }
 
   validateForm = () => {
@@ -80,7 +85,7 @@ export default class Registration extends Component {
             />
           )
         case 2:
-          return <Step2Staff {...this.state} />
+          return <Step2Staff {...this.state} _handleChangeValue={this._handleChangeValue} _handleChangeManualValue={this._handleChangeManualValue} />
         default:
           return <Page404 />
       }
