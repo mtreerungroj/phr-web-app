@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Card, CardActions } from 'material-ui/Card'
 import { grey200, grey600, cyan500 } from 'material-ui/styles/colors'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
 
 export default class Step2Staff extends Component {
   render () {
@@ -21,12 +23,59 @@ export default class Step2Staff extends Component {
           กรอกข้อมูลประวัติส่วนตัวเพื่อสิ้นสุดการลงทะเบียน
         </div>
 
-        <div style={{}}>
-          form is here<br />
-          form is here<br />
-          form is here<br />
-          form is here<br />
-        </div>
+        <form style={{ width: '80%', margin: 'auto' }} onSubmit={this._handleOpenDialog}>
+          <TextField
+            name='hospitalid'
+            type='text'
+            errorText={this.props.hospitalididErrorText}
+            floatingLabelText='โรงพยาบาล'
+            onChange={this.props._handleChangeValue}
+          />
+
+          <TextField
+            name='personalid'
+            type='text'
+            errorText={this.props.personalidErrorText}
+            floatingLabelText='รหัสประจำตัว'
+            onChange={this.props._handleChangeValue}
+          />
+
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <TextField
+              name='firstname'
+              type='text'
+              errorText={this.props.firstnameErrorText}
+              floatingLabelText='ชื่อ'
+              onChange={this.props._handleChangeValue}
+              fullWidth
+              style={{ marginRight: 10 }}
+            />
+
+            <TextField
+              name='lastname'
+              type='text'
+              errorText={this.props.lastnameErrorText}
+              floatingLabelText='นามสกุล'
+              onChange={this.props._handleChangeValue}
+              fullWidth
+              style={{ marginLeft: 10 }}
+            />
+          </div>
+
+          <TextField
+            name='phone'
+            type='text'
+            errorText={this.props.phoneErrorText}
+            floatingLabelText='เบอร์โทรศัพท์'
+            onChange={this.props._handleChangeValue}
+          />
+
+          <CardActions>
+            <div style={{ textAlign: 'center', marginTop: 10 }}>
+              <RaisedButton type='submit' label='บันทึก' primary style={{ width: 120 }} />
+            </div>
+          </CardActions>
+        </form>
       </Card>
     )
   }
@@ -60,5 +109,8 @@ const styles = {
   },
   boldText: {
     fontWeight: 'bold'
+  },
+  form: {
+    padding: '0 1em 1em 1em'
   }
 }
