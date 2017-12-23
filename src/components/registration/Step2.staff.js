@@ -7,6 +7,7 @@ import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 
 const hospitals = [
   { hospitalid: '13779', name: 'รพ.สงขลานครินทร์ วิทยาเขตหาดใหญ่' },
@@ -24,7 +25,9 @@ export default class Step2Staff extends Component {
     }
   }
 
-  _handleChangeValue = (event, index, value) => this.props._handleChangeManualValue('hospitalid', value)
+  _handleSelectFieldChangeValue = (event, index, value) => this.props._handleChangeManualValue('hospitalid', value)
+
+  _handleRadioButtonGroupChangeValue = (event, value) => this.props._handleChangeManualValue('role', value)
 
   menuItems (hospitals) {
     return hospitals.map(hospital => <MenuItem key={hospital.hospitalid} value={hospital.hospitalid} label={hospital.name} primaryText={hospital.name} />)
@@ -57,11 +60,10 @@ export default class Step2Staff extends Component {
         <div style={styles.topContent}>
           อีเมล: <span style={styles.boldText}>{this.props.email}</span>
           <br />
-          รหัส PIN: <span style={styles.boldText}>(get from server)</span>
-          <br />
-          <div style={styles.notation}>
-            หมายเหตุ: โปรดจดจำรหัส PIN นี้ เนื่องจากระบบจะใช้รหัส PIN สำหรับยืนยันตัวตนของคุณ
-          </div>
+          รหัส PIN: <span style={styles.boldText}>(get from server) {'   '}</span>
+          <span style={styles.notation}>
+            (หมายเหตุ: โปรดจดจำรหัส PIN นี้ เนื่องจากระบบจะใช้รหัส PIN สำหรับยืนยันตัวตนของคุณ)
+          </span>
         </div>
 
         <div style={styles.header}>
@@ -69,11 +71,21 @@ export default class Step2Staff extends Component {
         </div>
 
         <form style={{ width: '80%', margin: 'auto' }} onSubmit={this._handleOpenDialog}>
-          <SelectField value={this.props.hospitalid} floatingLabelText='โรงพยาบาล' onChange={this._handleChangeValue} maxHeight={200} style={{ width: 300 }}>
+          <SelectField
+            value={this.props.hospitalid}
+            floatingLabelText='โรงพยาบาล'
+            onChange={this._handleSelectFieldChangeValue}
+            maxHeight={200}
+            style={{ width: 300 }}
+          >
             {this.menuItems(hospitals)}
           </SelectField>
 
           <div>
+            <RadioButtonGroup name='role' defaultSelected={this.props.role} onChange={this._handleRadioButtonGroupChangeValue} style={styles.radioButtonGroup}>
+              <RadioButton value='doctor' label='แพทย์' style={styles.radioButton} />
+              <RadioButton value='nurse' label='พยาบาล' style={styles.radioButton} />
+            </RadioButtonGroup>
             <TextField
               name='personalid'
               type='text'
@@ -155,5 +167,13 @@ const styles = {
   },
   form: {
     padding: '0 1em 1em 1em'
+  },
+  radioButton: {
+    display: 'inline-block',
+    width: '100px'
+  },
+  radioButtonGroup: {
+    display: 'inline-block',
+    marginRight: 10
   }
 }
