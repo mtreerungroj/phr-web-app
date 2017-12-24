@@ -7,7 +7,8 @@ import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+
+const genders = [{ id: 'ชาย', name: 'ชาย' }, { id: 'หญิง', name: 'หญิง' }]
 
 export default class Step2Patient extends Component {
   constructor (props) {
@@ -22,10 +23,8 @@ export default class Step2Patient extends Component {
 
   _handleSelectFieldChangeValue = (event, index, value) => this.props._handleChangeManualValue('hospitalid', value)
 
-  _handleRadioButtonGroupChangeValue = (event, value) => this.props._handleChangeManualValue('role', value)
-
-  menuItems (hospitals) {
-    return hospitals.map(hospital => <MenuItem key={hospital.hospitalid} value={hospital.hospitalid} label={hospital.name} primaryText={hospital.name} />)
+  menuItems (items) {
+    return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
   }
 
   _handleOpenConfirmDialog = e => {
@@ -84,6 +83,10 @@ export default class Step2Patient extends Component {
         <div style={styles.topContent}>
           อีเมล: <span style={styles.boldText}>{this.props.email}</span>
           <br />
+          รหัสผู้ป่วยภายในระบบ: <span style={styles.boldText}>(get from server?) {'   '}</span>
+          <span style={styles.notation}>
+            (หมายเหตุ: รหัสผู้ป่วยภายในระบบนี้เป็นรหัสเฉพาะบุคคลสำหรับใช้ภายในระบบข้อมูลสุขภาพส่วนบุคคล)
+          </span>
         </div>
 
         <div style={styles.header}>
@@ -91,31 +94,31 @@ export default class Step2Patient extends Component {
         </div>
 
         <form style={{ width: '80%', margin: 'auto' }} onSubmit={this._handleOpenConfirmDialog}>
-          <SelectField
-            value={this.props.hospitalid}
-            floatingLabelText='โรงพยาบาล'
-            onChange={this._handleSelectFieldChangeValue}
-            maxHeight={200}
-            style={{ width: 300 }}
-          >
-            {/* {this.menuItems(hospitals)} */}
-          </SelectField>
 
           <div>
-            <RadioButtonGroup name='role' defaultSelected={this.props.role} onChange={this._handleRadioButtonGroupChangeValue} style={styles.radioButtonGroup}>
-              <RadioButton value='doctor' label='แพทย์' style={styles.radioButton} />
-              <RadioButton value='nurse' label='พยาบาล' style={styles.radioButton} />
-            </RadioButtonGroup>
             <TextField
-              name='personalid'
+              name='id_card'
               type='text'
               errorText={this.props.personalidErrorText}
-              floatingLabelText='รหัสประจำตัว'
+              floatingLabelText='รหัสบัตรประชาชน'
+              maxLength='13'
               onChange={this.props._handleChangeValue}
+              style={{ width: 200, marginRight: 20 }}
             />
+            <span style={styles.notation}>
+              (หมายเหตุ: รหัสบัตรประชาชนไม่สามารถเปลี่ยนแปลงได้ในภายหลัง)
+            </span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <SelectField
+              value={this.props.gender}
+              floatingLabelText='เพศ'
+              onChange={this._handleSelectFieldChangeValue}
+              style={{ width: 220, marginRight: 20 }}
+            >
+              {this.menuItems(genders)}
+            </SelectField>
             <TextField
               name='firstname'
               type='text'
@@ -123,7 +126,7 @@ export default class Step2Patient extends Component {
               floatingLabelText='ชื่อ'
               onChange={this.props._handleChangeValue}
               fullWidth
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 20 }}
             />
 
             <TextField
@@ -133,17 +136,8 @@ export default class Step2Patient extends Component {
               floatingLabelText='นามสกุล'
               onChange={this.props._handleChangeValue}
               fullWidth
-              style={{ marginLeft: 10 }}
             />
           </div>
-
-          <TextField
-            name='phone'
-            type='text'
-            errorText={this.props.phoneErrorText}
-            floatingLabelText='เบอร์โทรศัพท์'
-            onChange={this.props._handleChangeValue}
-          />
 
           <CardActions>
             <div style={{ textAlign: 'center', marginTop: 10 }}>
@@ -181,6 +175,9 @@ const styles = {
   notation: {
     fontSize: 12,
     color: grey600
+  },
+  boldText: {
+    fontWeight: 'bold'
   },
   form: {
     padding: '0 1em 1em 1em'
