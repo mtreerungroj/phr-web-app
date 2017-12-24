@@ -2,7 +2,7 @@
 PHR Web App aims to provide user a way to view summary of their activities, also be only a way for registration both doctor, nurse and patient.
 
 ## to run this project
-note: the server this web app connected to is on (PHRstorage)[https://github.com/mtreerungroj/PHRstorage]
+note: the server this web app connected to is on [PHRstorage](https://github.com/mtreerungroj/PHRstorage)
 - clone this project
 ```
 git clone https://github.com/mtreerungroj/phr-web-app.git
