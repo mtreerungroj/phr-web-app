@@ -75,7 +75,7 @@ export default class Step1Staff extends Component {
             </div>
             <CardActions>
               <div style={styles.button}>
-                <RaisedButton label='ยกเลิก' onClick={() => this.props.handleChangeLevel(0)} primary style={{ width: 120 }} />
+                <RaisedButton label='ยกเลิก' onClick={() => this.props._handleChangeLevel(0)} primary style={{ width: 120 }} />
                 <RaisedButton type='submit' label='ลงทะเบียน' primary style={{ width: 120 }} />
               </div>
             </CardActions>

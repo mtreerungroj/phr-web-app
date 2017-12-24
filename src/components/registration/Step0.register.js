@@ -11,9 +11,9 @@ export default class Step0Register extends Component {
           ลงทะเบียนสำหรับ
         </div>
         <div style={styles.inner}>
-          <RaisedButton primary label='แพทย์และพยาบาล' onClick={() => this.props.handleChangeLevel(1, true)} style={styles.button} />
+          <RaisedButton primary label='แพทย์และพยาบาล' onClick={() => this.props._handleChangeLevel(1, true)} style={styles.button} />
           หรือ
-          <RaisedButton primary label='ผู้ป่วย' onClick={() => this.props.handleChangeLevel(1)} style={styles.button} />
+          <RaisedButton primary label='ผู้ป่วย' onClick={() => this.props._handleChangeLevel(1)} style={styles.button} />
         </div>
       </Card>
     )
