@@ -10,10 +10,10 @@ import Dialog from 'material-ui/Dialog'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 
 const hospitals = [
-  { hospitalid: '13779', name: 'รพ.สงขลานครินทร์ วิทยาเขตหาดใหญ่' },
-  { hospitalid: '10682', name: 'รพ.หาดใหญ่' },
-  { hospitalid: '10745', name: 'รพ.สงขลา' },
-  { hospitalid: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
+  { id: '13779', name: 'รพ.สงขลานครินทร์ วิทยาเขตหาดใหญ่' },
+  { id: '10682', name: 'รพ.หาดใหญ่' },
+  { id: '10745', name: 'รพ.สงขลา' },
+  { id: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
 ]
 
 export default class Step2Staff extends Component {
@@ -31,8 +31,8 @@ export default class Step2Staff extends Component {
 
   _handleRadioButtonGroupChangeValue = (event, value) => this.props._handleChangeManualValue('role', value)
 
-  menuItems (hospitals) {
-    return hospitals.map(hospital => <MenuItem key={hospital.hospitalid} value={hospital.hospitalid} label={hospital.name} primaryText={hospital.name} />)
+  menuItems (items) {
+    return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
   }
 
   _handleOpenConfirmDialog = e => {
