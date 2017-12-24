@@ -9,6 +9,8 @@ import Step0Register from './Step0.register'
 import Step1Staff from './Step1.staff'
 import Step2Staff from './Step2.staff'
 import Step1Patient from './Step1.patient'
+import Step2Patient from './Step2.patient'
+import Step3Patient from './Step3.patient'
 
 import { createUser, updateProfile } from '../../services/helpers'
 
@@ -32,7 +34,7 @@ export default class Registration extends Component {
     }
   }
 
-  handleChangeLevel = (level, isStaff = false) => {
+  _handleChangeLevel = (level, isStaff = false) => {
     this.setState({ level, isStaff })
   }
 
@@ -85,7 +87,7 @@ export default class Registration extends Component {
   }
 
   renderElement = () => {
-    if (this.state.level === 0) return <Step0Register handleChangeLevel={this.handleChangeLevel} />
+    if (this.state.level === 0) return <Step0Register _handleChangeLevel={this._handleChangeLevel} />
     else if (this.state.isStaff) {
       switch (this.state.level) {
         case 1:
@@ -93,7 +95,7 @@ export default class Registration extends Component {
             <Step1Staff
               {...this.state}
               validateForm={this.validateRegistrationForm}
-              handleChangeLevel={this.handleChangeLevel}
+              _handleChangeLevel={this._handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleCreateUser={this._handleCreateUser}
             />
@@ -117,7 +119,28 @@ export default class Registration extends Component {
             <Step1Patient
               {...this.state}
               validateForm={this.validateRegistrationForm}
-              handleChangeLevel={this.handleChangeLevel}
+              _handleChangeLevel={this._handleChangeLevel}
+              _handleChangeValue={this._handleChangeValue}
+              _handleCreateUser={this._handleCreateUser}
+            />
+          )
+        case 2:
+          return (
+            <Step2Patient
+              {...this.state}
+              validateForm={this.validateRegistrationForm}
+              _handleChangeLevel={this._handleChangeLevel}
+              _handleChangeValue={this._handleChangeValue}
+              _handleChangeManualValue={this._handleChangeManualValue}
+              _handleCreateUser={this._handleCreateUser}
+            />
+          )
+        case 3:
+          return (
+            <Step3Patient
+              {...this.state}
+              validateForm={this.validateRegistrationForm}
+              _handleChangeLevel={this._handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleCreateUser={this._handleCreateUser}
             />
