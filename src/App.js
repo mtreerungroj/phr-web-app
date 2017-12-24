@@ -85,7 +85,7 @@ export default class App extends Component {
                     <PrivateRoute
                       authed={this.state.authed}
                       path='/'
-                      component={props => (this.state.profile.role === 'staff' ? <IndexStaff /> : <IndexPatient />)}
+                      component={props => (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? <IndexStaff /> : <IndexPatient />)}
                       />
                     <Route render={() => <Page404 />} />
                   </Switch>
