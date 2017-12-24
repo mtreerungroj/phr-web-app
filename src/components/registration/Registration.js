@@ -73,9 +73,9 @@ export default class Registration extends Component {
     const { role, firstname, lastname, personalid, hospitalid, phone } = this.state
     const profile = { role, firstname, lastname, personalid, hospitalid, phone }
     updateProfile(this.state.userid, this.state.appid, profile)
-      .then(res => {
-        this.setState(res)
-        // window.location.href = '/'
+      .then(async res => {
+        await this.setState(res)
+        if (this.state.isComplete) window.location.href = '/'
       })
       .catch(res => this.setState(res))
   }
