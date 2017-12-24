@@ -23,6 +23,7 @@ npm start
 - [x] user can log out
 - [x] show different page for different user role: staff (doctor/nurse) and patient
 - [ ] user can reset password
+- [ ] use stepper showing current step
 
 ### server
 - [ ] create `pincode` table to store PIN codes
