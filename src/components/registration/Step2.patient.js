@@ -7,8 +7,18 @@ import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
+import DatePicker from 'material-ui/DatePicker'
 
-const genders = [{ id: 'ชาย', name: 'ชาย' }, { id: 'หญิง', name: 'หญิง' }]
+const gender = [{ id: 'ชาย', name: 'ชาย' }, { id: 'หญิง', name: 'หญิง' }]
+const status = [
+  { id: 'โสด', name: 'โสด' },
+  { id: 'แต่งงานแล้ว', name: 'แต่งงานแล้ว' },
+  { id: 'แยกกันอยู่', name: 'แยกกันอยู่' },
+  { id: 'หย่า', name: 'หย่า' },
+  { id: 'หม้าย', name: 'หม้าย' }
+]
+const race = [{ id: 'ไทย', name: 'ไทย' }, { id: 'อื่นๆ', name: 'อื่นๆ' }]
+const region = [{ id: 'พุทธ', name: 'พุทธ' }, { id: 'คริสต์', name: 'คริสต์' }, { id: 'อิสลาม', name: 'อิสลาม' }, { id: 'อื่นๆ', name: 'อื่นๆ' }]
 
 export default class Step2Patient extends Component {
   constructor (props) {
@@ -21,7 +31,13 @@ export default class Step2Patient extends Component {
     }
   }
 
-  _handleSelectFieldChangeValue = (event, index, value) => this.props._handleChangeManualValue('hospitalid', value)
+  _handleSelectFieldChangeValue = (event, index, value, key) => this.props._handleChangeManualValue(key, value)
+
+  _handleDatePickerChangeValue = async (date, key) => {
+    // await date.setDate(date.getDate() + 1)
+    // date = await date.toISOString().substring(0, 10)
+    this.props._handleChangeManualValue(key, date)
+  }
 
   menuItems (items) {
     return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
@@ -41,7 +57,17 @@ export default class Step2Patient extends Component {
   }
 
   validateForm = () => {
-    if ((this.props.hospitalid && this.props.role && this.props.personalid && this.props.firstname && this.props.lastname && this.props.phone) === undefined) {
+    if (
+      (this.props.id_card &&
+        this.props.gender &&
+        this.props.firstname &&
+        this.props.lastname &&
+        this.props.birthdate &&
+        this.props.status &&
+        this.props.race &&
+        this.props.region) === undefined ||
+      this.props.id_card.length < 13
+    ) {
       this.setState({ isValidateDialogOpen: true })
       return 0
     }
@@ -49,7 +75,7 @@ export default class Step2Patient extends Component {
   }
 
   _handleCloseConfirmDialogWithSubmit = e => {
-    this.validateForm() && this.props.handleChangeLevel(3)
+    this.validateForm() && this.props._handleChangeLevel(3)
     this.setState({ isConfirmDialogOpen: false })
   }
 
@@ -114,10 +140,10 @@ export default class Step2Patient extends Component {
             <SelectField
               value={this.props.gender}
               floatingLabelText='เพศ'
-              onChange={this._handleSelectFieldChangeValue}
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'gender')}
               style={{ width: 220, marginRight: 20 }}
             >
-              {this.menuItems(genders)}
+              {this.menuItems(gender)}
             </SelectField>
             <TextField
               name='firstname'
@@ -137,6 +163,47 @@ export default class Step2Patient extends Component {
               onChange={this.props._handleChangeValue}
               fullWidth
             />
+          </div>
+
+          <DatePicker
+            floatingLabelText='วันเกิด'
+            container='inline'
+            mode='landscape'
+            defaultDate={this.props.birthdate}
+            maxDate={new Date()}
+            autoOk
+            openToYearSelection
+            onChange={(foo, date) => this._handleDatePickerChangeValue(date, 'birthdate')}
+            style={{ width: 200, marginRight: 20 }}
+          />
+
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <SelectField
+              value={this.props.status}
+              floatingLabelText='สถานะ'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'status')}
+              style={{ width: 400, marginRight: 20 }}
+            >
+              {this.menuItems(status)}
+            </SelectField>
+
+            <SelectField
+              value={this.props.race}
+              floatingLabelText='เชื้อชาติ'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'race')}
+              style={{ width: 400, marginRight: 20 }}
+            >
+              {this.menuItems(race)}
+            </SelectField>
+
+            <SelectField
+              value={this.props.region}
+              floatingLabelText='ศาสนา'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'region')}
+              style={{ width: 400 }}
+            >
+              {this.menuItems(region)}
+            </SelectField>
           </div>
 
           <CardActions>
