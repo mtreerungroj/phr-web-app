@@ -9,16 +9,17 @@ import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import DatePicker from 'material-ui/DatePicker'
 
-const gender = [{ id: 'ชาย', name: 'ชาย' }, { id: 'หญิง', name: 'หญิง' }]
+const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
 const status = [
-  { id: 'โสด', name: 'โสด' },
-  { id: 'แต่งงานแล้ว', name: 'แต่งงานแล้ว' },
-  { id: 'แยกกันอยู่', name: 'แยกกันอยู่' },
-  { id: 'หย่า', name: 'หย่า' },
-  { id: 'หม้าย', name: 'หม้าย' }
+  { id: 'single', name: 'โสด' },
+  { id: 'engaged', name: 'หมั้น' },
+  { id: 'married', name: 'แต่งงานแล้ว' },
+  { id: 'separated', name: 'แยกกันอยู่' },
+  { id: 'divorced', name: 'หย่า' },
+  { id: 'widowed', name: 'หม้าย' }
 ]
-const race = [{ id: 'ไทย', name: 'ไทย' }, { id: 'อื่นๆ', name: 'อื่นๆ' }]
-const region = [{ id: 'พุทธ', name: 'พุทธ' }, { id: 'คริสต์', name: 'คริสต์' }, { id: 'อิสลาม', name: 'อิสลาม' }, { id: 'อื่นๆ', name: 'อื่นๆ' }]
+const race = [{ id: 'Thai', name: 'ไทย' }, { id: 'others', name: 'อื่นๆ' }]
+const region = [{ id: 'Buddhism', name: 'พุทธ' }, { id: 'Christianity', name: 'คริสต์' }, { id: 'Islamism', name: 'อิสลาม' }, { id: 'others', name: 'อื่นๆ' }]
 
 export default class Step2Patient extends Component {
   constructor (props) {
