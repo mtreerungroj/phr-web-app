@@ -45,7 +45,7 @@ export default class Step3Patient extends Component {
   }
 
   _handleCloseConfirmDialogWithSubmit = e => {
-    this.validateForm() && this.props._handleChangeLevel(3)
+    this.validateForm() && this.props.updateProfile()
     this.setState({ isConfirmDialogOpen: false })
   }
 
@@ -149,7 +149,7 @@ export default class Step3Patient extends Component {
 
           <CardActions>
             <div style={{ textAlign: 'center', marginTop: 10 }}>
-              <RaisedButton type='submit' label='ต่อไป' primary style={{ width: 120 }} />
+              <RaisedButton type='submit' label='บันทึก' primary style={{ width: 120 }} />
             </div>
           </CardActions>
         </form>
