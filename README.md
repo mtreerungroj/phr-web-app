@@ -30,6 +30,7 @@ npm start
 - [ ] create `patient_code` table: store userid, patient_code
 - [ ] create REST API provide unique generated PIN code
 - [ ] create REST API provide unique generated patient code
+- [ ] can store data in Thai language
 
 ### [staff] Registration
 - [x] registration form step1: email/password
@@ -41,10 +42,10 @@ npm start
 - [ ] store paired userid and PIN code to `pin_code` table
 
 ### [patient] Registration
-- [ ] registration form step1: email/password
-- [ ] registration form step2,3,4,... : profile data (design each step)
-- [ ] create new account to Firebase Authentication (resolve userid)
-- [ ] update user profile data to database via REST API
+- [x] registration form step1: email/password
+- [x] registration form step2,3,4,... : profile data (design each step)
+- [x] create new account to Firebase Authentication (resolve userid)
+- [x] update user profile data to database via REST API
 - [ ] store patient_code to database
 - [ ] store paired userid and patient code to `patient_code` table
 
