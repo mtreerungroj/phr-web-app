@@ -31,6 +31,10 @@ export default class Step2Patient extends Component {
     }
   }
 
+  componentDidMount () {
+    this.props._handleChangeManualValue('role', 'patient')
+  }
+
   _handleSelectFieldChangeValue = (event, index, value, key) => this.props._handleChangeManualValue(key, value)
 
   _handleDatePickerChangeValue = async (date, key) => {
