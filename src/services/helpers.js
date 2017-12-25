@@ -1,7 +1,7 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://192.168.1.54:5000/'
+const server_ip = 'http://192.168.1.52:5000/'
 const appid = 'hphrapp'
 
 const getUserStatus = () => {
@@ -73,20 +73,20 @@ const createUser = (email, password, isStaff) => {
 }
 
 const updateProfile = (userid, appid, profile) => {
-  return new Promise((resolve, reject) => {
-    const path = server_ip + 'profile/info?appid=' + appid + '&userid=' + userid
-    const data = { userid, appid, profile }
+  return new Promise(async (resolve, reject) => {
+    const path = `${server_ip}profile/info`
+    const data = await JSON.stringify({ userid, appid, profile })
 
-    fetch(path, {
+    await fetch(path, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: data
     })
       .then(() => resolve({ isComplete: true }))
       .catch(error => {
-        const dialogMessage = 'กรุณาลองใหม่อีกครั้ง' + error.message
+        const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
         reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
       })
   })
