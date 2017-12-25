@@ -38,8 +38,8 @@ export default class Step2Patient extends Component {
   _handleSelectFieldChangeValue = (event, index, value, key) => this.props._handleChangeManualValue(key, value)
 
   _handleDatePickerChangeValue = async (date, key) => {
-    // await date.setDate(date.getDate() + 1)
-    // date = await date.toISOString().substring(0, 10)
+    await date.setDate(date.getDate() + 1)
+    date = await date.toISOString().substring(0, 10)
     this.props._handleChangeManualValue(key, date)
   }
 
@@ -173,7 +173,6 @@ export default class Step2Patient extends Component {
             floatingLabelText='วันเกิด'
             container='inline'
             mode='landscape'
-            defaultDate={this.props.birthdate}
             maxDate={new Date()}
             autoOk
             openToYearSelection
