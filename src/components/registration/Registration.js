@@ -71,9 +71,16 @@ export default class Registration extends Component {
       createUser(this.state.email, this.state.password, isStaff).then(res => this.setState(res)).catch(res => this.setState(res))
   }
 
-  updateProfile = () => {
-    const { role, firstname, lastname, personalid, hospitalid, phone } = this.state
-    const profile = { role, firstname, lastname, personalid, hospitalid, phone }
+  updateProfile = async () => {
+    let profile = {}
+    if (this.state.role === 'doctor' || this.state.role === 'nurse') {
+      let { role, firstname, lastname, personalid, hospitalid, phone } = await this.state
+      profile = await { role, firstname, lastname, personalid, hospitalid, phone }
+    } else if (this.state.role === 'patient') {
+      let { role, id_card, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone } = await this.state
+      profile = await { role, id_card, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
+    }
+
     updateProfile(this.state.userid, this.state.appid, profile)
       .then(async res => {
         await this.setState(res)
@@ -128,21 +135,18 @@ export default class Registration extends Component {
           return (
             <Step2Patient
               {...this.state}
-              validateForm={this.validateRegistrationForm}
               _handleChangeLevel={this._handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
               _handleChangeManualValue={this._handleChangeManualValue}
-              _handleCreateUser={this._handleCreateUser}
             />
           )
         case 3:
           return (
             <Step3Patient
               {...this.state}
-              validateForm={this.validateRegistrationForm}
-              _handleChangeLevel={this._handleChangeLevel}
               _handleChangeValue={this._handleChangeValue}
-              _handleCreateUser={this._handleCreateUser}
+              _handleChangeManualValue={this._handleChangeManualValue}
+              updateProfile={this.updateProfile}
             />
           )
         default:
