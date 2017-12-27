@@ -26,10 +26,10 @@ npm start
 - [ ] use stepper showing current step
 
 ### server
-- [ ] create `pin_code` table: store userid, pin_code
-- [ ] create `patient_code` table: store userid, patient_code
-- [ ] create REST API provide unique generated PIN code
-- [ ] create REST API provide unique generated patient code
+- [x] create `pin_code` table: store userid, pin_code
+- [x] create `patient_code` table: store userid, patient_code
+- [x] create REST API provide unique generated PIN code
+- [x] create REST API provide unique generated patient code
 - [ ] can store data in Thai language
 
 ### [staff] Registration
