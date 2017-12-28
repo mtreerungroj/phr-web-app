@@ -27,12 +27,12 @@ const signIn = (email, password) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        const uid = firebase.auth().currentUser.uid
+        const userid = firebase.auth().currentUser.uid
         const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
 
         fetch(path).then(res => res.json()).then(res => {
           const profile = res.data.profile
-          resolve({ authed: true, isLoading: false, uid, profile })
+          resolve({ authed: true, isLoading: false, userid, profile })
         })
       })
       .catch(error => {
