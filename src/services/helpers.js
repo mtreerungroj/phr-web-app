@@ -1,7 +1,7 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://192.168.1.52:5000/'
+const server_ip = 'http://192.168.1.53:5000/'
 const appid = 'hphrapp'
 
 const getUserStatus = () => {
@@ -60,9 +60,10 @@ const createUser = (email, password, isStaff) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        const userid = firebase.auth().currentUser.uid
-        resolve({ isAuthed: true, level: 2, isStaff, userid, appid })
+      .then(async () => {
+        const userid = await firebase.auth().currentUser.uid
+        const pin_code = await getPincode(userid, appid)
+        resolve({ isAuthed: true, level: 2, isStaff, userid, appid, pin_code })
       })
       .catch(error => {
         let dialogMessage = 'กรุณาลองใหม่อีกครั้ง'
@@ -89,6 +90,14 @@ const updateProfile = (userid, appid, profile) => {
         const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
         reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
       })
+  })
+}
+
+const getPincode = (userid, appid) => {
+  return new Promise((resolve, reject) => {
+    const path = `${server_ip}pin_code/generate?appid=${appid}&userid=${userid}`
+
+    fetch(path).then(res => res.json()).then(res => resolve(res.pin_code)).catch(res => reject(res.errorMessage))
   })
 }
 

@@ -91,7 +91,7 @@ export default class Step2Staff extends Component {
         <div style={styles.topContent}>
           อีเมล: <span style={styles.boldText}>{this.props.email}</span>
           <br />
-          รหัส PIN: <span style={styles.boldText}>(get from server) {'   '}</span>
+          รหัส PIN: <span style={styles.boldText}>{this.props.pin_code} {'   '}</span>
           <span style={styles.notation}>
             (หมายเหตุ: โปรดจดจำรหัส PIN นี้ เนื่องจากระบบจะใช้รหัส PIN สำหรับยืนยันตัวตนของคุณ)
           </span>
