@@ -4,9 +4,11 @@ import Menubar from './components/Menubar'
 
 import Login from './components/Login'
 import Page404 from './components/Page404'
+import InAccessible from './components/InAccessible'
 import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
+import Profile from './components/protected/Profile'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -33,7 +35,7 @@ const muiTheme = getMuiTheme({
 })
 
 function PrivateRoute ({ component: Component, authed }) {
-  return <Route render={props => (authed === true ? <Component {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />)} />
+  return <Route render={props => (authed === true ? <Component {...props} /> : <Redirect to={{ pathname: '/', state: { from: props.location } }} />)} />
 }
 
 export default class App extends Component {
@@ -76,18 +78,21 @@ export default class App extends Component {
           <div style={styles.container}>
             {!this.state.authed
                 ? <div>
-                  <Route exact path='/' render={() => <Login handleLoginSubmit={this.handleLoginSubmit} handleChangePath={this.handleChangePath} />} />
-                  <Route path='/register' render={() => <Registration />} />
+                  <Route exact path='/' component={() => <Login handleLoginSubmit={this.handleLoginSubmit} handleChangePath={this.handleChangePath} />} />
+                  <Route path='/register' component={() => <Registration />} />
+                  <Route component={() => <InAccessible />} />
                 </div>
                 : <div>
                   <Menubar authed={this.state.authed} handleLogoutSubmit={this.handleLogoutSubmit} />
                   <Switch>
                     <PrivateRoute
+                      exact
                       authed={this.state.authed}
                       path='/'
                       component={props => (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? <IndexStaff /> : <IndexPatient />)}
                       />
-                    <Route render={() => <Page404 />} />
+                    <PrivateRoute authed={this.state.authed} path='/profile' component={props => <Profile />} />
+                    <Route component={() => <Page404 />} />
                   </Switch>
                 </div>}
           </div>
