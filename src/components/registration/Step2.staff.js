@@ -153,6 +153,7 @@ export default class Step2Staff extends Component {
             type='text'
             errorText={this.props.phoneErrorText}
             floatingLabelText='เบอร์โทรศัพท์'
+            maxLength='10'
             onChange={this.props._handleChangeValue}
           />
 
