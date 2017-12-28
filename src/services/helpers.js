@@ -9,7 +9,7 @@ const getUserStatus = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         const userid = user.uid
-        const path = server_ip + 'profile/info?appid=' + appid + '&userid=' + userid
+        const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
 
         fetch(path).then(res => res.json()).then(res => {
           let profile = {}
@@ -28,7 +28,7 @@ const signIn = (email, password) => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         const uid = firebase.auth().currentUser.uid
-        const path = server_ip + 'profile/info?appid=' + appid + '&userid=' + uid
+        const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
 
         fetch(path).then(res => res.json()).then(res => {
           const profile = res.data.profile
@@ -62,8 +62,13 @@ const createUser = (email, password, isStaff) => {
       .createUserWithEmailAndPassword(email, password)
       .then(async () => {
         const userid = await firebase.auth().currentUser.uid
-        const pin_code = await getPincode(userid, appid)
-        resolve({ isAuthed: true, level: 2, isStaff, userid, appid, pin_code })
+        if (isStaff) {
+          const pin_code = await getPinCode(userid, appid)
+          resolve({ isAuthed: true, level: 2, isStaff, userid, appid, pin_code })
+        } else {
+          const patient_code = await getPatientCode(userid, appid)
+          resolve({ isAuthed: true, level: 2, isStaff, userid, appid, patient_code })
+        }
       })
       .catch(error => {
         let dialogMessage = 'กรุณาลองใหม่อีกครั้ง'
@@ -93,7 +98,15 @@ const updateProfile = (userid, appid, profile) => {
   })
 }
 
-const getPincode = (userid, appid) => {
+const getPatientCode = (userid, appid) => {
+  return new Promise((resolve, reject) => {
+    const path = `${server_ip}patient_code/generate?appid=${appid}&userid=${userid}`
+
+    fetch(path).then(res => res.json()).then(res => resolve(res.patient_code)).catch(res => reject(res.errorMessage))
+  })
+}
+
+const getPinCode = (userid, appid) => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}pin_code/generate?appid=${appid}&userid=${userid}`
 
