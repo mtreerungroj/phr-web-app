@@ -1,7 +1,7 @@
 # Web Application for Personal Heart Record System 
 PHR Web App aims to provide user a way to view summary of their activities, also be only a way for registration both doctor, nurse and patient.
 
-## to run this project
+## To run this project
 note: the server this web app connected to is on [PHRstorage](https://github.com/mtreerungroj/PHRstorage)
 - clone this project
 ```
@@ -25,7 +25,7 @@ npm start
 - [ ] user can reset password
 - [ ] use stepper showing current step
 
-### server
+### Server
 - [x] create `pin_code` table: store userid, pin_code
 - [x] create `patient_code` table: store userid, patient_code
 - [x] create REST API provide unique generated PIN code
@@ -49,15 +49,25 @@ npm start
 - [x] store patient_code to database
 - [x] store paired userid and patient code to `patient_code` table
 
-### [staff] dashboard
+### [staff] Dashboard
 - [ ] show profile data
-- [ ] form for editing profile data
 - [ ] update edited profile data to datebase
 - [ ] can search for patient
+- [ ] can view profile data of patient
+- [ ] can edit medical information of selected patient
 - [ ] have authorization to access all patient data (profile data and activities result summary)
 
-### [patient] dashboard
+### [patient] Dashboard
 - [ ] show profile data
 - [ ] form for editing profile data
 - [ ] update edited profile data to datebase
 - [ ] show activities result summary
+
+### [staff] Profile
+- [ ] show all profile data
+- [ ] form for editing their profile data
+- [ ] update profile data to database
+
+### [patient] Profile
+- [ ] show all profile data: personal information, medical information
+- [ ] user can edit only their personal information data
