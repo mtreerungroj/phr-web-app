@@ -71,3 +71,7 @@ npm start
 ### [patient] Profile
 - [ ] show all profile data: personal information, medical information
 - [ ] user can edit only their personal information data
+
+### Bugs
+- [ ] render `InAccessible` page only if path is not match
+- [ ] redirect to '/' when log out
