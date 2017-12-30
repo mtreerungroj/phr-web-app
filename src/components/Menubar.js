@@ -13,13 +13,9 @@ export default class Menubar extends Component {
     }
   }
 
-  handleLeftIconButtonTouchTap = () => {
-    this.state.authed ? this.setState({ isDrawerOpen: true }) : alert('กรุณาเข้าสู่ระบบก่อน')
-  }
+  handleLeftIconButtonTouchTap = () => (this.state.authed ? this.setState({ isDrawerOpen: true }) : alert('กรุณาเข้าสู่ระบบก่อน'))
 
-  handleClose = () => {
-    this.setState({ isDrawerOpen: false })
-  }
+  handleClose = () => this.setState({ isDrawerOpen: false })
 
   handleLogout = () => {
     this.props.handleLogoutSubmit()
@@ -39,6 +35,7 @@ export default class Menubar extends Component {
         <div>
           <Drawer docked={false} open={this.state.isDrawerOpen} onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}>
             <AppBar showMenuIconButton={false} title='เมนู' />
+            <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/' />}>หน้าแรก</MenuItem>
             <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/profile' />}>ประวัติส่วนตัว</MenuItem>
             <MenuItem onTouchTap={this.handleLogout}>ออกจากระบบ</MenuItem>
           </Drawer>
