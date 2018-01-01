@@ -1,8 +1,23 @@
 import React, { Component } from 'react'
 import { getUserStatus } from '../../services/helpers'
 import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import DatePicker from 'material-ui/DatePicker'
 import { grey500 } from 'material-ui/styles/colors'
+
+const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
+const status = [
+  { id: 'single', name: 'โสด' },
+  { id: 'engaged', name: 'หมั้น' },
+  { id: 'married', name: 'แต่งงานแล้ว' },
+  { id: 'separated', name: 'แยกกันอยู่' },
+  { id: 'divorced', name: 'หย่า' },
+  { id: 'widowed', name: 'หม้าย' }
+]
+const race = [{ id: 'Thai', name: 'ไทย' }, { id: 'others', name: 'อื่นๆ' }]
+const region = [{ id: 'Buddhism', name: 'พุทธ' }, { id: 'Christianity', name: 'คริสต์' }, { id: 'Islamism', name: 'อิสลาม' }, { id: 'others', name: 'อื่นๆ' }]
 
 export default class Profile extends Component {
   constructor (props) {
@@ -18,6 +33,10 @@ export default class Profile extends Component {
   componentDidMount () {
     const that = this
     getUserStatus().then(res => that.setState(res)).catch(res => that.setState(res))
+  }
+
+  menuItems (items) {
+    return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
   }
 
   renderStaffProfile = () => <div>Staff profile</div>
@@ -48,6 +67,7 @@ export default class Profile extends Component {
 
   renderPatientProfile = () => {
     const profile = this.state.profile
+
     return (
       <div style={styles.container}>
         <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
@@ -59,18 +79,107 @@ export default class Profile extends Component {
               value={profile.email}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
+              fullWidth
               disabled
+              style={{ marginRight: 10 }}
             />
             <TextField
               name='id_card'
               floatingLabelText='รหัสบัตรประชาชน'
-              style={{ marginLeft: 20 }}
               value={profile.id_card}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
+              fullWidth
               disabled
+              style={{ marginLeft: 10 }}
             />
           </div>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <SelectField
+              value={profile.gender}
+              floatingLabelText='เพศ'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'gender')}
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ width: 220, marginRight: 20 }}
+            >
+              {this.menuItems(gender)}
+            </SelectField>
+            <TextField
+              name='firstname'
+              type='text'
+              floatingLabelText='ชื่อ'
+              defaultValue={profile.firstname}
+              errorText={this.props.firstnameErrorText}
+              onChange={this.props._handleChangeValue}
+              fullWidth
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ marginRight: 20 }}
+            />
+
+            <TextField
+              name='lastname'
+              type='text'
+              floatingLabelText='นามสกุล'
+              defaultValue={profile.lastname}
+              errorText={this.props.lastnameErrorText}
+              onChange={this.props._handleChangeValue}
+              fullWidth
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <SelectField
+              value={profile.status}
+              floatingLabelText='สถานะ'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'status')}
+              fullWidth
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ marginRight: 10 }}
+            >
+              {this.menuItems(status)}
+            </SelectField>
+
+            <SelectField
+              value={profile.race}
+              floatingLabelText='เชื้อชาติ'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'race')}
+              fullWidth
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ marginLeft: 10, marginRight: 10 }}
+            >
+              {this.menuItems(race)}
+            </SelectField>
+
+            <SelectField
+              value={profile.region}
+              floatingLabelText='ศาสนา'
+              onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'region')}
+              fullWidth
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ marginLeft: 10 }}
+            >
+              {this.menuItems(region)}
+            </SelectField>
+          </div>
+          <DatePicker
+            floatingLabelText='วันเกิด'
+            container='inline'
+            mode='landscape'
+            // defaultDate={profile.birthdate_datepicker}
+            maxDate={new Date()}
+            autoOk
+            openToYearSelection
+            onChange={(foo, date) => this._handleDatePickerChangeValue(date, 'birthdate')}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.underlineStyle}
+            style={{ width: 200, marginRight: 20 }}
+          />
           <div style={styles.button}>
             <RaisedButton label='บันทึก' onClick={() => this.props._handleChangeLevel(0)} primary style={{ width: 120 }} />
           </div>
