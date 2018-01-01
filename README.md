@@ -31,6 +31,7 @@ npm start
 - [x] create REST API provide unique generated PIN code
 - [x] create REST API provide unique generated patient code
 - [ ] can store data in Thai language
+- [ ] create new tables: patient_code, pin_code
 
 ### [staff] Registration
 - [x] registration form step1: email/password
@@ -51,26 +52,31 @@ npm start
 
 ### [staff] Dashboard
 - [ ] show profile data
-- [ ] update edited profile data to datebase
 - [ ] can search for patient
+
+### [staff] Authorization
 - [ ] can view profile data of patient
-- [ ] can edit medical information of selected patient
-- [ ] have authorization to access all patient data (profile data and activities result summary)
+- [ ] *can edit medical information of selected patient*
+- [ ] *can change (upload) medical information of selected patient*
+- [ ] *have authorization to access all patient data (profile data and activities result summary)*
 
 ### [patient] Dashboard
 - [ ] show profile data
-- [ ] form for editing profile data
-- [ ] update edited profile data to datebase
 - [ ] show activities result summary
 
 ### [staff] Profile
 - [ ] show all profile data
 - [ ] form for editing their profile data
 - [ ] update profile data to database
+- [ ] user can change (upload) profile picture
+- [ ] update edited profile data to database
 
 ### [patient] Profile
 - [ ] show all profile data: personal information, medical information
+- [ ] form for editing profile data
 - [ ] user can edit only their personal information data
+- [ ] user can change (upload) profile picture
+- [ ] update edited profile data to database
 
 ### Bugs
 - [ ] render `InAccessible` page only if path is not match
