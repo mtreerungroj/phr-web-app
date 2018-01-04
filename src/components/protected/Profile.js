@@ -60,8 +60,9 @@ export default class Profile extends Component {
   renderStaffProfile = () => <div>Staff profile</div>
 
   renderPatientProfile = () => {
-    let sDate = new Date()
-    if (this.state.birthdate) sDate = new Date(this.state.birthdate)
+    let date = new Date()
+    if (this.state.birthdate) date = new Date(this.state.birthdate)
+    else this._handleDatePickerChangeValue(date, 'birthdate')
 
     return (
       <div style={styles.container}>
@@ -82,6 +83,7 @@ export default class Profile extends Component {
               name='id_card'
               floatingLabelText='รหัสบัตรประชาชน'
               value={this.state.id_card}
+              errorText={this.state.id_card === undefined ? 'กรุณาติดต่อพยาบาลเพื่อกรอกข้อมูลนี้' : ''}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               fullWidth
@@ -105,7 +107,7 @@ export default class Profile extends Component {
               type='text'
               floatingLabelText='ชื่อ'
               value={this.state.firstname}
-              errorText={this.props.firstnameErrorText}
+              errorText={this.state.firstname === undefined ? 'กรุณากรอกข้อมูล' : ''}
               onChange={this._handleChangeValue}
               fullWidth
               underlineStyle={styles.underlineStyle}
@@ -118,7 +120,7 @@ export default class Profile extends Component {
               type='text'
               floatingLabelText='นามสกุล'
               value={this.state.lastname}
-              errorText={this.props.lastnameErrorText}
+              errorText={this.state.lastname === undefined ? 'กรุณากรอกข้อมูล' : ''}
               onChange={this._handleChangeValue}
               fullWidth
               underlineStyle={styles.underlineStyle}
@@ -167,7 +169,7 @@ export default class Profile extends Component {
               floatingLabelText='วันเกิด'
               container='inline'
               mode='landscape'
-              defaultDate={sDate}
+              defaultDate={date}
               maxDate={new Date()}
               autoOk
               openToYearSelection
@@ -180,7 +182,7 @@ export default class Profile extends Component {
               name='career'
               type='text'
               defaultValue={this.state.career}
-              errorText={this.props.personalidErrorText}
+              errorText={this.state.career === undefined ? 'กรุณากรอกข้อมูล' : ''}
               floatingLabelText='อาชีพปัจจุบัน'
               onChange={this._handleChangeValue}
               underlineStyle={styles.underlineStyle}
@@ -193,7 +195,7 @@ export default class Profile extends Component {
             name='address'
             type='text'
             defaultValue={this.state.address}
-            errorText={this.props.personalidErrorText}
+            errorText={this.state.address === undefined ? 'กรุณากรอกข้อมูล' : ''}
             floatingLabelText='ที่อยู่ปัจจุบัน'
             rows={2}
             rowsMax={4}
@@ -208,7 +210,7 @@ export default class Profile extends Component {
             name='phone'
             type='text'
             defaultValue={this.state.phone}
-            errorText={this.props.personalidErrorText}
+            errorText={this.state.phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
             floatingLabelText='เบอร์โทรศัพท์ผู้ป่วย'
             maxLength='10'
             onChange={this._handleChangeValue}
@@ -221,7 +223,7 @@ export default class Profile extends Component {
               name='cousin_name'
               type='text'
               defaultValue={this.state.cousin_name}
-              errorText={this.props.personalidErrorText}
+              errorText={this.state.cousin_name === undefined ? 'กรุณากรอกข้อมูล' : ''}
               floatingLabelText='ชื่อ-นามสกุล ญาติผู้ป่วย'
               onChange={this._handleChangeValue}
               underlineStyle={styles.underlineStyle}
@@ -232,7 +234,7 @@ export default class Profile extends Component {
               name='cousin_phone'
               type='text'
               defaultValue={this.state.cousin_phone}
-              errorText={this.props.personalidErrorText}
+              errorText={this.state.cousin_phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
               floatingLabelText='เบอร์ติดต่อญาติผู้ป่วย'
               maxLength='10'
               onChange={this._handleChangeValue}
@@ -277,7 +279,7 @@ const styles = {
     borderColor: grey500
   },
   button: {
-    paddingTop: 20,
+    paddingTop: 30,
     textAlign: 'center'
   }
 }
