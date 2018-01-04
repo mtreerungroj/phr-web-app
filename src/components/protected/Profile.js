@@ -32,42 +32,26 @@ export default class Profile extends Component {
 
   componentDidMount () {
     const that = this
-    getUserStatus().then(res => that.setState(res)).catch(res => that.setState(res))
+    getUserStatus()
+      .then(async res => {
+        await that.setState({ ...res.profile })
+        await that.setState(res)
+      })
+      .catch(res => that.setState(res))
   }
 
   menuItems (items) {
     return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
   }
 
-  renderStaffProfile = () => <div>Staff profile</div>
-
-  renderPatientProfile2 = () => {
-    const profile = this.state.profile
-    return (
-      <div style={styles.container}>
-        <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
-        <TextField name='email' type='email' floatingLabelText='อีเมลที่ใช้ลงทะเบียน' value={this.state.profile.email} disabled />
-        <div>เลขบัตรประชาชน: {profile.id_card}</div>
-        <div>ชื่อผู้ป่วย: {profile.firstname} {profile.lastname}</div>
-        <div>เพศ: {profile.gender}</div>
-        <div>วันเกิด: {profile.birthdate}</div>
-        <div>เชื้อชาติ: {profile.race}</div>
-        <div>ศาสนา: {profile.region}</div>
-        <div>สถานภาพ: {profile.status}</div>
-        <div>อาชีพ: {profile.career}</div>
-
-        <br /> <div style={styles.header}>ข้อมูลการติดต่อ</div>
-        <div>เบอร์โทรศัพท์ผู้ป่วย: {profile.phone}</div>
-        <div>ญาติผู้ป่วย: {profile.cousin_name}</div>
-        <div>เบอร์ติดต่อญาติผู้ป่วย: {profile.cousin_phone}</div>
-
-      </div>
-    )
+  _handleSelectFieldChangeValue = (event, index, value, key) => {
+    this.setState({ [key]: value })
   }
 
+  renderStaffProfile = () => <div>Staff profile</div>
+
   renderPatientProfile = () => {
-    const profile = this.state.profile
-    const sDate = new Date('1996-08-01')
+    const sDate = new Date(this.state.birthdate)
 
     return (
       <div style={styles.container}>
@@ -77,7 +61,7 @@ export default class Profile extends Component {
             <TextField
               name='email'
               floatingLabelText='อีเมลที่ใช้ลงทะเบียน'
-              value={profile.email}
+              value={this.state.email}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               fullWidth
@@ -87,7 +71,7 @@ export default class Profile extends Component {
             <TextField
               name='id_card'
               floatingLabelText='รหัสบัตรประชาชน'
-              value={profile.id_card}
+              value={this.state.id_card}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               fullWidth
@@ -97,7 +81,7 @@ export default class Profile extends Component {
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <SelectField
-              value={profile.gender}
+              value={this.state.gender}
               floatingLabelText='เพศ'
               onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'gender')}
               underlineStyle={styles.underlineStyle}
@@ -110,7 +94,7 @@ export default class Profile extends Component {
               name='firstname'
               type='text'
               floatingLabelText='ชื่อ'
-              defaultValue={profile.firstname}
+              value={this.state.firstname}
               errorText={this.props.firstnameErrorText}
               onChange={this.props._handleChangeValue}
               fullWidth
@@ -123,7 +107,7 @@ export default class Profile extends Component {
               name='lastname'
               type='text'
               floatingLabelText='นามสกุล'
-              defaultValue={profile.lastname}
+              value={this.state.lastname}
               errorText={this.props.lastnameErrorText}
               onChange={this.props._handleChangeValue}
               fullWidth
@@ -133,7 +117,7 @@ export default class Profile extends Component {
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <SelectField
-              value={profile.status}
+              value={this.state.status}
               floatingLabelText='สถานะ'
               onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'status')}
               fullWidth
@@ -145,7 +129,7 @@ export default class Profile extends Component {
             </SelectField>
 
             <SelectField
-              value={profile.race}
+              value={this.state.race}
               floatingLabelText='เชื้อชาติ'
               onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'race')}
               fullWidth
@@ -157,7 +141,7 @@ export default class Profile extends Component {
             </SelectField>
 
             <SelectField
-              value={profile.region}
+              value={this.state.region}
               floatingLabelText='ศาสนา'
               onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'region')}
               fullWidth
@@ -185,7 +169,7 @@ export default class Profile extends Component {
             <TextField
               name='career'
               type='text'
-              defaultValue={profile.career}
+              defaultValue={this.state.career}
               errorText={this.props.personalidErrorText}
               floatingLabelText='อาชีพปัจจุบัน'
               onChange={this.props._handleChangeValue}
@@ -198,7 +182,7 @@ export default class Profile extends Component {
           <TextField
             name='address'
             type='text'
-            defaultValue={profile.address}
+            defaultValue={this.state.address}
             errorText={this.props.personalidErrorText}
             floatingLabelText='ที่อยู่ปัจจุบัน'
             rows={2}
@@ -213,7 +197,7 @@ export default class Profile extends Component {
           <TextField
             name='phone'
             type='text'
-            defaultValue={profile.phone}
+            defaultValue={this.state.phone}
             errorText={this.props.personalidErrorText}
             floatingLabelText='เบอร์โทรศัพท์ผู้ป่วย'
             maxLength='10'
@@ -226,7 +210,7 @@ export default class Profile extends Component {
             <TextField
               name='cousin_name'
               type='text'
-              defaultValue={profile.cousin_name}
+              defaultValue={this.state.cousin_name}
               errorText={this.props.personalidErrorText}
               floatingLabelText='ชื่อ-นามสกุล ญาติผู้ป่วย'
               onChange={this.props._handleChangeValue}
@@ -237,7 +221,7 @@ export default class Profile extends Component {
             <TextField
               name='cousin_phone'
               type='text'
-              defaultValue={profile.cousin_phone}
+              defaultValue={this.state.cousin_phone}
               errorText={this.props.personalidErrorText}
               floatingLabelText='เบอร์ติดต่อญาติผู้ป่วย'
               maxLength='10'
