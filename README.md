@@ -72,12 +72,14 @@ npm start
 - [ ] update edited profile data to database
 
 ### [patient] Profile
-- [ ] show all profile data: personal information, medical information
-- [ ] form for editing profile data
-- [ ] user can edit only their personal information data
+- [x] show all profile data: personal information
+- [ ] show all profile data: medical information
+- [x] form for editing profile data
+- [x] user can edit only their personal information data
 - [ ] user can change (upload) profile picture
 - [ ] update edited profile data to database
 
 ### Bugs
 - [ ] render `InAccessible` page only if path is not match
 - [ ] redirect to '/' when log out
+- [ ] check DatePicker value
