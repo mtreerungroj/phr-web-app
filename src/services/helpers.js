@@ -1,7 +1,7 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://192.168.1.53:5000/'
+const server_ip = 'http://192.168.1.56:5000/'
 const appid = 'hphrapp'
 
 const getUserStatus = () => {
@@ -9,12 +9,13 @@ const getUserStatus = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         const userid = user.uid
+        const email = firebase.auth().currentUser.email
         const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
 
         fetch(path).then(res => res.json()).then(res => {
           let profile = {}
           if (res.data) profile = res.data.profile
-          resolve({ authed: true, isLoading: false, userid, profile })
+          resolve({ authed: true, isLoading: false, userid, email, profile })
         })
       } else reject({ authed: false, isLoading: false })
     })
@@ -28,11 +29,13 @@ const signIn = (email, password) => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         const userid = firebase.auth().currentUser.uid
+        const email = firebase.auth().currentUser.email
         const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
 
-        fetch(path).then(res => res.json()).then(res => {
-          const profile = res.data.profile
-          resolve({ authed: true, isLoading: false, userid, profile })
+        fetch(path).then(res => res.json()).then(async res => {
+          let profile = {}
+          if (res.data) profile = await res.data.profile
+          resolve({ authed: true, isLoading: false, userid, email, profile })
         })
       })
       .catch(error => {
