@@ -4,7 +4,9 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import DatePicker from 'material-ui/DatePicker'
+import Dialog from 'material-ui/Dialog'
 import { grey300, grey500 } from 'material-ui/styles/colors'
 
 const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
@@ -27,7 +29,8 @@ export default class Profile extends Component {
       isLoading: true,
       userid: '',
       email: '',
-      profile: {}
+      profile: {},
+      isConfirmDialogOpen: false
     }
   }
 
@@ -60,6 +63,20 @@ export default class Profile extends Component {
   }
 
   _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
+
+  _handleOpenConfirmDialog = e => {
+    this.setState({ isConfirmDialogOpen: true })
+  }
+
+  _handleCloseConfirmDialogWithSubmit = e => {
+    // this.props.updateProfile()
+    console.log('update profile')
+    this.setState({ isConfirmDialogOpen: false })
+  }
+
+  _handleCloseConfirmDialog = e => {
+    this.setState({ isConfirmDialogOpen: false })
+  }
 
   renderStaffProfile = () => <div>Staff profile</div>
 
@@ -248,7 +265,7 @@ export default class Profile extends Component {
             />
           </div>
           <div style={styles.button}>
-            <RaisedButton label='บันทึก' onClick={() => this.props._handleChangeLevel(0)} primary style={{ width: 120 }} />
+            <RaisedButton label='บันทึก' onClick={this._handleOpenConfirmDialog} primary style={{ width: 120 }} />
           </div>
         </form>
 
@@ -257,10 +274,24 @@ export default class Profile extends Component {
   }
 
   render () {
+    const confirmActions = [
+      <FlatButton label='ยกเลิก' primary onClick={this._handleCloseConfirmDialog} />,
+      <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseConfirmDialogWithSubmit} />
+    ]
+
     console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>
+        <Dialog
+          title='ยืนยันการบันทึกข้อมูล'
+          actions={confirmActions}
+          modal={false}
+          open={this.state.isConfirmDialogOpen}
+          onRequestClose={this._handleCloseConfirmDialog}
+          >
+          {this.state.confirmDialogMessage}
+        </Dialog>
         {this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? this.renderStaffProfile() : this.renderPatientProfile()}
       </div>
   }
