@@ -5,7 +5,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
-import { grey500 } from 'material-ui/styles/colors'
+import { grey300, grey500 } from 'material-ui/styles/colors'
 
 const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
 const status = [
@@ -67,6 +67,7 @@ export default class Profile extends Component {
 
   renderPatientProfile = () => {
     const profile = this.state.profile
+    const sDate = new Date('1996-08-01')
 
     return (
       <div style={styles.container}>
@@ -167,27 +168,89 @@ export default class Profile extends Component {
               {this.menuItems(region)}
             </SelectField>
           </div>
-          <DatePicker
-            floatingLabelText='วันเกิด'
-            container='inline'
-            mode='landscape'
-            // defaultDate={profile.birthdate_datepicker}
-            maxDate={new Date()}
-            autoOk
-            openToYearSelection
-            onChange={(foo, date) => this._handleDatePickerChangeValue(date, 'birthdate')}
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <DatePicker
+              floatingLabelText='วันเกิด'
+              container='inline'
+              mode='landscape'
+              defaultDate={sDate}
+              maxDate={new Date()}
+              autoOk
+              openToYearSelection
+              onChange={(foo, date) => this._handleDatePickerChangeValue(date, 'birthdate')}
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ marginRight: 10 }}
+            />
+            <TextField
+              name='career'
+              type='text'
+              defaultValue={profile.career}
+              errorText={this.props.personalidErrorText}
+              floatingLabelText='อาชีพปัจจุบัน'
+              onChange={this.props._handleChangeValue}
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ width: 200, marginLeft: 10 }}
+            />
+          </div>
+          <br /> <div style={styles.header}>ข้อมูลการติดต่อ</div>
+          <TextField
+            name='address'
+            type='text'
+            defaultValue={profile.address}
+            errorText={this.props.personalidErrorText}
+            floatingLabelText='ที่อยู่ปัจจุบัน'
+            rows={2}
+            rowsMax={4}
+            multiLine
+            fullWidth
+            onChange={this.props._handleChangeValue}
             underlineStyle={styles.underlineStyle}
             underlineFocusStyle={styles.underlineStyle}
-            style={{ width: 200, marginRight: 20 }}
+            style={{ marginRight: 20 }}
           />
+          <TextField
+            name='phone'
+            type='text'
+            defaultValue={profile.phone}
+            errorText={this.props.personalidErrorText}
+            floatingLabelText='เบอร์โทรศัพท์ผู้ป่วย'
+            maxLength='10'
+            onChange={this.props._handleChangeValue}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.underlineStyle}
+            style={{ width: 200 }}
+          />
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <TextField
+              name='cousin_name'
+              type='text'
+              defaultValue={profile.cousin_name}
+              errorText={this.props.personalidErrorText}
+              floatingLabelText='ชื่อ-นามสกุล ญาติผู้ป่วย'
+              onChange={this.props._handleChangeValue}
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ width: 350, marginRight: 20 }}
+            />
+            <TextField
+              name='cousin_phone'
+              type='text'
+              defaultValue={profile.cousin_phone}
+              errorText={this.props.personalidErrorText}
+              floatingLabelText='เบอร์ติดต่อญาติผู้ป่วย'
+              maxLength='10'
+              onChange={this.props._handleChangeValue}
+              underlineStyle={styles.underlineStyle}
+              underlineFocusStyle={styles.underlineStyle}
+              style={{ width: 200, marginRight: 20 }}
+            />
+          </div>
           <div style={styles.button}>
             <RaisedButton label='บันทึก' onClick={() => this.props._handleChangeLevel(0)} primary style={{ width: 120 }} />
           </div>
         </form>
-        <br /> <div style={styles.header}>ข้อมูลการติดต่อ</div>
-        <div>เบอร์โทรศัพท์ผู้ป่วย: {profile.phone}</div>
-        <div>ญาติผู้ป่วย: {profile.cousin_name}</div>
-        <div>เบอร์ติดต่อญาติผู้ป่วย: {profile.cousin_phone}</div>
 
       </div>
     )
@@ -197,7 +260,7 @@ export default class Profile extends Component {
     console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
-      : <div>
+      : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>
         {this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? this.renderStaffProfile() : this.renderPatientProfile()}
       </div>
   }
@@ -218,5 +281,9 @@ const styles = {
   },
   underlineStyle: {
     borderColor: grey500
+  },
+  button: {
+    paddingTop: 20,
+    textAlign: 'center'
   }
 }
