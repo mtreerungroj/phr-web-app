@@ -30,7 +30,10 @@ export default class Profile extends Component {
       userid: '',
       email: '',
       profile: {},
-      isConfirmDialogOpen: false
+      isConfirmDialogOpen: false,
+      confirmDialogMessage: 'คุณสามารถแก้ไขข้อมูลประวัติส่วนตัวได้ในภายหลัง',
+      isValidateDialogOpen: false,
+      ValidateDialogMessage: 'กรุณากรอกข้อมูลให้ครบก่อนจะบันทึกข้อมูล'
     }
   }
 
@@ -64,8 +67,35 @@ export default class Profile extends Component {
 
   _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
 
+  validateForm = () => {
+    if (
+      (this.state.address &&
+        this.state.career &&
+        this.state.cousin_name &&
+        this.state.cousin_phone &&
+        this.state.phone &&
+        this.state.gender &&
+        this.state.firstname &&
+        this.state.lastname &&
+        this.state.birthdate &&
+        this.state.status &&
+        this.state.race &&
+        this.state.region) === '' ||
+      this.state.phone.length < 10 ||
+      this.state.cousin_phone.length < 10
+    ) {
+      this.setState({ isValidateDialogOpen: true })
+      return 0
+    }
+    return 1
+  }
+
   _handleOpenConfirmDialog = e => {
-    this.setState({ isConfirmDialogOpen: true })
+    this.validateForm() && this.setState({ isConfirmDialogOpen: true })
+  }
+
+  _handleCloseConfirmDialog = e => {
+    this.setState({ isConfirmDialogOpen: false })
   }
 
   _handleCloseConfirmDialogWithSubmit = e => {
@@ -74,8 +104,8 @@ export default class Profile extends Component {
     this.setState({ isConfirmDialogOpen: false })
   }
 
-  _handleCloseConfirmDialog = e => {
-    this.setState({ isConfirmDialogOpen: false })
+  _handleCloseValidateDialog = e => {
+    this.setState({ isValidateDialogOpen: false })
   }
 
   renderStaffProfile = () => <div>Staff profile</div>
@@ -278,6 +308,7 @@ export default class Profile extends Component {
       <FlatButton label='ยกเลิก' primary onClick={this._handleCloseConfirmDialog} />,
       <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseConfirmDialogWithSubmit} />
     ]
+    const validateActions = [<FlatButton label='ตกลง' primary onClick={this._handleCloseValidateDialog} />]
 
     console.log(this.state)
     return this.state.isLoading
@@ -291,6 +322,15 @@ export default class Profile extends Component {
           onRequestClose={this._handleCloseConfirmDialog}
           >
           {this.state.confirmDialogMessage}
+        </Dialog>
+        <Dialog
+          title='เกิดข้อผิดพลาด'
+          actions={validateActions}
+          modal={false}
+          open={this.state.isValidateDialogOpen}
+          onRequestClose={this._handleCloseConfirmDialog}
+          >
+          {this.state.ValidateDialogMessage}
         </Dialog>
         {this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? this.renderStaffProfile() : this.renderPatientProfile()}
       </div>
