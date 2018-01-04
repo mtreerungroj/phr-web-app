@@ -9,6 +9,8 @@ import DatePicker from 'material-ui/DatePicker'
 import Dialog from 'material-ui/Dialog'
 import { grey300, grey500 } from 'material-ui/styles/colors'
 
+import { updateProfile } from '../../services/helpers'
+
 const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
 const status = [
   { id: 'single', name: 'โสด' },
@@ -27,6 +29,7 @@ export default class Profile extends Component {
     this.state = {
       authed: false,
       isLoading: true,
+      appid: 'hphrapp',
       userid: '',
       email: '',
       profile: {},
@@ -51,9 +54,7 @@ export default class Profile extends Component {
 
   initiateProfile = () => this.setState({ gender: gender[0].id, status: status[0].id, race: race[0].id, region: region[0].id })
 
-  menuItems (items) {
-    return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
-  }
+  menuItems = items => items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
 
   _handleSelectFieldChangeValue = (event, index, value, key) => this.setState({ [key]: value })
 
@@ -90,22 +91,33 @@ export default class Profile extends Component {
     return 1
   }
 
-  _handleOpenConfirmDialog = e => {
-    this.validateForm() && this.setState({ isConfirmDialogOpen: true })
-  }
+  _handleOpenConfirmDialog = e => this.validateForm() && this.setState({ isConfirmDialogOpen: true })
 
-  _handleCloseConfirmDialog = e => {
-    this.setState({ isConfirmDialogOpen: false })
-  }
+  _handleCloseConfirmDialog = e => this.setState({ isConfirmDialogOpen: false })
 
   _handleCloseConfirmDialogWithSubmit = e => {
-    // this.props.updateProfile()
-    console.log('update profile')
+    this._updateProfile()
     this.setState({ isConfirmDialogOpen: false })
   }
 
-  _handleCloseValidateDialog = e => {
-    this.setState({ isValidateDialogOpen: false })
+  _handleCloseValidateDialog = e => this.setState({ isValidateDialogOpen: false })
+
+  _updateProfile = async () => {
+    let profile = {}
+    if (this.state.role === 'doctor' || this.state.role === 'nurse') {
+      let { firstname, lastname, personalid, hospitalid, phone } = await this.state
+      profile = await { firstname, lastname, personalid, hospitalid, phone }
+    } else if (this.state.role === 'patient') {
+      let { gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone } = await this.state
+      profile = await { gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
+    }
+
+    updateProfile(this.state.userid, this.state.appid, profile)
+      .then(async res => {
+        await this.setState(res)
+        if (this.state.isComplete) window.location.href = '/'
+      })
+      .catch(res => this.setState(res))
   }
 
   renderStaffProfile = () => <div>Staff profile</div>
