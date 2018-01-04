@@ -39,7 +39,7 @@ export default class Step2Patient extends Component {
   _handleSelectFieldChangeValue = (event, index, value, key) => this.props._handleChangeManualValue(key, value)
 
   _handleDatePickerChangeValue = async (date, key) => {
-    await date.setDate(date.getDate() + 1)
+    // await date.setDate(date.getDate() + 1)
     const full_date = date
     date = await date.toISOString().substring(0, 10)
     this.props._handleChangeManualValue(key, date)

@@ -26,6 +26,7 @@ export default class Profile extends Component {
       authed: false,
       isLoading: true,
       userid: '',
+      email: '',
       profile: {}
     }
   }
@@ -46,12 +47,21 @@ export default class Profile extends Component {
 
   _handleSelectFieldChangeValue = (event, index, value, key) => this.setState({ [key]: value })
 
+  _handleDatePickerChangeValue = async (date, key) => {
+    // await date.setDate(date.getDate() + 1)
+    const full_date = date
+    const full_key = `${key}_full`
+    date = await date.toISOString().substring(0, 10)
+    this.setState({ [key]: date, [full_key]: full_date })
+  }
+
   _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
 
   renderStaffProfile = () => <div>Staff profile</div>
 
   renderPatientProfile = () => {
-    const sDate = new Date(this.state.birthdate)
+    let sDate = new Date()
+    if (this.state.birthdate) sDate = new Date(this.state.birthdate)
 
     return (
       <div style={styles.container}>
