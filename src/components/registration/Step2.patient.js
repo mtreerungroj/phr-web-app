@@ -40,8 +40,10 @@ export default class Step2Patient extends Component {
 
   _handleDatePickerChangeValue = async (date, key) => {
     await date.setDate(date.getDate() + 1)
+    const date_datepicker = date
     date = await date.toISOString().substring(0, 10)
     this.props._handleChangeManualValue(key, date)
+    this.props._handleChangeManualValue(`${key}_datepicker`, date_datepicker)
   }
 
   menuItems (items) {
