@@ -44,9 +44,9 @@ export default class Profile extends Component {
     return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
   }
 
-  _handleSelectFieldChangeValue = (event, index, value, key) => {
-    this.setState({ [key]: value })
-  }
+  _handleSelectFieldChangeValue = (event, index, value, key) => this.setState({ [key]: value })
+
+  _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
 
   renderStaffProfile = () => <div>Staff profile</div>
 
@@ -96,7 +96,7 @@ export default class Profile extends Component {
               floatingLabelText='ชื่อ'
               value={this.state.firstname}
               errorText={this.props.firstnameErrorText}
-              onChange={this.props._handleChangeValue}
+              onChange={this._handleChangeValue}
               fullWidth
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
@@ -109,7 +109,7 @@ export default class Profile extends Component {
               floatingLabelText='นามสกุล'
               value={this.state.lastname}
               errorText={this.props.lastnameErrorText}
-              onChange={this.props._handleChangeValue}
+              onChange={this._handleChangeValue}
               fullWidth
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
@@ -172,7 +172,7 @@ export default class Profile extends Component {
               defaultValue={this.state.career}
               errorText={this.props.personalidErrorText}
               floatingLabelText='อาชีพปัจจุบัน'
-              onChange={this.props._handleChangeValue}
+              onChange={this._handleChangeValue}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               style={{ width: 200, marginLeft: 10 }}
@@ -189,7 +189,7 @@ export default class Profile extends Component {
             rowsMax={4}
             multiLine
             fullWidth
-            onChange={this.props._handleChangeValue}
+            onChange={this._handleChangeValue}
             underlineStyle={styles.underlineStyle}
             underlineFocusStyle={styles.underlineStyle}
             style={{ marginRight: 20 }}
@@ -201,7 +201,7 @@ export default class Profile extends Component {
             errorText={this.props.personalidErrorText}
             floatingLabelText='เบอร์โทรศัพท์ผู้ป่วย'
             maxLength='10'
-            onChange={this.props._handleChangeValue}
+            onChange={this._handleChangeValue}
             underlineStyle={styles.underlineStyle}
             underlineFocusStyle={styles.underlineStyle}
             style={{ width: 200 }}
@@ -213,7 +213,7 @@ export default class Profile extends Component {
               defaultValue={this.state.cousin_name}
               errorText={this.props.personalidErrorText}
               floatingLabelText='ชื่อ-นามสกุล ญาติผู้ป่วย'
-              onChange={this.props._handleChangeValue}
+              onChange={this._handleChangeValue}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               style={{ width: 350, marginRight: 20 }}
@@ -225,7 +225,7 @@ export default class Profile extends Component {
               errorText={this.props.personalidErrorText}
               floatingLabelText='เบอร์ติดต่อญาติผู้ป่วย'
               maxLength='10'
-              onChange={this.props._handleChangeValue}
+              onChange={this._handleChangeValue}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               style={{ width: 200, marginRight: 20 }}
