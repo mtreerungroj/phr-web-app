@@ -31,15 +31,19 @@ export default class Profile extends Component {
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     const that = this
-    getUserStatus()
+    await getUserStatus()
       .then(async res => {
         await that.setState({ ...res.profile })
         await that.setState(res)
       })
       .catch(res => that.setState(res))
+
+    !Object.keys(this.state.profile).length && this.initiateProfile()
   }
+
+  initiateProfile = () => this.setState({ gender: gender[0].id, status: status[0].id, race: race[0].id, region: region[0].id })
 
   menuItems (items) {
     return items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
