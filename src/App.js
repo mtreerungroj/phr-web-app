@@ -4,7 +4,7 @@ import Menubar from './components/Menubar'
 
 import Login from './components/Login'
 import Page404 from './components/Page404'
-import InAccessible from './components/InAccessible'
+// import InAccessible from './components/InAccessible'
 import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
@@ -80,7 +80,7 @@ export default class App extends Component {
                 ? <div>
                   <Route exact path='/' component={() => <Login handleLoginSubmit={this.handleLoginSubmit} handleChangePath={this.handleChangePath} />} />
                   <Route path='/register' component={() => <Registration />} />
-                  <Route component={() => <InAccessible />} />
+                  {/* <Route component={() => <InAccessible />} /> */}
                 </div>
                 : <div>
                   <Menubar authed={this.state.authed} handleLogoutSubmit={this.handleLogoutSubmit} />
