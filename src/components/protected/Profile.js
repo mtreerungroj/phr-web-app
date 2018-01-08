@@ -29,7 +29,6 @@ export default class Profile extends Component {
     this.state = {
       authed: false,
       isLoading: true,
-      appid: 'HPHR',
       userid: '',
       email: '',
       profile: {},
@@ -112,7 +111,7 @@ export default class Profile extends Component {
       profile = await { gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
     }
 
-    updateProfile(this.state.userid, this.state.appid, profile)
+    updateProfile(this.state.userid, profile)
       .then(async res => {
         await this.setState(res)
         if (this.state.isComplete) window.location.href = '/'

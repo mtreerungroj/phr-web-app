@@ -81,7 +81,7 @@ const createUser = (email, password, isStaff) => {
   })
 }
 
-const updateProfile = (userid, appid, profile) => {
+const updateProfile = (userid, profile) => {
   return new Promise(async (resolve, reject) => {
     const path = `${server_ip}profile/info`
     const data = await JSON.stringify({ userid, appid, profile })
