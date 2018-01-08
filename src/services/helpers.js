@@ -1,8 +1,8 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://192.168.1.56:5000/'
-const appid = 'hphrapp'
+const server_ip = 'http://172.20.10.9:5000/'
+const appid = 'HPHR'
 
 const getUserStatus = () => {
   return new Promise((resolve, reject) => {
