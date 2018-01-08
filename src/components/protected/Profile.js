@@ -29,7 +29,7 @@ export default class Profile extends Component {
     this.state = {
       authed: false,
       isLoading: true,
-      appid: 'hphrapp',
+      appid: 'HPHR',
       userid: '',
       email: '',
       profile: {},
