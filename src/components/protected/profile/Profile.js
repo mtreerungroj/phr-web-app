@@ -8,17 +8,7 @@ import { getUserStatus } from '../../../services/helpers'
 import { updateProfile } from '../../../services/helpers'
 import PatientProfile from './Profile.patient'
 
-const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
-const status = [
-  { id: 'single', name: 'โสด' },
-  { id: 'engaged', name: 'หมั้น' },
-  { id: 'married', name: 'แต่งงานแล้ว' },
-  { id: 'separated', name: 'แยกกันอยู่' },
-  { id: 'divorced', name: 'หย่า' },
-  { id: 'widowed', name: 'หม้าย' }
-]
-const race = [{ id: 'Thai', name: 'ไทย' }, { id: 'others', name: 'อื่นๆ' }]
-const region = [{ id: 'Buddhism', name: 'พุทธ' }, { id: 'Christianity', name: 'คริสต์' }, { id: 'Islamism', name: 'อิสลาม' }, { id: 'others', name: 'อื่นๆ' }]
+import { gender, _status, race, region } from '../../../services/enum'
 
 export default class Profile extends Component {
   constructor (props) {
@@ -48,7 +38,7 @@ export default class Profile extends Component {
     !Object.keys(this.state.profile).length && this.initiateProfile()
   }
 
-  initiateProfile = () => this.setState({ gender: gender[0].id, status: status[0].id, race: race[0].id, region: region[0].id })
+  initiateProfile = () => this.setState({ gender: gender[0].id, status: _status[0].id, race: race[0].id, region: region[0].id })
 
   menuItems = items => items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
 

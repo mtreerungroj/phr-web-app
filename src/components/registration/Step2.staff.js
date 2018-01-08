@@ -9,12 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 
-const hospitals = [
-  { id: '13779', name: 'รพ.สงขลานครินทร์ วิทยาเขตหาดใหญ่' },
-  { id: '10682', name: 'รพ.หาดใหญ่' },
-  { id: '10745', name: 'รพ.สงขลา' },
-  { id: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
-]
+import { hospitals } from '../../services/enum'
 
 export default class Step2Staff extends Component {
   constructor (props) {

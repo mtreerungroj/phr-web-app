@@ -5,17 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
 import { grey500 } from 'material-ui/styles/colors'
 
-const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
-const status = [
-  { id: 'single', name: 'โสด' },
-  { id: 'engaged', name: 'หมั้น' },
-  { id: 'married', name: 'แต่งงานแล้ว' },
-  { id: 'separated', name: 'แยกกันอยู่' },
-  { id: 'divorced', name: 'หย่า' },
-  { id: 'widowed', name: 'หม้าย' }
-]
-const race = [{ id: 'Thai', name: 'ไทย' }, { id: 'others', name: 'อื่นๆ' }]
-const region = [{ id: 'Buddhism', name: 'พุทธ' }, { id: 'Christianity', name: 'คริสต์' }, { id: 'Islamism', name: 'อิสลาม' }, { id: 'others', name: 'อื่นๆ' }]
+import { gender, _status, race, region } from '../../../services/enum'
 
 export default class PatientProfile extends Component {
   render () {
@@ -97,7 +87,7 @@ export default class PatientProfile extends Component {
               underlineFocusStyle={styles.underlineStyle}
               style={{ marginRight: 10 }}
             >
-              {this.props.menuItems(status)}
+              {this.props.menuItems(_status)}
             </SelectField>
 
             <SelectField

@@ -9,17 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import DatePicker from 'material-ui/DatePicker'
 
-const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
-const status = [
-  { id: 'single', name: 'โสด' },
-  { id: 'engaged', name: 'หมั้น' },
-  { id: 'married', name: 'แต่งงานแล้ว' },
-  { id: 'separated', name: 'แยกกันอยู่' },
-  { id: 'divorced', name: 'หย่า' },
-  { id: 'widowed', name: 'หม้าย' }
-]
-const race = [{ id: 'Thai', name: 'ไทย' }, { id: 'others', name: 'อื่นๆ' }]
-const region = [{ id: 'Buddhism', name: 'พุทธ' }, { id: 'Christianity', name: 'คริสต์' }, { id: 'Islamism', name: 'อิสลาม' }, { id: 'others', name: 'อื่นๆ' }]
+import { gender, _status, race, region } from '../../services/enum'
 
 export default class Step2Patient extends Component {
   constructor (props) {
@@ -190,7 +180,7 @@ export default class Step2Patient extends Component {
               onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'status')}
               style={{ width: 400, marginRight: 20 }}
             >
-              {this.menuItems(status)}
+              {this.menuItems(_status)}
             </SelectField>
 
             <SelectField
