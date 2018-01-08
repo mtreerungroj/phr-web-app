@@ -8,7 +8,7 @@ import Page404 from './components/Page404'
 import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
-import Profile from './components/protected/Profile'
+import Profile from './components/protected/profile/Profile'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
