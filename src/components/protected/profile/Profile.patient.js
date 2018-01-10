@@ -37,7 +37,7 @@ export default class PatientProfile extends Component {
     else this.props._handleDatePickerChangeValue(date, 'birthdate')
 
     const actions = [
-      <FlatButton label='ยกเลิก' primary onClick={this.handleDialogOpen} />,
+      <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
       <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogClose} />
     ]
 
@@ -46,7 +46,7 @@ export default class PatientProfile extends Component {
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleClose}>
           <ImageUploader withIcon buttonText='Choose image' onChange={this.onDrop} imgExtension={['.jpg', '.gif', '.png', '.gif']} maxFileSize={5242880} />
         </Dialog>
-        <div style={styles.inner}>
+        <div style={styles.inner} onClick={this.handleDialogOpen}>
           <img src={require('../../../assets/images/default-profile-picture.png')} alt='' style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
         </div>
         <form>
