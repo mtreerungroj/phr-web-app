@@ -128,7 +128,6 @@ export default class Profile extends Component {
     ]
     const validateActions = [<FlatButton label='ตกลง' primary onClick={this._handleCloseValidateDialog} />]
 
-    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>

@@ -1,22 +1,53 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
 import { grey500, grey600 } from 'material-ui/styles/colors'
+import ImageUploader from 'react-images-upload'
 import { gender, _status, race, region } from '../../../services/enum'
 
 export default class PatientProfile extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isDialogOpen: false,
+      picture: []
+    }
+  }
+
+  handleDialogOpen = () => {
+    this.setState({ isDialogOpen: true })
+  }
+
+  handleDialogClose = () => {
+    this.setState({ isDialogOpen: false })
+  }
+
+  onDrop = picture => {
+    this.setState({ picture })
+  }
+
   render () {
-    console.log(this.props)
+    console.log(this.state)
     let date = new Date()
     if (this.props.birthdate) date = new Date(this.props.birthdate)
     else this.props._handleDatePickerChangeValue(date, 'birthdate')
 
+    const actions = [
+      <FlatButton label='ยกเลิก' primary onClick={this.handleDialogOpen} />,
+      <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogClose} />
+    ]
+
     return (
       <div style={styles.container}>
+        <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleClose}>
+          <ImageUploader withIcon buttonText='Choose image' onChange={this.onDrop} imgExtension={['.jpg', '.gif', '.png', '.gif']} maxFileSize={5242880} />
+        </Dialog>
         <div style={styles.inner}>
-          <img src={require('../../../assets/images/default-profile-picture.png')} style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
+          <img src={require('../../../assets/images/default-profile-picture.png')} alt='' style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
         </div>
         <form>
           <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
