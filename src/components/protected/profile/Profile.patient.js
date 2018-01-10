@@ -3,8 +3,7 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
-import { grey500 } from 'material-ui/styles/colors'
-
+import { grey500, grey600 } from 'material-ui/styles/colors'
 import { gender, _status, race, region } from '../../../services/enum'
 
 export default class PatientProfile extends Component {
@@ -16,8 +15,11 @@ export default class PatientProfile extends Component {
 
     return (
       <div style={styles.container}>
-        <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
+        <div style={styles.inner}>
+          <img src={require('../../../assets/images/default-profile-picture.png')} style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
+        </div>
         <form>
+          <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <TextField
               name='email'
@@ -197,7 +199,6 @@ export default class PatientProfile extends Component {
             <RaisedButton label='บันทึก' onClick={this.props._handleOpenConfirmDialog} primary style={{ width: 120 }} />
           </div>
         </form>
-
       </div>
     )
   }
@@ -208,8 +209,18 @@ const styles = {
     paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    width: '50%',
-    margin: 'auto'
+    width: '90%',
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  inner: {
+    marginRight: 40,
+    paddingRight: 20,
+    borderWidth: 0,
+    borderRightWidth: 5,
+    borderColor: grey600,
+    borderStyle: 'dotted'
   },
   header: {
     fontWeight: 'bold',
