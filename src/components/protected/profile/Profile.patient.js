@@ -33,8 +33,10 @@ export default class PatientProfile extends Component {
   render () {
     console.log(this.state)
     let date = new Date()
-    if (this.props.birthdate) date = new Date(this.props.birthdate)
-    else this.props._handleDatePickerChangeValue(date, 'birthdate')
+    if (this.props.birthdate) {
+      date = new Date(this.props.birthdate)
+      date.setDate(date.getDate() + 1)
+    } else this.props._handleDatePickerChangeValue(date, 'birthdate')
 
     const actions = [
       <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
