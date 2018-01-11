@@ -175,7 +175,7 @@ export default class PatientProfile extends Component {
               style={{ width: 200, marginLeft: 10 }}
             />
           </div>
-          <br /> <div style={styles.header}>ข้อมูลการติดต่อ</div>
+          <div style={styles.header}>ข้อมูลการติดต่อ</div>
           <TextField
             name='address'
             type='text'
@@ -229,7 +229,34 @@ export default class PatientProfile extends Component {
             />
           </div>
           <div style={styles.button}>
-            <RaisedButton label='บันทึก' onClick={this.props._handleOpenConfirmDialog} primary style={{ width: 120 }} />
+            <RaisedButton label='อัพเดทข้อมูล' onClick={this.props._handleOpenConfirmDialog} primary style={{ width: 120 }} />
+          </div>
+          <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
+          <div align='left' style={{ lineHeight: '2em' }}>
+            น้ำหนัก: {'50'} กิโลกรัม <br />
+            ส่วนสูง: {'160'} เซนติเมตร <br />
+            ค่าดัชนีมวลกาย (BMI): {'19.53'} <br />
+            หมู่เลือด: B<br />
+            โรคประจำตัวผู้ป่วย: {'ชอบกินปลาเส้น'} <br />
+            ยาที่ใช้ปัจจุบัน: {'ทาโร่'}<br />
+            ยาที่แพ้: {'ฟิชโช่'}<br />
+            อาหารที่แพ้: {'ปลาเส้น'}<br />
+            ประวัติการสูบบุหรี่: {'ไม่มีประวัติการสูบบุหรี่'} <br />
+
+            <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
+            วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
+            ประเภทของโรคหัวใจ: {'โรคหลอดเลือดหัวใจอุดตัน'} <br />
+            ระดับความรุนแรงของโรคหัวใจ (1-4): {'4'} <br />
+            ประสิทธิภาพการบีบตัวของกล้ามเนื้อหัวใจ: {'น้อยกว่า 40%'} <br />
+            -------------------------------------------------- <br />
+            วันและเวลาที่ทำการผ่าตัดหัวใจ: {'2018-01-08, 14:30 น.'} <br />
+            ประเภทการผ่าตัดหัวใจ: {'CABG'} <br />
+            ระยะเวลาในการผ่าตัด: {'40 '} นาที <br />
+            ระยะเวลาที่ใช้เครื่องปอดและหัวใจเทียม: {'10'} นาที <br />
+            ระยะเวลาการหนีบหลอดเลือดแดงใหญ่เอออร์ตา (Aorta): {'15'} นาที <br />
+            ระยะเวลาที่ใส่ท่อช่วยหายใจ: {'20'} นาที <br />
+            การสูญเสียเลือดระหว่างผ่าตัด: {'0.8'} ลิตร <br />
+            จำนวนของเส้นเลือดทั้งหมดที่ทำทางเบี่ยง: {'3'} เส้น ได้แก่ {'1 Sapheneous vein, 1 Radial artery, 1 Internal mammary artery'}<br />
           </div>
         </form>
       </div>
@@ -259,7 +286,8 @@ const styles = {
   header: {
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    marginTop: 20
   },
   underlineStyle: {
     borderColor: grey500
