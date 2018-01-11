@@ -82,7 +82,7 @@ export default class Registration extends Component {
       profile = await { role, email, id_card, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
     }
 
-    updateProfile(this.state.userid, this.state.appid, profile)
+    updateProfile(this.state.userid, profile)
       .then(async res => {
         await this.setState(res)
         if (this.state.isComplete) window.location.href = '/'
