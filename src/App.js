@@ -63,7 +63,12 @@ export default class App extends Component {
   handleLogoutSubmit = () => {
     const that = this
     that.setState({ isLoading: true })
-    signOut().then(res => that.setState(res)).catch(res => that.setState(res))
+    signOut()
+      .then(res => {
+        that.setState(res)
+        window.location.href = '/'
+      })
+      .catch(res => that.setState(res))
   }
 
   handleChangePath = path => {
