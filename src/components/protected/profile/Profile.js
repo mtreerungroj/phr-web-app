@@ -7,6 +7,7 @@ import { grey300 } from 'material-ui/styles/colors'
 import { getUserStatus } from '../../../services/helpers'
 import { updateProfile } from '../../../services/helpers'
 import PatientProfile from './Profile.patient'
+import StaffProfile from './Profile.staff'
 
 import { gender, _status, race, region } from '../../../services/enum'
 
@@ -106,20 +107,27 @@ export default class Profile extends Component {
       .catch(res => this.setState(res))
   }
 
-  renderStaffProfile = () => <div>Staff profile</div>
+  renderStaffProfile = () => (
+    <StaffProfile
+      {...this.state}
+      menuItems={this.menuItems}
+      _handleChangeValue={this._handleChangeValue}
+      _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
+      _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
+      _handleOpenConfirmDialog={this._handleOpenConfirmDialog}
+    />
+  )
 
-  renderPatientProfile = () => {
-    return (
-      <PatientProfile
-        {...this.state}
-        menuItems={this.menuItems}
-        _handleChangeValue={this._handleChangeValue}
-        _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
-        _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
-        _handleOpenConfirmDialog={this._handleOpenConfirmDialog}
-      />
-    )
-  }
+  renderPatientProfile = () => (
+    <PatientProfile
+      {...this.state}
+      menuItems={this.menuItems}
+      _handleChangeValue={this._handleChangeValue}
+      _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
+      _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
+      _handleOpenConfirmDialog={this._handleOpenConfirmDialog}
+    />
+  )
 
   render () {
     const confirmActions = [
