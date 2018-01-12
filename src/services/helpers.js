@@ -1,7 +1,7 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://172.20.10.9:5000/'
+const server_ip = 'http://192.168.3.128:5000/'
 const appid = 'HPHR'
 
 const getUserStatus = () => {
@@ -81,24 +81,33 @@ const createUser = (email, password, isStaff) => {
   })
 }
 
-const updateProfile = (userid, profile) => {
-  return new Promise(async (resolve, reject) => {
-    const path = `${server_ip}profile/info`
-    const data = await JSON.stringify({ userid, appid, profile })
+const updateProfile = async (userid, profile) => {
+  let { patient_code, gender, firstname, lastname, admit_date } = (await profile) || ''
+  let _profile = { patient_code, gender, firstname, lastname, admit_date }
+  const isSuccess = await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
 
-    await fetch(path, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    })
-      .then(() => resolve({ isComplete: true }))
-      .catch(error => {
-        const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
-        reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
+  if (isSuccess) {
+    return new Promise(async (resolve, reject) => {
+      const path = `${server_ip}profile/info`
+      const data = await JSON.stringify({ userid, appid, profile })
+
+      await fetch(path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: data
       })
-  })
+        .then(() => resolve({ isComplete: true }))
+        .catch(error => {
+          const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
+          reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
+        })
+    })
+  } else {
+    const dialogMessage = 'ไม่สามารถอัพเดทข้อมูลได้ กรุณาลองใหม่อีกครั้ง'
+    return { isDialogOpen: true, dialogMessage, errorCode: '', errorMessage: '' }
+  }
 }
 
 const getPatientCode = (userid, appid) => {
@@ -107,6 +116,24 @@ const getPatientCode = (userid, appid) => {
 
     fetch(path).then(res => res.json()).then(res => resolve(res.patient_code)).catch(res => reject(res.errorMessage))
   })
+}
+
+const updateBasicProfileInPatientCodeTable = async (appid, patient_code, profile) => {
+  const path = `${server_ip}patient_code/generate`
+  const data = await JSON.stringify({ appid, patient_code, profile })
+
+  await fetch(path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
+  })
+    .then(() => true)
+    .catch(error => {
+      console.log('error:', error)
+      return false
+    })
 }
 
 const getPinCode = (userid, appid) => {
