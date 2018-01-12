@@ -4,10 +4,9 @@ import SelectField from 'material-ui/SelectField'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
-import DatePicker from 'material-ui/DatePicker'
 import { grey500, grey600 } from 'material-ui/styles/colors'
 import ImageUploader from 'react-images-upload'
-import { gender, _status, race, region, hospitals } from '../../../services/enum'
+import { hospitals } from '../../../services/enum'
 
 export default class StaffProfile extends Component {
   constructor (props) {
@@ -81,7 +80,7 @@ export default class StaffProfile extends Component {
             <SelectField
               value={this.props.hospitalid}
               floatingLabelText='โรงพยาบาล'
-              onChange={this._handleSelectFieldChangeValue}
+              onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'hospitalid')}
               maxHeight={200}
               style={{ width: 300 }}
             >
@@ -91,10 +90,12 @@ export default class StaffProfile extends Component {
               name='personalid'
               floatingLabelText='รหัสประจำตัว'
               value={this.props.personalid}
+              errorText={this.props.firstname === undefined ? 'กรุณากรอกข้อมูล' : ''}
+              onChange={this.props._handleChangeValue}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               fullWidth
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 10, maxWidth: 300 }}
             />
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -108,7 +109,7 @@ export default class StaffProfile extends Component {
               fullWidth
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
-              style={{ marginRight: 20 }}
+              style={{ marginRight: 10, maxWidth: 300 }}
             />
 
             <TextField
@@ -121,6 +122,7 @@ export default class StaffProfile extends Component {
               fullWidth
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
+              style={{ marginLeft: 10, maxWidth: 300 }}
             />
           </div>
           <TextField
