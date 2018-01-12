@@ -102,11 +102,11 @@ export default class Profile extends Component {
   _updateProfile = async () => {
     let profile = {}
     if (this.state.role === 'doctor' || this.state.role === 'nurse') {
-      let { firstname, lastname, personalid, hospitalid, phone } = await this.state
-      profile = await { firstname, lastname, personalid, hospitalid, phone }
+      let { pin_code, firstname, lastname, personalid, hospitalid, phone } = await this.state
+      profile = await { pin_code, firstname, lastname, personalid, hospitalid, phone }
     } else if (this.state.role === 'patient') {
-      let { gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone } = await this.state
-      profile = await { gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
+      let { patient_code, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone } = await this.state
+      profile = await { patient_code, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
     }
 
     updateProfile(this.state.userid, profile)
