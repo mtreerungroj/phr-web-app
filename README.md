@@ -30,8 +30,8 @@ npm start
 - [x] create `patient_code` table: store userid, patient_code
 - [x] create REST API provide unique generated PIN code
 - [x] create REST API provide unique generated patient code
-- [ ] can store data in Thai language
-- [ ] create new tables: patient_code, pin_code
+- [x] can store data in Thai language: Profile
+- [x] create new tables: patient_code, pin_code
 
 ### [staff] Registration
 - [x] registration form step1: email/password
@@ -54,9 +54,11 @@ npm start
 - [ ] show profile data
 - [ ] can search for patient
 
-### [staff] Authorization
-- [ ] can view profile data of patient
-- [ ] *can edit medical information of selected patient*
+### [staff] Search Patients (authorization)
+- [ ] show all patients: patient_code, gender, firstname, lastname, admit_date
+- [ ] can view profile data of selected patient
+- [ ] *can edit all profile data of selected patient*
+
 - [ ] *can change (upload) medical information of selected patient*
 - [ ] *have authorization to access all patient data (profile data and activities result summary)*
 
@@ -65,21 +67,20 @@ npm start
 - [ ] show activities result summary
 
 ### [staff] Profile
-- [ ] show all profile data
-- [ ] form for editing their profile data
-- [ ] update profile data to database
+- [x] show all profile data
+- [x] form for editing their profile data
 - [ ] user can change (upload) profile picture
-- [ ] update edited profile data to database
+- [x] update edited profile data to database
 
 ### [patient] Profile
 - [x] show all profile data: personal information
-- [ ] show all profile data: medical information
-- [x] form for editing profile data
+- [x] show all profile data: medical information
+- [x] form for editing profile data: only personal information
 - [x] user can edit only their personal information data
 - [ ] user can change (upload) profile picture
-- [ ] update edited profile data to database
+- [x] update edited profile data to database
 
 ### Bugs
 - [ ] render `InAccessible` page only if path is not match
-- [ ] redirect to '/' when log out
+- [x] redirect to '/' when log out
 - [ ] check DatePicker value
