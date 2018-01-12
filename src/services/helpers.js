@@ -144,4 +144,12 @@ const getPinCode = (userid, appid) => {
   })
 }
 
-export { getUserStatus, signIn, signOut, createUser, updateProfile }
+const getPatientList = () => {
+  return new Promise((resolve, reject) => {
+    const path = `${server_ip}patient_code/all`
+
+    fetch(path).then(res => res.json()).then(res => resolve(res)).catch(res => reject(res.errorMessage))
+  })
+}
+
+export { getUserStatus, signIn, signOut, createUser, updateProfile, getPatientList }
