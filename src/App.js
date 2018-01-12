@@ -9,6 +9,7 @@ import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
 import Profile from './components/protected/profile/Profile'
+import Search from './components/protected/Search'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -88,7 +89,7 @@ export default class App extends Component {
                   {/* <Route component={() => <InAccessible />} /> */}
                 </div>
                 : <div>
-                  <Menubar authed={this.state.authed} handleLogoutSubmit={this.handleLogoutSubmit} />
+                  <Menubar authed={this.state.authed} role={this.state.profile.role} handleLogoutSubmit={this.handleLogoutSubmit} />
                   <Switch>
                     <PrivateRoute
                       exact
@@ -96,6 +97,7 @@ export default class App extends Component {
                       path='/'
                       component={props => (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? <IndexStaff /> : <IndexPatient />)}
                       />
+                    <PrivateRoute authed={this.state.authed} path='/search' component={props => <Search />} />
                     <PrivateRoute authed={this.state.authed} path='/profile' component={props => <Profile />} />
                     <Route component={() => <Page404 />} />
                   </Switch>

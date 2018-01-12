@@ -31,7 +31,6 @@ export default class PatientProfile extends Component {
   }
 
   render () {
-    console.log(this.state)
     let date = new Date()
     if (this.props.birthdate) {
       date = new Date(this.props.birthdate)
