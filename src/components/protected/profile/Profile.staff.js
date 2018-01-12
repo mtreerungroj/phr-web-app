@@ -88,7 +88,7 @@ export default class StaffProfile extends Component {
             </SelectField>
             <TextField
               name='personalid'
-              floatingLabelText='รหัสประจำตัว'
+              floatingLabelText='รหัสประจำตัว (4 หลัก)'
               value={this.props.personalid}
               errorText={this.props.firstname === undefined ? 'กรุณากรอกข้อมูล' : ''}
               onChange={this.props._handleChangeValue}
@@ -130,7 +130,7 @@ export default class StaffProfile extends Component {
             type='text'
             defaultValue={this.props.phone}
             errorText={this.props.phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
-            floatingLabelText='เบอร์โทรศัพท์'
+            floatingLabelText='เบอร์โทรศัพท์ (10 หลัก)'
             maxLength='10'
             onChange={this.props._handleChangeValue}
             underlineStyle={styles.underlineStyle}
