@@ -56,26 +56,36 @@ export default class Profile extends Component {
   _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
 
   validateForm = () => {
-    if (
-      (this.state.address &&
-        this.state.career &&
-        this.state.cousin_name &&
-        this.state.cousin_phone &&
-        this.state.phone &&
-        this.state.gender &&
-        this.state.firstname &&
-        this.state.lastname &&
-        this.state.birthdate &&
-        this.state.status &&
-        this.state.race &&
-        this.state.region) === '' ||
-      this.state.phone.length < 10 ||
-      this.state.cousin_phone.length < 10
-    ) {
-      this.setState({ isValidateDialogOpen: true })
-      return 0
+    if (this.state.role === 'patient') {
+      if (
+        (this.state.address &&
+          this.state.career &&
+          this.state.cousin_name &&
+          this.state.cousin_phone &&
+          this.state.phone &&
+          this.state.gender &&
+          this.state.firstname &&
+          this.state.lastname &&
+          this.state.birthdate &&
+          this.state.status &&
+          this.state.race &&
+          this.state.region) !== '' &&
+        this.state.phone.length === 10 &&
+        this.state.cousin_phone.length === 10
+      ) {
+        return 1
+      }
+    } else if (this.state.role === 'doctor' || this.state.role === 'nurse') {
+      if (
+        (this.state.hospitalid && this.state.personalid && this.state.firstname && this.state.lastname && this.state.phone) !== '' &&
+        this.state.phone.length === 10 &&
+        this.state.personalid.length > 3
+      ) {
+        return 1
+      }
     }
-    return 1
+    this.setState({ isValidateDialogOpen: true })
+    return 0
   }
 
   _handleOpenConfirmDialog = e => this.validateForm() && this.setState({ isConfirmDialogOpen: true })
