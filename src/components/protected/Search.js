@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { getPatientList } from '../../services/helpers'
+import { Table } from 'react-bootstrap'
 
 export default class Search extends Component {
   constructor (props) {
@@ -22,8 +23,60 @@ export default class Search extends Component {
       .catch(res => that.setState(res))
   }
 
+  renderTableInstance = () => (
+    <Table striped bordered hover responsive>
+      <thead>
+        <tr>
+          <th style={styles.centerText}>ลำดับที่</th>
+          <th style={styles.centerText}>รหัสผู้ป่วย</th>
+          <th style={styles.centerText}>เพศ</th>
+          <th style={styles.centerText}>ชื่อ</th>
+          <th style={styles.centerText}>นามสกุล</th>
+          <th style={styles.centerText}>วันที่รับเข้าโรงพยาบาล</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+        </tr>
+      </tbody>
+    </Table>
+  )
+
   render () {
     console.log(this.state.patients)
-    return <div>Search page</div>
+    return <div style={styles.container}>{this.renderTableInstance()}</div>
+  }
+}
+
+const styles = {
+  container: {
+    paddingTop: 10,
+    maxWidth: '80%',
+    margin: 'auto'
+  },
+  centerText: {
+    textAlign: 'center'
   }
 }
