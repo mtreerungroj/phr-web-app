@@ -14,11 +14,11 @@ export default class Search extends Component {
     const that = this
     await getPatientList()
       .then(async res => {
-        let patients = {}
-        for (let patient of res.data) {
-          patients[Object.keys(patient)[0]] = patient[Object.keys(patient)[0]].information
-        }
-        await that.setState({ patients })
+        // let patients = {}
+        // for (let patient of res.data) {
+        //   patients[Object.keys(patient)[0]] = patient[Object.keys(patient)[0]].information
+        // }
+        await that.setState({ patients: res.data })
       })
       .catch(res => that.setState(res))
   }
