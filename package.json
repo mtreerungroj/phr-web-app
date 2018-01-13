@@ -6,6 +6,7 @@
     "firebase": "^4.6.2",
     "material-ui": "^0.19.4",
     "react": "^16.1.1",
+    "react-bootstrap": "^0.32.0",
     "react-dom": "^16.1.1",
     "react-images-upload": "^1.1.1",
     "react-router-dom": "^4.2.2",
