@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import 'react-table/react-table.css'
 import ReactTable from 'react-table'
+import SearchInput, { createFilter } from 'react-search-input'
 
 import { grey300 } from 'material-ui/styles/colors'
 import { getPatientList } from '../../services/helpers'
 import { searchTableColumns } from '../../services/enum'
+
+const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
 
 export default class Search extends Component {
   constructor (props) {
     super(props)
     this.state = {
       isLoading: true,
-      patients: []
+      patients: [],
+      searchTerm: ''
     }
   }
 
@@ -43,13 +47,20 @@ export default class Search extends Component {
       .catch(res => that.setState(res))
   }
 
+  searchUpdated = term => this.setState({ searchTerm: term })
+
   render () {
+    const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
-          <div style={styles.header}>ค้นหาผู้ป่วยทั้งหมด</div>
-          <ReactTable data={this.state.patients} columns={searchTableColumns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
+          <div style={styles.headerContainer}>
+            <div style={styles.header}>ค้นหาผู้ป่วยทั้งหมด</div>
+            <SearchInput className='search-input' placeholder={'🔎 ค้นหาผู้ป่วย...'} onChange={this.searchUpdated} />
+          </div>
+          <ReactTable data={filteredPatients} columns={searchTableColumns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
         </div>
       </div>
   }
@@ -64,6 +75,11 @@ const styles = {
     paddingBottom: 40,
     maxWidth: '80%',
     margin: 'auto'
+  },
+  headerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   centerText: {
     textAlign: 'center'
