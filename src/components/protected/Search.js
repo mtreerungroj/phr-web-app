@@ -69,6 +69,7 @@ export default class Search extends Component {
       ? <div>Loading...</div>
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
+          <div style={styles.header}>ค้นหาผู้ป่วยทั้งหมด</div>
           <ReactTable data={this.state.patients} columns={columns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
         </div>
       </div>
@@ -87,5 +88,11 @@ const styles = {
   },
   centerText: {
     textAlign: 'center'
+  },
+  header: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 10
   }
 }
