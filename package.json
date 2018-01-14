@@ -11,6 +11,7 @@
     "react-images-upload": "^1.1.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "react-table": "^6.7.6",
     "react-tap-event-plugin": "^3.0.2",
     "typeface-roboto": "^0.0.45"
   },
