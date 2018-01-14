@@ -1,11 +1,37 @@
 import React, { Component } from 'react'
 import { getPatientList } from '../../services/helpers'
-import { Table } from 'react-bootstrap'
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
+import { grey300 } from 'material-ui/styles/colors'
+
+const columns = [
+  {
+    Header: 'รหัสผู้ป่วย',
+    accessor: 'patient_code'
+  },
+  {
+    Header: 'เพศ',
+    accessor: 'gender'
+  },
+  {
+    Header: 'ชื่อ',
+    accessor: 'firstname'
+  },
+  {
+    Header: 'นามสกุล',
+    accessor: 'lastname'
+  },
+  {
+    Header: 'วันที่รับเข้าโรงพยาบาล',
+    accessor: 'admit_date'
+  }
+]
 
 export default class Search extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isLoading: true,
       patients: []
     }
   }
@@ -14,65 +40,48 @@ export default class Search extends Component {
     const that = this
     await getPatientList()
       .then(async res => {
+        // get data as object
         // let patients = {}
         // for (let patient of res.data) {
         //   patients[Object.keys(patient)[0]] = patient[Object.keys(patient)[0]].information
         // }
-        await that.setState({ patients: res.data })
+
+        // get data as array
+        let patients = []
+        for (let patient of res.data) {
+          let data = await patient[Object.keys(patient)[0]].information
+          await patients.push({
+            patient_code: data.patient_code,
+            gender: data.gender === 'women' ? 'หญิง' : 'ชาย',
+            firstname: data.firstname,
+            lastname: data.lastname,
+            admit_date: data.admit_date
+          })
+        }
+
+        await that.setState({ patients, isLoading: false })
       })
       .catch(res => that.setState(res))
   }
 
-  renderTableInstance = () => (
-    <Table striped bordered hover responsive>
-      <thead>
-        <tr>
-          <th style={styles.centerText}>ลำดับที่</th>
-          <th style={styles.centerText}>รหัสผู้ป่วย</th>
-          <th style={styles.centerText}>เพศ</th>
-          <th style={styles.centerText}>ชื่อ</th>
-          <th style={styles.centerText}>นามสกุล</th>
-          <th style={styles.centerText}>วันที่รับเข้าโรงพยาบาล</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-          <td>Table cell</td>
-        </tr>
-      </tbody>
-    </Table>
-  )
-
   render () {
-    console.log(this.state.patients)
-    return <div style={styles.container}>{this.renderTableInstance()}</div>
+    return this.state.isLoading
+      ? <div>Loading...</div>
+      : <div style={styles.container}>
+        <div style={styles.tableContainer}>
+          <ReactTable data={this.state.patients} columns={columns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
+        </div>
+      </div>
   }
 }
 
 const styles = {
   container: {
-    paddingTop: 10,
+    backgroundColor: grey300
+  },
+  tableContainer: {
+    paddingTop: 20,
+    paddingBottom: 40,
     maxWidth: '80%',
     margin: 'auto'
   },
