@@ -20,4 +20,27 @@ const hospitals = [
   { id: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
 ]
 
-export { gender, _status, race, region, hospitals }
+const searchTableColumns = [
+  {
+    Header: 'รหัสผู้ป่วย',
+    accessor: 'patient_code'
+  },
+  {
+    Header: 'เพศ',
+    accessor: 'gender'
+  },
+  {
+    Header: 'ชื่อ',
+    accessor: 'firstname'
+  },
+  {
+    Header: 'นามสกุล',
+    accessor: 'lastname'
+  },
+  {
+    Header: 'วันที่รับเข้าโรงพยาบาล',
+    accessor: 'admit_date'
+  }
+]
+
+export { gender, _status, race, region, hospitals, searchTableColumns }

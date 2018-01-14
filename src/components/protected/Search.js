@@ -1,31 +1,10 @@
 import React, { Component } from 'react'
-import { getPatientList } from '../../services/helpers'
-import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import { grey300 } from 'material-ui/styles/colors'
+import ReactTable from 'react-table'
 
-const columns = [
-  {
-    Header: 'รหัสผู้ป่วย',
-    accessor: 'patient_code'
-  },
-  {
-    Header: 'เพศ',
-    accessor: 'gender'
-  },
-  {
-    Header: 'ชื่อ',
-    accessor: 'firstname'
-  },
-  {
-    Header: 'นามสกุล',
-    accessor: 'lastname'
-  },
-  {
-    Header: 'วันที่รับเข้าโรงพยาบาล',
-    accessor: 'admit_date'
-  }
-]
+import { grey300 } from 'material-ui/styles/colors'
+import { getPatientList } from '../../services/helpers'
+import { searchTableColumns } from '../../services/enum'
 
 export default class Search extends Component {
   constructor (props) {
@@ -70,7 +49,7 @@ export default class Search extends Component {
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
           <div style={styles.header}>ค้นหาผู้ป่วยทั้งหมด</div>
-          <ReactTable data={this.state.patients} columns={columns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
+          <ReactTable data={this.state.patients} columns={searchTableColumns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
         </div>
       </div>
   }
