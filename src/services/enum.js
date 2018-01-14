@@ -1,3 +1,6 @@
+import React, { Component } from 'react'
+import RaisedButton from 'material-ui/RaisedButton'
+
 const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
 
 const _status = [
@@ -40,6 +43,11 @@ const searchTableColumns = [
   {
     Header: 'วันที่รับเข้าโรงพยาบาล',
     accessor: 'admit_date'
+  },
+  {
+    Header: 'ดูประวัติผู้ป่วย',
+    accessor: 'patient_code',
+    Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label={props.value} primary /></div>
   }
 ]
 
