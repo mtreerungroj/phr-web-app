@@ -8,7 +8,6 @@
     "react": "^16.1.1",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^16.1.1",
-    "react-images-upload": "^1.1.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "react-search-input": "^0.11.3",
