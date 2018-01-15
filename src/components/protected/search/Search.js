@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import { grey300 } from 'material-ui/styles/colors'
 import { getPatientList } from '../../../services/helpers'
+import PatientInformation from './patientInformation'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
 const searchTableColumns = [
@@ -37,9 +38,16 @@ const searchTableColumns = [
   {
     Header: 'ดูข้อมูลผู้ป่วย',
     accessor: 'patient_code',
-    Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label={props.value} primary /></div>
+    Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary /></div>
   }
 ]
+
+const convertDateFormat = inputDate => {
+  var date = new Date(inputDate)
+  if (!isNaN(date.getTime())) {
+    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
+  }
+}
 
 export default class Search extends Component {
   constructor (props) {
@@ -70,7 +78,7 @@ export default class Search extends Component {
             gender: data.gender === 'women' ? 'หญิง' : 'ชาย',
             firstname: data.firstname,
             lastname: data.lastname,
-            admit_date: data.admit_date
+            admit_date: convertDateFormat(data.admit_date)
           })
         }
 
