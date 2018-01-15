@@ -1,6 +1,3 @@
-import React, { Component } from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
-
 const gender = [{ id: 'men', name: 'ชาย' }, { id: 'women', name: 'หญิง' }]
 
 const _status = [
@@ -23,32 +20,4 @@ const hospitals = [
   { id: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
 ]
 
-const searchTableColumns = [
-  {
-    Header: 'รหัสผู้ป่วย',
-    accessor: 'patient_code'
-  },
-  {
-    Header: 'เพศ',
-    accessor: 'gender'
-  },
-  {
-    Header: 'ชื่อ',
-    accessor: 'firstname'
-  },
-  {
-    Header: 'นามสกุล',
-    accessor: 'lastname'
-  },
-  {
-    Header: 'วันที่รับเข้าโรงพยาบาล',
-    accessor: 'admit_date'
-  },
-  {
-    Header: 'ดูประวัติผู้ป่วย',
-    accessor: 'patient_code',
-    Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label={props.value} primary /></div>
-  }
-]
-
-export { gender, _status, race, region, hospitals, searchTableColumns }
+export { gender, _status, race, region, hospitals }

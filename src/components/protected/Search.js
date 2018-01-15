@@ -2,12 +2,39 @@ import React, { Component } from 'react'
 import 'react-table/react-table.css'
 import ReactTable from 'react-table'
 import SearchInput, { createFilter } from 'react-search-input'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import { grey300 } from 'material-ui/styles/colors'
 import { getPatientList } from '../../services/helpers'
-import { searchTableColumns } from '../../services/enum'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
+const searchTableColumns = [
+  {
+    Header: 'รหัสผู้ป่วย',
+    accessor: 'patient_code'
+  },
+  {
+    Header: 'เพศ',
+    accessor: 'gender'
+  },
+  {
+    Header: 'ชื่อ',
+    accessor: 'firstname'
+  },
+  {
+    Header: 'นามสกุล',
+    accessor: 'lastname'
+  },
+  {
+    Header: 'วันที่รับเข้าโรงพยาบาล',
+    accessor: 'admit_date'
+  },
+  {
+    Header: 'ดูประวัติผู้ป่วย',
+    accessor: 'patient_code',
+    Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label={props.value} primary /></div>
+  }
+]
 
 export default class Search extends Component {
   constructor (props) {
