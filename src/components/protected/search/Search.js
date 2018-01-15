@@ -5,7 +5,7 @@ import SearchInput, { createFilter } from 'react-search-input'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { grey300 } from 'material-ui/styles/colors'
-import { getPatientList } from '../../services/helpers'
+import { getPatientList } from '../../../services/helpers'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
 const searchTableColumns = [
@@ -35,7 +35,7 @@ const searchTableColumns = [
     Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
   },
   {
-    Header: 'ดูประวัติผู้ป่วย',
+    Header: 'ดูข้อมูลผู้ป่วย',
     accessor: 'patient_code',
     Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label={props.value} primary /></div>
   }

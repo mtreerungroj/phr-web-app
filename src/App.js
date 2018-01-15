@@ -9,7 +9,7 @@ import IndexStaff from './components/protected/Index.staff'
 import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
 import Profile from './components/protected/profile/Profile'
-import Search from './components/protected/Search'
+import Search from './components/protected/search/Search'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
