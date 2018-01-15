@@ -6,44 +6,12 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import { grey300 } from 'material-ui/styles/colors'
 import { getPatientList } from '../../../services/helpers'
-import PatientInformation from './patientInformation'
+import PatientInformation from './PatientInformation'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
-const searchTableColumns = [
-  {
-    Header: 'รหัสผู้ป่วย',
-    accessor: 'patient_code',
-    Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
-  },
-  {
-    Header: 'เพศ',
-    accessor: 'gender',
-    Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
-  },
-  {
-    Header: 'ชื่อ',
-    accessor: 'firstname',
-    Cell: props => <div style={styles.cell}>{props.value}</div>
-  },
-  {
-    Header: 'นามสกุล',
-    accessor: 'lastname',
-    Cell: props => <div style={styles.cell}>{props.value}</div>
-  },
-  {
-    Header: 'วันที่รับเข้าโรงพยาบาล',
-    accessor: 'admit_date',
-    Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
-  },
-  {
-    Header: 'ดูข้อมูลผู้ป่วย',
-    accessor: 'patient_code',
-    Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary /></div>
-  }
-]
 
 const convertDateFormat = inputDate => {
-  var date = new Date(inputDate)
+  let date = new Date(inputDate)
   if (!isNaN(date.getTime())) {
     return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
   }
@@ -55,7 +23,9 @@ export default class Search extends Component {
     this.state = {
       isLoading: true,
       patients: [],
-      searchTerm: ''
+      searchTerm: '',
+      isSelectPatient: false,
+      selectedPatient: ''
     }
   }
 
@@ -89,20 +59,59 @@ export default class Search extends Component {
 
   searchUpdated = term => this.setState({ searchTerm: term })
 
-  render () {
-    const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+  handleClickButton = patient_code => this.setState({ isSelectPatient: true, selectedPatient: patient_code })
 
-    return this.state.isLoading
-      ? <div>Loading...</div>
+  searchTableColumns = [
+    {
+      Header: 'รหัสผู้ป่วย',
+      accessor: 'patient_code',
+      Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
+    },
+    {
+      Header: 'เพศ',
+      accessor: 'gender',
+      Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
+    },
+    {
+      Header: 'ชื่อ',
+      accessor: 'firstname',
+      Cell: props => <div style={styles.cell}>{props.value}</div>
+    },
+    {
+      Header: 'นามสกุล',
+      accessor: 'lastname',
+      Cell: props => <div style={styles.cell}>{props.value}</div>
+    },
+    {
+      Header: 'วันที่รับเข้าโรงพยาบาล',
+      accessor: 'admit_date',
+      Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
+    },
+    {
+      Header: 'ดูข้อมูลผู้ป่วย',
+      accessor: 'patient_code',
+      Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary onClick={() => this.handleClickButton(props.value)} /></div>
+    }
+  ]
+
+  renderContent = () => {
+    console.log(this.state)
+    const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+    return this.state.isSelectPatient
+      ? <PatientInformation selectedPatient={this.state.isSelectPatient} patient_code={this.state.selectedPatient} />
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
           <div style={styles.headerContainer}>
             <div style={styles.header}>ค้นหาผู้ป่วยทั้งหมด</div>
             <SearchInput className='search-input' placeholder={'🔎 ค้นหาผู้ป่วย...'} onChange={this.searchUpdated} />
           </div>
-          <ReactTable data={filteredPatients} columns={searchTableColumns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
+          <ReactTable data={filteredPatients} columns={this.searchTableColumns} defaultPageSize={10} pageSizeOptions={[10, 20, 50, 100]} />
         </div>
       </div>
+  }
+
+  render () {
+    return this.state.isLoading ? <div>Loading...</div> : this.renderContent()
   }
 }
 
