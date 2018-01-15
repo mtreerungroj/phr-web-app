@@ -4,7 +4,7 @@ const config = {
   authDomain: 'hphr-9999x.firebaseapp.com',
   databaseURL: 'https://hphr-9999x.firebaseio.com',
   projectId: 'hphr-9999x',
-  storageBucket: '',
+  storageBucket: 'gs://hphr-9999x.appspot.com/',
   messagingSenderId: '117020574541'
 }
 firebase.initializeApp(config)
