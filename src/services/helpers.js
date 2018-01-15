@@ -153,16 +153,30 @@ const getPatientList = () => {
 }
 
 const uploadFileToStorage = (userid, file) => {
-  // must reciceve only userid
   const storageRef = firebase.storage().ref().child(`profile-picture/${appid}-${userid}.png`)
-  storageRef
-    .put(file)
-    .then(snapshot => {
-      console.log(snapshot.downloadURL) // save this to database: userid's profile
-    })
-    .catch(error => {
-      console.log(error) // throw bach to profile component to render error
-    })
+  return new Promise(async (resolve, reject) => {
+    storageRef
+      .put(file)
+      .then(async snapshot => {
+        // update downloadURL to userid's profile
+        const path = `${server_ip}profile/info`
+        const profile = { picture_uri: snapshot.downloadURL }
+        const data = await JSON.stringify({ userid, appid, profile })
+
+        await fetch(path, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: data
+        })
+          .then(() => console.log('complete'))
+          .catch(error => console.log(error))
+      })
+      .catch(error => {
+        console.log(error) // throw bach to profile component to render error
+      })
+  })
 }
 
 export { getUserStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage }
