@@ -56,11 +56,13 @@ npm start
 
 ### [staff] Search Patients (authorization)
 - [x] get all patients list with basic data from server
-- [ ] show all patients: patient_code, gender, firstname, lastname, admit_date
+- [x] show all patients: patient_code, gender, firstname, lastname, admit_date
+- [x] can filter patients by patient_code, firstname, lastname
 - [ ] can view profile data of selected patient
 - [ ] *can edit all profile data of selected patient*
-
 - [ ] *have authorization to access all patient data (profile data and activities result summary)*
+
+- [ ] show date format as DD/MM/YYYY
 
 ### [patient] Dashboard
 - [ ] show profile data
@@ -69,7 +71,7 @@ npm start
 ### [staff] Profile
 - [x] show all profile data
 - [x] form for editing their profile data
-- [ ] user can change (upload) profile picture
+- [ ] user can change (upload) profile picture: input type='file'
 - [ ] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
 
@@ -82,7 +84,7 @@ npm start
 - [ ] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
 
-### Bugs
+### Bugs/Others
 - [ ] render `InAccessible` page only if path is not match
 - [x] redirect to '/' when log out
 - [x] check DatePicker value
