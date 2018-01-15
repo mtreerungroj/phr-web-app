@@ -11,23 +11,28 @@ const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
 const searchTableColumns = [
   {
     Header: 'รหัสผู้ป่วย',
-    accessor: 'patient_code'
+    accessor: 'patient_code',
+    Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
   },
   {
     Header: 'เพศ',
-    accessor: 'gender'
+    accessor: 'gender',
+    Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
   },
   {
     Header: 'ชื่อ',
-    accessor: 'firstname'
+    accessor: 'firstname',
+    Cell: props => <div style={styles.cell}>{props.value}</div>
   },
   {
     Header: 'นามสกุล',
-    accessor: 'lastname'
+    accessor: 'lastname',
+    Cell: props => <div style={styles.cell}>{props.value}</div>
   },
   {
     Header: 'วันที่รับเข้าโรงพยาบาล',
-    accessor: 'admit_date'
+    accessor: 'admit_date',
+    Cell: props => <div style={styles.cellWithCenter}>{props.value}</div>
   },
   {
     Header: 'ดูประวัติผู้ป่วย',
@@ -116,5 +121,12 @@ const styles = {
     textAlign: 'center',
     fontSize: 20,
     marginBottom: 10
+  },
+  cell: {
+    marginTop: '8px'
+  },
+  cellWithCenter: {
+    textAlign: 'center',
+    marginTop: '8px'
   }
 }
