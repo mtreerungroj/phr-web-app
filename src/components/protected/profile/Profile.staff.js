@@ -55,9 +55,13 @@ export default class StaffProfile extends Component {
           <input type='file' onChange={this.handleUploadFile} />
         </Dialog>
         <div style={styles.inner}>
-          <img src={require('../../../assets/images/default-profile-picture.png')} alt='' style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
+          <img
+            src={this.props.picture_uri !== undefined ? this.props.picture_uri : require('../../../assets/images/default-profile-picture.png')}
+            alt=''
+            style={{ maxWidth: '200px', width: '100%', height: 'auto', marginBottom: 10 }}
+          />
           <br />
-          <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogOpen} primary style={{}} />
+          <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogOpen} primary />
         </div>
         <form>
           <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>

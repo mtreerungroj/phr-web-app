@@ -6,29 +6,34 @@ import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
 import { grey500, grey600 } from 'material-ui/styles/colors'
-import ImageUploader from 'react-images-upload'
 import { gender, _status, race, region } from '../../../services/enum'
+import { uploadFileToStorage } from '../../../services/helpers'
 
 export default class PatientProfile extends Component {
   constructor (props) {
     super(props)
     this.state = {
       isDialogOpen: false,
-      picture: []
+      file: null
     }
   }
 
-  handleDialogOpen = () => {
-    this.setState({ isDialogOpen: true })
+  handleDialogOpen = () => this.setState({ isDialogOpen: true })
+
+  handleDialogClose = () => this.setState({ isDialogOpen: false, file: null })
+
+  handleDialogCloseWithSubmit = () => {
+    if (this.state.file != null) {
+      if (this.props.role === 'patient') {
+        uploadFileToStorage(this.props.userid, this.state.file) // recieve feedback, call updateProfile or toast error
+        this.setState({ isDialogOpen: false })
+      }
+    }
+    // handle error here
+    // note: for edditing by nurse, get userid by patient_code first
   }
 
-  handleDialogClose = () => {
-    this.setState({ isDialogOpen: false })
-  }
-
-  onDrop = picture => {
-    this.setState({ picture })
-  }
+  handleUploadFile = e => this.setState({ file: e.target.files[0] })
 
   render () {
     let date = new Date()
@@ -39,18 +44,22 @@ export default class PatientProfile extends Component {
 
     const actions = [
       <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
-      <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogClose} />
+      <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogCloseWithSubmit} />
     ]
 
     return (
       <div style={styles.container}>
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleClose}>
-          <ImageUploader withIcon buttonText='Choose image' onChange={this.onDrop} imgExtension={['.jpg', '.gif', '.png', '.gif']} maxFileSize={5242880} />
+          <input type='file' onChange={this.handleUploadFile} />
         </Dialog>
         <div style={styles.inner}>
-          <img src={require('../../../assets/images/default-profile-picture.png')} alt='' style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
+          <img
+            src={this.props.picture_uri !== undefined ? this.props.picture_uri : require('../../../assets/images/default-profile-picture.png')}
+            alt=''
+            style={{ maxWidth: '200px', width: '100%', height: 'auto', marginBottom: 10 }}
+          />
           <br />
-          <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogOpen} primary style={{}} />
+          <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogOpen} primary />
         </div>
         <form>
           <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
