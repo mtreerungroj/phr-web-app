@@ -5,26 +5,36 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import { grey500, grey600 } from 'material-ui/styles/colors'
-import ImageUploader from 'react-images-upload'
 import { hospitals } from '../../../services/enum'
+import { uploadFileToStorage } from '../../../services/helpers'
 
 export default class StaffProfile extends Component {
   constructor (props) {
     super(props)
     this.state = {
       isDialogOpen: false,
-      picture: [],
+      file: null,
       isShowPincode: false
     }
   }
 
   handleDialogOpen = () => this.setState({ isDialogOpen: true })
 
-  handleDialogClose = () => this.setState({ isDialogOpen: false })
+  handleDialogClose = () => this.setState({ isDialogOpen: false, file: null })
 
-  onDrop = picture => this.setState({ picture })
+  handleDialogCloseWithSubmit = () => {
+    if (this.state.file != null) {
+      if (this.props.role === 'nurse' || this.props.role === 'doctor') {
+        uploadFileToStorage(this.props.userid, this.state.file)
+        this.setState({ isDialogOpen: false })
+      }
+    }
+    // handle error here
+  }
 
   handleToggleShowPincode = () => this.setState({ isShowPincode: !this.state.isShowPincode })
+
+  handleUploadFile = e => this.setState({ file: e.target.files[0] })
 
   render () {
     let date = new Date()
@@ -35,13 +45,13 @@ export default class StaffProfile extends Component {
 
     const actions = [
       <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
-      <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogClose} />
+      <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogCloseWithSubmit} />
     ]
 
     return (
       <div style={styles.container}>
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleClose}>
-          <ImageUploader withIcon buttonText='Choose image' onChange={this.onDrop} imgExtension={['.jpg', '.gif', '.png', '.gif']} maxFileSize={5242880} />
+          <input type='file' onChange={this.handleUploadFile} />
         </Dialog>
         <div style={styles.inner}>
           <img src={require('../../../assets/images/default-profile-picture.png')} alt='' style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
