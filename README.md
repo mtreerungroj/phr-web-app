@@ -62,7 +62,7 @@ npm start
 - [ ] *can edit all profile data of selected patient*
 - [ ] *have authorization to access all patient data (profile data and activities result summary)*
 
-- [ ] show date format as DD/MM/YYYY
+- [x] show date format as DD/MM/YYYY
 
 ### [patient] Dashboard
 - [ ] show profile data
@@ -71,8 +71,8 @@ npm start
 ### [staff] Profile
 - [x] show all profile data
 - [x] form for editing their profile data
-- [ ] user can change (upload) profile picture: input type='file'
-- [ ] upload profile picture file to Firebase storage
+- [x] user can change (upload) profile picture: input type='file'
+- [x] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
 
 ### [patient] Profile
@@ -80,8 +80,8 @@ npm start
 - [x] show all profile data: medical information
 - [x] form for editing profile data: only personal information
 - [x] user can edit only their personal information data
-- [ ] user can change (upload) profile picture
-- [ ] upload profile picture file to Firebase storage
+- [x] user can change (upload) profile picture
+- [x] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
 
 ### Bugs/Others
