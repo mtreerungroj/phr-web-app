@@ -152,4 +152,16 @@ const getPatientList = () => {
   })
 }
 
-export { getUserStatus, signIn, signOut, createUser, updateProfile, getPatientList }
+const uploadFileToStorage = (code, file) => {
+  const storageRef = firebase.storage().ref().child(`profile-picture/${appid}-${code}.png`)
+  storageRef
+    .put(file)
+    .then(snapshot => {
+      return 1
+    })
+    .catch(error => {
+      return 0
+    })
+}
+
+export { getUserStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage }
