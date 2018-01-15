@@ -39,6 +39,17 @@ export default class Profile extends Component {
     !Object.keys(this.state.profile).length && this.initiateProfile()
   }
 
+  updateUserStatus = () => {
+    getUserStatus()
+      .then(async res => {
+        await this.setState({ ...res.profile })
+        await this.setState(res)
+      })
+      .catch(res => this.setState(res))
+
+    !Object.keys(this.state.profile).length && this.initiateProfile()
+  }
+
   initiateProfile = () => this.setState({ gender: gender[0].id, status: _status[0].id, race: race[0].id, region: region[0].id })
 
   menuItems = items => items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
@@ -125,6 +136,7 @@ export default class Profile extends Component {
       _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
       _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
       _handleOpenConfirmDialog={this._handleOpenConfirmDialog}
+      updateUserStatus={this.updateUserStatus}
     />
   )
 
@@ -136,6 +148,7 @@ export default class Profile extends Component {
       _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
       _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
       _handleOpenConfirmDialog={this._handleOpenConfirmDialog}
+      updateUserStatus={this.updateUserStatus}
     />
   )
 

@@ -4,6 +4,7 @@ import SelectField from 'material-ui/SelectField'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar'
 import { grey500, grey600 } from 'material-ui/styles/colors'
 import { hospitals } from '../../../services/enum'
 import { uploadFileToStorage } from '../../../services/helpers'
@@ -14,7 +15,9 @@ export default class StaffProfile extends Component {
     this.state = {
       isDialogOpen: false,
       file: null,
-      isShowPincode: false
+      isShowPincode: false,
+      isShowSnackbar: false,
+      SnackbarMessage: ''
     }
   }
 
@@ -25,13 +28,19 @@ export default class StaffProfile extends Component {
   handleDialogCloseWithSubmit = () => {
     if (this.state.file != null) {
       if (this.props.role === 'nurse' || this.props.role === 'doctor') {
-        uploadFileToStorage(this.props.userid, this.state.file) // recieve feedback, call updateProfile or toast error
-        this.setState({ isDialogOpen: false })
+        uploadFileToStorage(this.props.userid, this.state.file)
+          .then(res => {
+            this.setState(res)
+            this.props.updateUserStatus()
+          })
+          .catch(res => this.setState(res))
       }
+    } else {
+      this.setState({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด กรุณาเลือกรูปภาพก่อน' })
     }
-    // handle error here
-    // note: for edditing by nurse, get userid by patient_code first
   }
+
+  handleSnackbarClose = () => this.setState({ isShowSnackbar: false, SnackbarMessage: '' })
 
   handleToggleShowPincode = () => this.setState({ isShowPincode: !this.state.isShowPincode })
 
@@ -54,6 +63,7 @@ export default class StaffProfile extends Component {
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleClose}>
           <input type='file' onChange={this.handleUploadFile} />
         </Dialog>
+        <Snackbar open={this.state.isShowSnackbar} message={this.state.SnackbarMessage} autoHideDuration={3000} onRequestClose={this.handleSnackbarClose} />
         <div style={styles.inner}>
           <img
             src={this.props.picture_uri !== undefined ? this.props.picture_uri : require('../../../assets/images/default-profile-picture.png')}

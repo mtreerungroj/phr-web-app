@@ -170,11 +170,11 @@ const uploadFileToStorage = (userid, file) => {
           },
           body: data
         })
-          .then(() => console.log('complete'))
-          .catch(error => console.log(error))
+          .then(() => resolve({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'อัพเดทรูปโปรไฟล์สำเร็จ' }))
+          .catch(error => reject({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด ไม่สามารถอัพเดทรูปโปรไฟล์ได้ ' + error }))
       })
       .catch(error => {
-        console.log(error) // throw bach to profile component to render error
+        reject({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด ไม่สามารถอัพเดทรูปโปรไฟล์ได้ ' + error })
       })
   })
 }

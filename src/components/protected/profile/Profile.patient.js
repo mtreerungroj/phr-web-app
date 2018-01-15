@@ -5,6 +5,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
+import Snackbar from 'material-ui/Snackbar'
 import { grey500, grey600 } from 'material-ui/styles/colors'
 import { gender, _status, race, region } from '../../../services/enum'
 import { uploadFileToStorage } from '../../../services/helpers'
@@ -14,7 +15,9 @@ export default class PatientProfile extends Component {
     super(props)
     this.state = {
       isDialogOpen: false,
-      file: null
+      file: null,
+      isShowSnackbar: false,
+      SnackbarMessage: ''
     }
   }
 
@@ -25,13 +28,19 @@ export default class PatientProfile extends Component {
   handleDialogCloseWithSubmit = () => {
     if (this.state.file != null) {
       if (this.props.role === 'patient') {
-        uploadFileToStorage(this.props.userid, this.state.file) // recieve feedback, call updateProfile or toast error
-        this.setState({ isDialogOpen: false })
+        uploadFileToStorage(this.props.userid, this.state.file)
+          .then(res => {
+            this.setState(res)
+            this.props.updateUserStatus()
+          })
+          .catch(res => this.setState(res))
+      } else {
+        this.setState({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด กรุณาเลือกรูปภาพก่อน' })
       }
     }
-    // handle error here
-    // note: for edditing by nurse, get userid by patient_code first
   }
+
+  handleSnackbarClose = () => this.setState({ isShowSnackbar: false, SnackbarMessage: '' })
 
   handleUploadFile = e => this.setState({ file: e.target.files[0] })
 
@@ -52,6 +61,7 @@ export default class PatientProfile extends Component {
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleClose}>
           <input type='file' onChange={this.handleUploadFile} />
         </Dialog>
+        <Snackbar open={this.state.isShowSnackbar} message={this.state.SnackbarMessage} autoHideDuration={3000} onRequestClose={this.handleSnackbarClose} />
         <div style={styles.inner}>
           <img
             src={this.props.picture_uri !== undefined ? this.props.picture_uri : require('../../../assets/images/default-profile-picture.png')}
