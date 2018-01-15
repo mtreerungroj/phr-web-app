@@ -152,15 +152,16 @@ const getPatientList = () => {
   })
 }
 
-const uploadFileToStorage = (code, file) => {
-  const storageRef = firebase.storage().ref().child(`profile-picture/${appid}-${code}.png`)
+const uploadFileToStorage = (userid, file) => {
+  // must reciceve only userid
+  const storageRef = firebase.storage().ref().child(`profile-picture/${appid}-${userid}.png`)
   storageRef
     .put(file)
     .then(snapshot => {
-      return 1
+      console.log(snapshot.downloadURL) // save this to database: userid's profile
     })
     .catch(error => {
-      return 0
+      console.log(error) // throw bach to profile component to render error
     })
 }
 

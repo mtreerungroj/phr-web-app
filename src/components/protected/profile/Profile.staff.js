@@ -25,11 +25,12 @@ export default class StaffProfile extends Component {
   handleDialogCloseWithSubmit = () => {
     if (this.state.file != null) {
       if (this.props.role === 'nurse' || this.props.role === 'doctor') {
-        uploadFileToStorage(this.props.userid, this.state.file)
+        uploadFileToStorage(this.props.userid, this.state.file) // recieve feedback, call updateProfile or toast error
         this.setState({ isDialogOpen: false })
       }
     }
     // handle error here
+    // note: for edditing by nurse, get userid by patient_code first
   }
 
   handleToggleShowPincode = () => this.setState({ isShowPincode: !this.state.isShowPincode })
