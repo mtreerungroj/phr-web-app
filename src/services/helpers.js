@@ -82,7 +82,7 @@ const createUser = (email, password, isStaff) => {
 }
 
 const updateProfile = async (userid, profile) => {
-  let { patient_code, gender, firstname, lastname, admit_date } = (await profile) || ''
+  let { patient_code = '', gender, firstname, lastname, admit_date = '' } = await profile
   let _profile = { patient_code, gender, firstname, lastname, admit_date }
   const isSuccess = await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
 
