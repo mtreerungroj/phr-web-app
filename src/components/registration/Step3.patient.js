@@ -79,9 +79,9 @@ export default class Step3Patient extends Component {
         <div style={styles.topContent}>
           อีเมล: <span style={styles.boldText}>{this.props.email}</span>
           <br />
-          รหัสผู้ป่วยภายในระบบ: <span style={styles.boldText}>(get from server?) {'   '}</span>
+          รหัสผู้ป่วยภายในระบบ: <span style={styles.boldText}>{this.props.patient_code} {'   '}</span>
           <span style={styles.notation}>
-            (หมายเหตุ: รหัสผู้ป่วยภายในระบบนี้เป็นรหัสเฉพาะบุคคลสำหรับใช้ภายในระบบข้อมูลสุขภาพส่วนบุคคล)
+            (หมายเหตุ: รหัสผู้ป่วยภายในระบบนี้เป็นรหัสเฉพาะบุคคล)
           </span>
         </div>
 
