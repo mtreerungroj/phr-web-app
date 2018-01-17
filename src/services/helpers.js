@@ -9,15 +9,31 @@ const getUserStatus = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         const userid = user.uid
-        const email = firebase.auth().currentUser.email
+        // const email = firebase.auth().currentUser.email
         const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
 
         fetch(path).then(res => res.json()).then(res => {
           let profile = {}
           if (res.data) profile = res.data.profile
-          resolve({ authed: true, isLoading: false, userid, email, profile })
+          resolve({ authed: true, isLoading: false, userid, profile })
         })
       } else reject({ authed: false, isLoading: false })
+    })
+  })
+}
+
+const getPatientStatus = userid => {
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const path = `${server_ip}profile/info?appid=${appid}&userid=${userid}`
+
+        fetch(path).then(res => res.json()).then(res => {
+          let profile = {}
+          if (res.data) profile = res.data.profile
+          resolve({ isLoading: false, userid, profile })
+        })
+      } else reject({ isLoading: false })
     })
   })
 }
@@ -66,10 +82,10 @@ const createUser = (email, password, isStaff) => {
       .then(async () => {
         const userid = await firebase.auth().currentUser.uid
         if (isStaff) {
-          const pin_code = await getPinCode(userid, appid)
+          const pin_code = await getPinCode(userid, appid, email)
           resolve({ isAuthed: true, level: 2, isStaff, userid, appid, pin_code })
         } else {
-          const patient_code = await getPatientCode(userid, appid)
+          const patient_code = await getPatientCode(userid, appid, email)
           resolve({ isAuthed: true, level: 2, isStaff, userid, appid, patient_code })
         }
       })
@@ -109,9 +125,9 @@ const updateProfile = async (userid, profile) => {
   })
 }
 
-const getPatientCode = (userid, appid) => {
+const getPatientCode = (userid, appid, email) => {
   return new Promise((resolve, reject) => {
-    const path = `${server_ip}patient_code/generate?appid=${appid}&userid=${userid}`
+    const path = `${server_ip}patient_code/generate?appid=${appid}&userid=${userid}&email=${email}`
 
     fetch(path).then(res => res.json()).then(res => resolve(res.patient_code)).catch(res => reject(res.errorMessage))
   })
@@ -135,9 +151,9 @@ const updateBasicProfileInPatientCodeTable = async (appid, patient_code, profile
     })
 }
 
-const getPinCode = (userid, appid) => {
+const getPinCode = (userid, appid, email) => {
   return new Promise((resolve, reject) => {
-    const path = `${server_ip}pin_code/generate?appid=${appid}&userid=${userid}`
+    const path = `${server_ip}pin_code/generate?appid=${appid}&userid=${userid}&email=${email}`
 
     fetch(path).then(res => res.json()).then(res => resolve(res.pin_code)).catch(res => reject(res.errorMessage))
   })
@@ -178,4 +194,4 @@ const uploadFileToStorage = (userid, file) => {
   })
 }
 
-export { getUserStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage }
+export { getUserStatus, getPatientStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage }
