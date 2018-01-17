@@ -20,4 +20,6 @@ const hospitals = [
   { id: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
 ]
 
-export { gender, _status, race, region, hospitals }
+const bloodTypes = [{ id: 'A', name: 'A' }, { id: 'B', name: 'B' }, { id: 'AB', name: 'AB' }, { id: 'O', name: 'O' }]
+
+export { gender, _status, race, region, hospitals, bloodTypes }

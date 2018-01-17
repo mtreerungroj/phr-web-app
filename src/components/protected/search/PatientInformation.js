@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/MenuItem'
 
 import { grey300, grey500, grey600 } from 'material-ui/styles/colors'
 import { getPatientStatus, updateProfile, uploadFileToStorage } from '../../../services/helpers'
-import { gender, _status, race, region } from '../../../services/enum'
+import { gender, _status, race, region, bloodTypes } from '../../../services/enum'
 
 export default class PatientInformation extends Component {
   constructor (props) {
@@ -33,15 +33,7 @@ export default class PatientInformation extends Component {
   }
 
   async componentDidMount () {
-    const that = this
-    await getPatientStatus(this.props.userid)
-      .then(async res => {
-        await that.setState({ ...res.profile })
-        await that.setState(res)
-      })
-      .catch(res => that.setState(res))
-
-    !Object.keys(this.state.profile).length && this.initiateProfile()
+    await this.updateUserStatus()
   }
 
   updateUserStatus = () => {
@@ -53,9 +45,14 @@ export default class PatientInformation extends Component {
       .catch(res => this.setState(res))
 
     !Object.keys(this.state.profile).length && this.initiateProfile()
+    if (this.state.gender === undefined) this.setState({ gender: gender[0].id })
+    if (this.state.status === undefined) this.setState({ status: _status[0].id })
+    if (this.state.race === undefined) this.setState({ race: race[0].id })
+    if (this.state.region === undefined) this.setState({ region: region[0].id })
+    if (this.state.blood_type === undefined) this.setState({ blood_type: bloodTypes[0].id })
   }
 
-  initiateProfile = () => this.setState({ gender: gender[0].id, status: _status[0].id, race: race[0].id, region: region[0].id })
+  initiateProfile = () => this.setState({ gender: gender[0].id, status: _status[0].id, race: race[0].id, region: region[0].id, blood_type: bloodTypes[0].id })
 
   menuItems = items => items.map(item => <MenuItem key={item.id} value={item.id} label={item.name} primaryText={item.name} />)
 
@@ -422,6 +419,16 @@ export default class PatientInformation extends Component {
 
             <div align='left' style={{ lineHeight: '2em' }}>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <SelectField
+                  value={this.state.blood_type}
+                  floatingLabelText='หมู่เลือด'
+                  onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'blood_type')}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  style={{ width:150, marginRight: 20 }}
+                  >
+                  {this.menuItems(bloodTypes)}
+                </SelectField>
                 <TextField
                   name='weight'
                   type='number'
@@ -433,7 +440,7 @@ export default class PatientInformation extends Component {
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
                   style={{ width: 150, marginRight: 20 }}
-                />  
+                  />  
                 <TextField
                   name='height'
                   type='number'
@@ -445,23 +452,69 @@ export default class PatientInformation extends Component {
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
                   style={{ width: 150, marginRight: 20 }}
-                />  
+                  />  
                 <TextField
                   name='bmi'
-                  type='number'
+                  type='text'
                   defaultValue={bmi}
                   floatingLabelText='ค่าค่าดัชนีมวลกาย'
                   disabled
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
-                  style={{ width: 150, marginRight: 20 }}
-                  />  
-                </div>
-                หมู่เลือด: B<br />
-                โรคประจำตัวผู้ป่วย: {'ชอบกินปลาเส้น'} <br />
-                ยาที่ใช้ปัจจุบัน: {'ทาโร่'}<br />
-                ยาที่แพ้: {'ฟิชโช่'}<br />
-                อาหารที่แพ้: {'ปลาเส้น'}<br />
+                  style={{ width: 150, marginRight: 20}}
+                  />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <TextField
+                  name='medical_condition'
+                  type='text'
+                  defaultValue={this.state.medical_condition}
+                  errorText={this.state.medical_condition === undefined ? 'กรุณากรอกข้อมูล' : ''}
+                  floatingLabelText='โรคประจำตัว'
+                  onChange={this._handleChangeValue}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  fullWidth
+                  style={{ marginRight: 20 }}
+                  />
+                <TextField
+                  name='current_medicine'
+                  type='text'
+                  defaultValue={this.state.current_medicine}
+                  errorText={this.state.current_medicine === undefined ? 'กรุณากรอกข้อมูล' : ''}
+                  floatingLabelText='ยาที่ใช้ปัจจุบัน'
+                  onChange={this._handleChangeValue}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  fullWidth
+                  />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <TextField
+                  name='allergic_medicine'
+                  type='text'
+                  defaultValue={this.state.allergic_medicine}
+                  errorText={this.state.allergic_medicine === undefined ? 'กรุณากรอกข้อมูล' : ''}
+                  floatingLabelText='ยาที่แพ้'
+                  onChange={this._handleChangeValue}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  style={{ marginRight: 20 }}
+                  fullWidth
+                />
+                <TextField
+                  name='allergic_food'
+                  type='text'
+                  defaultValue={this.state.allergic_food}
+                  errorText={this.state.allergic_food === undefined ? 'กรุณากรอกข้อมูล' : ''}
+                  floatingLabelText='อาหารที่แพ้'
+                  onChange={this._handleChangeValue}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  fullWidth
+                  />
+              </div>
+              
                 ประวัติการสูบบุหรี่: {'ไม่มีประวัติการสูบบุหรี่'} <br />
 
               <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
