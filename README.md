@@ -66,7 +66,7 @@ npm start
 - [x] user can change (upload) profile picture: input type='file'
 - [x] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
-- [ ] show Snackbar if update profile successfully
+- [x] show Snackbar if update profile successfully
 
 ### [patient] Profile
 - [x] show all profile data: personal information
@@ -76,7 +76,7 @@ npm start
 - [x] user can change (upload) profile picture
 - [x] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
-- [ ] show Snackbar if update profile successfully
+- [x] show Snackbar if update profile successfully
 
 ### [staff] Search Patients (authorization)
 - [x] get all patients list with basic data from server
@@ -84,6 +84,7 @@ npm start
 - [x] can filter patients by patient_code, firstname, lastname
 - [ ] can view profile data of selected patient
 - [ ] *can edit all profile data of selected patient*
+- [ ] show Snackbar if update profile successfully
 - [ ] *have authorization to access all patient data (profile data and activities result summary)*
 - [x] show date format as DD/MM/YYYY
 
@@ -99,6 +100,7 @@ npm start
 - [ ] render `InAccessible` page only if path is not match
 - [x] redirect to '/' when log out
 - [x] check DatePicker value
+- [ ] refactor PatientInformation component
 - [ ] Warning when editting my empty profile:
 ```
 A component is changing an uncontrolled input of type text to be controlled.
