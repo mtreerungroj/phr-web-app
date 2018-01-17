@@ -113,6 +113,7 @@ export default class PatientInformation extends Component {
       let {
         patient_code,
         id_card,
+        role,
         gender,
         firstname,
         lastname,
@@ -126,7 +127,23 @@ export default class PatientInformation extends Component {
         cousin_name,
         cousin_phone
       } = await this.state
-      profile = await { patient_code, id_card, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
+      profile = await {
+        patient_code,
+        id_card,
+        role,
+        gender,
+        firstname,
+        lastname,
+        birthdate,
+        status,
+        race,
+        region,
+        address,
+        career,
+        phone,
+        cousin_name,
+        cousin_phone
+      }
     }
 
     updateProfile(this.props.userid, profile)
@@ -143,16 +160,14 @@ export default class PatientInformation extends Component {
 
   handleDialogCloseWithSubmit = () => {
     if (this.state.file != null) {
-      if (this.props.role === 'patient') {
-        uploadFileToStorage(this.props.userid, this.state.file)
-          .then(res => {
-            this.setState(res)
-            this.props.updateUserStatus()
-          })
-          .catch(res => this.setState(res))
-      } else {
-        this.setState({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด กรุณาเลือกรูปภาพก่อน' })
-      }
+      uploadFileToStorage(this.props.userid, this.state.file)
+        .then(res => {
+          this.setState(res)
+          this.updateUserStatus()
+        })
+        .catch(res => this.setState(res))
+    } else {
+      this.setState({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด กรุณาเลือกรูปภาพก่อน' })
     }
   }
 
@@ -178,7 +193,6 @@ export default class PatientInformation extends Component {
     ]
     const validateActions = [<FlatButton label='ตกลง' primary onClick={this._handleCloseValidateDialog} />]
 
-
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>
@@ -187,23 +201,23 @@ export default class PatientInformation extends Component {
             <input type='file' onChange={this.handleUploadFile} />
           </Dialog>
           <Dialog
-          title='ยืนยันการบันทึกข้อมูล'
-          actions={confirmActions}
-          modal={false}
-          open={this.state.isConfirmDialogOpen}
-          onRequestClose={this._handleCloseConfirmDialog}
-          >
-          {this.state.confirmDialogMessage}
-        </Dialog>
-        <Dialog
-          title='เกิดข้อผิดพลาด'
-          actions={validateActions}
-          modal={false}
-          open={this.state.isValidateDialogOpen}
-          onRequestClose={this._handleCloseConfirmDialog}
-          >
-          {this.state.ValidateDialogMessage}
-        </Dialog>
+            title='ยืนยันการบันทึกข้อมูล'
+            actions={confirmActions}
+            modal={false}
+            open={this.state.isConfirmDialogOpen}
+            onRequestClose={this._handleCloseConfirmDialog}
+            >
+            {this.state.confirmDialogMessage}
+          </Dialog>
+          <Dialog
+            title='เกิดข้อผิดพลาด'
+            actions={validateActions}
+            modal={false}
+            open={this.state.isValidateDialogOpen}
+            onRequestClose={this._handleCloseConfirmDialog}
+            >
+            {this.state.ValidateDialogMessage}
+          </Dialog>
           <Snackbar open={this.state.isShowSnackbar} message={this.state.SnackbarMessage} autoHideDuration={3000} onRequestClose={this.handleSnackbarClose} />
           <div style={styles.inner}>
             <img
