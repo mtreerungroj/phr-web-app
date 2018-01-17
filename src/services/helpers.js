@@ -83,7 +83,8 @@ const createUser = (email, password, isStaff) => {
 
 const updateProfile = async (userid, profile) => {
   if (profile.role === 'patient') {
-    let { patient_code, gender, firstname, lastname, admit_date } = (await profile) || ''
+    let { patient_code, gender, firstname, lastname } = (await profile) || ''
+    let admit_date = new Date().toISOString().substring(0, 10)
     let _profile = { patient_code, gender, firstname, lastname, admit_date }
     await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
   }

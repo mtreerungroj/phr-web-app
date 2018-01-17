@@ -77,9 +77,42 @@ export default class Registration extends Component {
       let { role, email, firstname, lastname, personalid, hospitalid, phone } = await this.state
       profile = await { role, email, firstname, lastname, personalid, hospitalid, phone }
     } else if (this.state.role === 'patient') {
-      let { role, email, id_card, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone } = await this
-        .state
-      profile = await { role, email, id_card, gender, firstname, lastname, birthdate, status, race, region, address, career, phone, cousin_name, cousin_phone }
+      let {
+        role,
+        patient_code,
+        email,
+        id_card,
+        gender,
+        firstname,
+        lastname,
+        birthdate,
+        status,
+        race,
+        region,
+        address,
+        career,
+        phone,
+        cousin_name,
+        cousin_phone
+      } = await this.state
+      profile = await {
+        role,
+        patient_code,
+        email,
+        id_card,
+        gender,
+        firstname,
+        lastname,
+        birthdate,
+        status,
+        race,
+        region,
+        address,
+        career,
+        phone,
+        cousin_name,
+        cousin_phone
+      }
     }
 
     updateProfile(this.state.userid, profile)
