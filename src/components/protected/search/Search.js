@@ -48,7 +48,8 @@ export default class Search extends Component {
             gender: data.gender === 'women' ? 'หญิง' : 'ชาย',
             firstname: data.firstname,
             lastname: data.lastname,
-            admit_date: convertDateFormat(data.admit_date)
+            admit_date: convertDateFormat(data.admit_date),
+            userid: data.userid
           })
         }
 
@@ -59,7 +60,7 @@ export default class Search extends Component {
 
   searchUpdated = term => this.setState({ searchTerm: term })
 
-  handleClickButton = patient_code => this.setState({ isSelectPatient: true, selectedPatient: patient_code })
+  handleClickButton = userid => this.setState({ isSelectPatient: true, selectedPatient: userid })
 
   searchTableColumns = [
     {
@@ -89,7 +90,7 @@ export default class Search extends Component {
     },
     {
       Header: 'ดูข้อมูลผู้ป่วย',
-      accessor: 'patient_code',
+      accessor: 'userid',
       Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary onClick={() => this.handleClickButton(props.value)} /></div>
     }
   ]
@@ -97,7 +98,7 @@ export default class Search extends Component {
   renderContent = () => {
     const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return this.state.isSelectPatient
-      ? <PatientInformation selectedPatient={this.state.isSelectPatient} patient_code={this.state.selectedPatient} />
+      ? <PatientInformation isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
           <div style={styles.headerContainer}>
