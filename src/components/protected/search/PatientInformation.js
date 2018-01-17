@@ -27,6 +27,7 @@ export default class PatientInformation extends Component {
       isValidateDialogOpen: false,
       ValidateDialogMessage: 'กรุณากรอกข้อมูลให้ครบก่อนจะบันทึกข้อมูล',
       isDialogOpen: false,
+      isUploadFileDialogOpen: false,
       file: null,
       isShowSnackbar: false,
       SnackbarMessage: ''
@@ -37,8 +38,8 @@ export default class PatientInformation extends Component {
     await this.updateUserStatus()
   }
 
-  updateUserStatus = () => {
-    getPatientStatus(this.props.userid)
+  updateUserStatus = async () => {
+    await getPatientStatus(this.props.userid)
       .then(async res => {
         await this.setState({ ...res.profile })
         await this.setState(res)
@@ -51,6 +52,18 @@ export default class PatientInformation extends Component {
     if (this.state.race === undefined) this.setState({ race: race[0].id })
     if (this.state.region === undefined) this.setState({ region: region[0].id })
     if (this.state.blood_type === undefined) this.setState({ blood_type: bloodTypes[0].id })
+
+    if (this.state.is_smoking === 'true') this.setState({ is_smoking: true })
+    else if (this.state.is_smoking === 'false') this.setState({ is_smoking: false })
+    else this.setState({ is_smoking: false })
+    if (this.state.is_lung_disease === 'true') this.setState({ is_lung_disease: true })
+    else if (this.state.is_lung_disease === 'false') this.setState({ is_lung_disease: false })
+    else this.setState({ is_lung_disease: false })
+
+    if (this.state.allergic_food === undefined) this.setState({ allergic_food: '' })
+    if (this.state.allergic_medicine === undefined) this.setState({ allergic_medicine: '' })
+    if (this.state.current_medicine === undefined) this.setState({ current_medicine: '' })
+    if (this.state.medical_condition === undefined) this.setState({ medical_condition: '' })
   }
 
   initiateProfile = () => this.setState({ gender: gender[0].id, status: _status[0].id, race: race[0].id, region: region[0].id, blood_type: bloodTypes[0].id })
@@ -113,38 +126,17 @@ export default class PatientInformation extends Component {
     let profile = {}
     if (this.state.role === 'patient') {
       let {
-        patient_code,
-        id_card,
-        role,
-        gender,
-        firstname,
-        lastname,
-        birthdate,
-        status,
-        race,
-        region,
-        address,
-        career,
-        phone,
-        cousin_name,
-        cousin_phone
+        patient_code, id_card, role, gender, firstname, lastname, birthdate,
+        status, race, region, address, career, phone, cousin_name, cousin_phone,
+        medical_condition, current_medicine, allergic_food, allergic_medicine,
+        is_smoking, is_lung_disease, blood_type, weight, height, bmi
       } = await this.state
       profile = await {
-        patient_code,
-        id_card,
-        role,
-        gender,
-        firstname,
-        lastname,
-        birthdate,
-        status,
-        race,
-        region,
-        address,
-        career,
-        phone,
-        cousin_name,
-        cousin_phone
+        patient_code, id_card, role, gender, firstname, lastname, birthdate,
+        status, race, region, address, career, phone, cousin_name, cousin_phone,
+        medical_condition, current_medicine, allergic_food, allergic_medicine,
+        is_smoking: is_smoking.toString(), is_lung_disease: is_lung_disease.toString(),
+        blood_type, weight, height, bmi
       }
     }
 
@@ -156,16 +148,16 @@ export default class PatientInformation extends Component {
       .catch(res => this.setState(res))
   }
 
-  handleDialogOpen = () => this.setState({ isDialogOpen: true })
+  handleDialogUploadFileOpen = () => this.setState({ isDialogUploadFileOpen: true })
 
-  handleDialogClose = () => this.setState({ isDialogOpen: false, file: null })
+  handleDialogUploadFileClose = () => this.setState({ isDialogUploadFileOpen: false, file: null })
 
   handleDialogCloseWithSubmit = () => {
     if (this.state.file != null) {
       uploadFileToStorage(this.props.userid, this.state.file)
-        .then(res => {
+        .then(async res => {
           this.setState(res)
-          this.updateUserStatus()
+          await this.updateUserStatus()
         })
         .catch(res => this.setState(res))
     } else {
@@ -195,10 +187,8 @@ export default class PatientInformation extends Component {
       date.setDate(date.getDate() + 1)
     } else this._handleDatePickerChangeValue(date, 'birthdate')
     
-    console.log(this.state)
-
     const actions = [
-      <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
+      <FlatButton label='ยกเลิก' primary onClick={this.handleDialogUploadFileClose} />,
       <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogCloseWithSubmit} />
     ]
     const confirmActions = [
@@ -211,7 +201,7 @@ export default class PatientInformation extends Component {
       ? <div>Loading...</div>
       : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>
         <div style={styles.container}>
-          <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleDialogClose}>
+          <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isUploadFileDialogOpen} onRequestClose={this.handleUploadFileDialogClose}>
             <input type='file' onChange={this.handleUploadFile} />
           </Dialog>
           <Dialog
@@ -240,10 +230,10 @@ export default class PatientInformation extends Component {
               style={{ maxWidth: '200px', width: '100%', height: 'auto', marginBottom: 10 }}
               />
             <br />
-            <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogOpen} primary />
+            <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogUploadFileOpen} primary />
           </div>
           <form>
-            <div style={styles.header}>ข้อมูลประวัติส่วนตัว</div>
+            <div style={styles.header}>ข้อมูลประวัติส่วนตัว (กรอกทั้งหมด)</div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <TextField
                 name='email'
@@ -289,7 +279,6 @@ export default class PatientInformation extends Component {
                 underlineFocusStyle={styles.underlineStyle}
                 style={{ marginRight: 20 }}
                 />
-
               <TextField
                 name='lastname'
                 type='text'
@@ -314,7 +303,6 @@ export default class PatientInformation extends Component {
                 >
                 {this.menuItems(_status)}
               </SelectField>
-
               <SelectField
                 value={this.state.race}
                 floatingLabelText='เชื้อชาติ'
@@ -326,7 +314,6 @@ export default class PatientInformation extends Component {
                 >
                 {this.menuItems(race)}
               </SelectField>
-
               <SelectField
                 value={this.state.region}
                 floatingLabelText='ศาสนา'
@@ -365,7 +352,7 @@ export default class PatientInformation extends Component {
                 style={{ width: 200, marginLeft: 10 }}
                 />
             </div>
-            <div style={styles.header}>ข้อมูลการติดต่อ</div>
+            <br/> <div style={styles.header}>ข้อมูลการติดต่อ (กรอกทั้งหมด)</div>
             <TextField
               name='address'
               type='text'
@@ -418,16 +405,14 @@ export default class PatientInformation extends Component {
                 style={{ width: 200, marginRight: 20 }}
                 />
             </div>
-            <div style={styles.button}>
-              <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary style={{ width: 120 }} />
-            </div>
+            
             <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
 
             <div align='left' style={{ lineHeight: '2em' }}>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <SelectField
                   value={this.state.blood_type}
-                  floatingLabelText='หมู่เลือด'
+                  floatingLabelText='หมู่เลือด *'
                   onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'blood_type')}
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
@@ -440,7 +425,7 @@ export default class PatientInformation extends Component {
                   type='number'
                   defaultValue={this.state.weight}
                   errorText={this.state.weight === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='น้ำหนัก (กิโลกรัม)'
+                  floatingLabelText='น้ำหนัก (กิโลกรัม) *'
                   maxLength='3'
                   onChange={this._handleChangeValue}
                   underlineStyle={styles.underlineStyle}
@@ -452,7 +437,7 @@ export default class PatientInformation extends Component {
                   type='number'
                   defaultValue={this.state.height}
                   errorText={this.state.height === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='ส่วนสูง (เซนติเมตร)'
+                  floatingLabelText='ส่วนสูง (เซนติเมตร) *'
                   maxLength='3'
                   onChange={this._handleChangeValue}
                   underlineStyle={styles.underlineStyle}
@@ -521,10 +506,14 @@ export default class PatientInformation extends Component {
                   />
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', marginTop: 40 }}>
-                <Toggle name='is_smoking' label="ประวัติการสูบบุหรี่ (เคย/ไม่เคย)" defaultToggled={this.state.is_smoking} onToggle={this._handleOnToggle} style={{ marginRight: 10 }} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }}/>
-                <Toggle name='is_lung_disease' label="ประวัติการเป็นโรคทางปอด (เคย/ไม่เคย)" defaultToggled={this.state.is_lung_disease} onToggle={this._handleOnToggle} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }} style={{ marginLeft: 10 }} />
+                <Toggle name='is_smoking' label="ประวัติการสูบบุหรี่ (เคย/ไม่เคย)" defaultToggled={(typeof(this.state.is_smoking)==='boolean') ? this.state.is_smoking : false} onToggle={this._handleOnToggle} style={{ marginRight: 10 }} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }}/>
+                <Toggle name='is_lung_disease' label="ประวัติการเป็นโรคทางปอด (เคย/ไม่เคย)" defaultToggled={(typeof(this.state.is_lung_disease)==='boolean') ? this.state.is_lung_disease : false} onToggle={this._handleOnToggle} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }} style={{ marginLeft: 10 }} />
               </div>
 
+              <div style={styles.button}>
+              <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary />
+              </div>
+              
               <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
                 วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
                 ประเภทของโรคหัวใจ: {'โรคหลอดเลือดหัวใจอุดตัน'} <br />
