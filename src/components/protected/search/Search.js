@@ -42,7 +42,7 @@ export default class Search extends Component {
         // get data as array
         let patients = []
         for (let patient of res.data) {
-          let data = await patient[Object.keys(patient)[0]].information
+          let data = await patient[Object.keys(patient)[0]].patient_code
           await patients.push({
             patient_code: data.patient_code,
             gender: data.gender === 'women' ? 'หญิง' : 'ชาย',
@@ -95,7 +95,6 @@ export default class Search extends Component {
   ]
 
   renderContent = () => {
-    console.log(this.state)
     const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return this.state.isSelectPatient
       ? <PatientInformation selectedPatient={this.state.isSelectPatient} patient_code={this.state.selectedPatient} />
