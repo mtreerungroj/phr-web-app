@@ -24,6 +24,7 @@ npm start
 - [x] show different page for different user role: staff (doctor/nurse) and patient
 - [ ] user can reset password
 - [ ] use stepper showing current step
+- [ ] show dialog message when login failed
 
 ### Server
 - [x] create `pin_code` table: store userid, pin_code
@@ -32,6 +33,7 @@ npm start
 - [x] create REST API provide unique generated patient code
 - [x] can store data in Thai language: Profile
 - [x] create new tables: patient_code, pin_code
+- [x] can clear all data in table: drop table and create a new one
 
 ### [staff] Registration
 - [x] registration form step1: email/password
@@ -54,16 +56,6 @@ npm start
 - [ ] show profile data
 - [ ] can search for patient
 
-### [staff] Search Patients (authorization)
-- [x] get all patients list with basic data from server
-- [x] show all patients: patient_code, gender, firstname, lastname, admit_date
-- [x] can filter patients by patient_code, firstname, lastname
-- [ ] can view profile data of selected patient
-- [ ] *can edit all profile data of selected patient*
-- [ ] *have authorization to access all patient data (profile data and activities result summary)*
-
-- [x] show date format as DD/MM/YYYY
-
 ### [patient] Dashboard
 - [ ] show profile data
 - [ ] show activities result summary
@@ -74,6 +66,7 @@ npm start
 - [x] user can change (upload) profile picture: input type='file'
 - [x] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
+- [ ] show Snackbar if update profile successfully
 
 ### [patient] Profile
 - [x] show all profile data: personal information
@@ -83,6 +76,24 @@ npm start
 - [x] user can change (upload) profile picture
 - [x] upload profile picture file to Firebase storage
 - [x] update edited profile data to database
+- [ ] show Snackbar if update profile successfully
+
+### [staff] Search Patients (authorization)
+- [x] get all patients list with basic data from server
+- [x] show all patients: patient_code, gender, firstname, lastname, admit_date
+- [x] can filter patients by patient_code, firstname, lastname
+- [ ] can view profile data of selected patient
+- [ ] *can edit all profile data of selected patient*
+- [ ] *have authorization to access all patient data (profile data and activities result summary)*
+- [x] show date format as DD/MM/YYYY
+
+### [staff] Report
+- [ ] show all activity result of every patient
+
+### [patient] Report
+- [ ] show user's activity result in line chart: default is `x-axis = date`, `y-axis = level`
+- [ ] show more details: is pass screening test?, is pass breathing exercise?
+- [ ] click at data point to show more information: full result
 
 ### Bugs/Others
 - [ ] render `InAccessible` page only if path is not match
