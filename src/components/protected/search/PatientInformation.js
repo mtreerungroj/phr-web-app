@@ -7,8 +7,9 @@ import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
 import Snackbar from 'material-ui/Snackbar'
 import MenuItem from 'material-ui/MenuItem'
+import Toggle from 'material-ui/Toggle'
 
-import { grey300, grey500, grey600 } from 'material-ui/styles/colors'
+import { grey200, grey300, grey400, grey500, grey600 } from 'material-ui/styles/colors'
 import { getPatientStatus, updateProfile, uploadFileToStorage } from '../../../services/helpers'
 import { gender, _status, race, region, bloodTypes } from '../../../services/enum'
 
@@ -175,6 +176,8 @@ export default class PatientInformation extends Component {
   handleSnackbarClose = () => this.setState({ isShowSnackbar: false, SnackbarMessage: '' })
 
   handleUploadFile = e => this.setState({ file: e.target.files[0] })
+
+  _handleOnToggle = (e, value) =>  this.setState({ [e.target.name]: value })
 
   calculateBMI = () => {
     if (this.state.weight !== undefined && this.state.height !== undefined && this.state.weight.length !== 0 && this.state.height.length !== 0) {
@@ -517,8 +520,10 @@ export default class PatientInformation extends Component {
                   fullWidth
                   />
               </div>
-              
-                ประวัติการสูบบุหรี่: {'ไม่มีประวัติการสูบบุหรี่'} <br />
+              <div style={{ display: 'flex', flexDirection: 'row', marginTop: 40 }}>
+                <Toggle name='is_smoking' label="ประวัติการสูบบุหรี่ (เคย/ไม่เคย)" defaultToggled={this.state.is_smoking} onToggle={this._handleOnToggle} style={{ marginRight: 10 }} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }}/>
+                <Toggle name='is_lung_disease' label="ประวัติการเป็นโรคทางปอด (เคย/ไม่เคย)" defaultToggled={this.state.is_lung_disease} onToggle={this._handleOnToggle} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }} style={{ marginLeft: 10 }} />
+              </div>
 
               <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
                 วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
