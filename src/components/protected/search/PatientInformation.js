@@ -175,6 +175,15 @@ export default class PatientInformation extends Component {
 
   handleUploadFile = e => this.setState({ file: e.target.files[0] })
 
+  calculateBMI = () => {
+    if (this.state.weight !== undefined && this.state.height !== undefined && this.state.weight.lenght !== 0 && this.state.height.lenght !== 0) {
+      const weight = parseInt(this.state.weight, 10)
+      const height = parseInt(this.state.height, 10)
+      return weight / (height * height / 1000)
+    }
+    return 0
+  }
+
   render () {
     console.log(this.state)
     let date = new Date()
@@ -182,6 +191,8 @@ export default class PatientInformation extends Component {
       date = new Date(this.state.birthdate)
       date.setDate(date.getDate() + 1)
     } else this._handleDatePickerChangeValue(date, 'birthdate')
+
+    let bmi = this.calculateBMI().toString()
 
     const actions = [
       <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
@@ -408,10 +419,44 @@ export default class PatientInformation extends Component {
               <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary style={{ width: 120 }} />
             </div>
             <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
+
             <div align='left' style={{ lineHeight: '2em' }}>
-                น้ำหนัก: {'50'} กิโลกรัม <br />
-                ส่วนสูง: {'160'} เซนติเมตร <br />
-                ค่าดัชนีมวลกาย (BMI): {'19.53'} <br />
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <TextField
+                  name='weight'
+                  type='number'
+                  defaultValue={this.state.weight}
+                  errorText={this.state.weight === undefined ? 'กรุณากรอกข้อมูล' : ''}
+                  floatingLabelText='น้ำหนัก (กิโลกรัม)'
+                  maxLength='3'
+                  onChange={this._handleChangeValue}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  style={{ width: 150, marginRight: 20 }}
+                />  
+                <TextField
+                  name='height'
+                  type='number'
+                  defaultValue={this.state.height}
+                  errorText={this.state.height === undefined ? 'กรุณากรอกข้อมูล' : ''}
+                  floatingLabelText='ส่วนสูง (เซนติเมตร)'
+                  maxLength='3'
+                  onChange={this._handleChangeValue}
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  style={{ width: 150, marginRight: 20 }}
+                />  
+                <TextField
+                  name='bmi'
+                  type='number'
+                  defaultValue={bmi}
+                  floatingLabelText='ค่าค่าดัชนีมวลกาย'
+                  disabled
+                  underlineStyle={styles.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
+                  style={{ width: 150, marginRight: 20 }}
+                  />  
+                </div>
                 หมู่เลือด: B<br />
                 โรคประจำตัวผู้ป่วย: {'ชอบกินปลาเส้น'} <br />
                 ยาที่ใช้ปัจจุบัน: {'ทาโร่'}<br />
