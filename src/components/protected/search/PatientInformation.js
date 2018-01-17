@@ -66,7 +66,11 @@ export default class PatientInformation extends Component {
     this.setState({ [key]: date, [full_key]: full_date })
   }
 
-  _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
+  _handleChangeValue = async e => {
+    let key = e.target.name
+    await this.setState({ [e.target.name]: e.target.value })
+    if (key === 'weight' || key === 'height') this.calculateBMI()
+  }
 
   validateForm = () => {
     if (this.state.role === 'patient') {
@@ -173,23 +177,22 @@ export default class PatientInformation extends Component {
   handleUploadFile = e => this.setState({ file: e.target.files[0] })
 
   calculateBMI = () => {
-    if (this.state.weight !== undefined && this.state.height !== undefined && this.state.weight.lenght !== 0 && this.state.height.lenght !== 0) {
+    if (this.state.weight !== undefined && this.state.height !== undefined && this.state.weight.length !== 0 && this.state.height.length !== 0) {
       const weight = parseInt(this.state.weight, 10)
-      const height = parseInt(this.state.height, 10)
-      return weight / (height * height / 1000)
-    }
-    return 0
+      const height = parseInt(this.state.height, 10) / 100
+      const bmi = weight / (height * height)
+      this.setState({ bmi: bmi.toFixed(2).toString()})
+    } else this.setState({ bmi: 0 })
   }
 
   render () {
-    console.log(this.state)
     let date = new Date()
     if (this.state.birthdate) {
       date = new Date(this.state.birthdate)
       date.setDate(date.getDate() + 1)
     } else this._handleDatePickerChangeValue(date, 'birthdate')
-
-    let bmi = this.calculateBMI().toString()
+    
+    console.log(this.state)
 
     const actions = [
       <FlatButton label='ยกเลิก' primary onClick={this.handleDialogClose} />,
@@ -456,12 +459,12 @@ export default class PatientInformation extends Component {
                 <TextField
                   name='bmi'
                   type='text'
-                  defaultValue={bmi}
+                  value={this.state.bmi}
                   floatingLabelText='ค่าค่าดัชนีมวลกาย'
                   disabled
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
-                  style={{ width: 150, marginRight: 20}}
+                  style={{ width: 150, marginRight: 20 }}
                   />
               </div>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
