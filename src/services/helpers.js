@@ -82,32 +82,30 @@ const createUser = (email, password, isStaff) => {
 }
 
 const updateProfile = async (userid, profile) => {
-  let { patient_code = '', gender, firstname, lastname, admit_date = '' } = await profile
-  let _profile = { patient_code, gender, firstname, lastname, admit_date }
-  const isSuccess = await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
-
-  if (isSuccess) {
-    return new Promise(async (resolve, reject) => {
-      const path = `${server_ip}profile/info`
-      const data = await JSON.stringify({ userid, appid, profile })
-
-      await fetch(path, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: data
-      })
-        .then(() => resolve({ isComplete: true }))
-        .catch(error => {
-          const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
-          reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
-        })
-    })
-  } else {
-    const dialogMessage = 'ไม่สามารถอัพเดทข้อมูลได้ กรุณาลองใหม่อีกครั้ง'
-    return { isDialogOpen: true, dialogMessage, errorCode: '', errorMessage: '' }
+  if (profile.role === 'patient') {
+    let { patient_code, gender, firstname, lastname, admit_date } = (await profile) || ''
+    let _profile = { patient_code, gender, firstname, lastname, admit_date }
+    await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
   }
+
+  return new Promise(async (resolve, reject) => {
+    const path = `${server_ip}profile/info`
+    const data = await JSON.stringify({ userid, appid, profile })
+
+    await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+      .then(() => resolve({ isComplete: true }))
+      .catch(error => {
+        console.log(error)
+        const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
+        reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
+      })
+  })
 }
 
 const getPatientCode = (userid, appid) => {
