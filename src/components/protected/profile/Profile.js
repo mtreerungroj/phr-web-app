@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
-import { grey300 } from 'material-ui/styles/colors'
+import Snackbar from 'material-ui/Snackbar'
 
+import { grey300 } from 'material-ui/styles/colors'
 import { getUserStatus } from '../../../services/helpers'
 import { updateProfile } from '../../../services/helpers'
 import PatientProfile from './Profile.patient'
 import StaffProfile from './Profile.staff'
-
 import { gender, _status, race, region } from '../../../services/enum'
 
 export default class Profile extends Component {
@@ -23,7 +23,9 @@ export default class Profile extends Component {
       isConfirmDialogOpen: false,
       confirmDialogMessage: 'คุณสามารถแก้ไขข้อมูลประวัติส่วนตัวได้ในภายหลัง',
       isValidateDialogOpen: false,
-      ValidateDialogMessage: 'กรุณากรอกข้อมูลให้ครบก่อนจะบันทึกข้อมูล'
+      ValidateDialogMessage: 'กรุณากรอกข้อมูลให้ครบก่อนจะบันทึกข้อมูล',
+      isShowSnackbar: false,
+      SnackbarMessage: ''
     }
   }
 
@@ -110,6 +112,8 @@ export default class Profile extends Component {
 
   _handleCloseValidateDialog = e => this.setState({ isValidateDialogOpen: false })
 
+  handleSnackbarClose = () => this.setState({ isShowSnackbar: false, SnackbarMessage: '' })
+
   _updateProfile = async () => {
     let profile = {}
     if (this.state.role === 'doctor' || this.state.role === 'nurse') {
@@ -123,7 +127,10 @@ export default class Profile extends Component {
     updateProfile(this.state.userid, profile)
       .then(async res => {
         await this.setState(res)
-        if (this.state.isComplete) window.location.href = '/'
+        if (this.state.isComplete) {
+          this.setState({ isShowSnackbar: true, SnackbarMessage: 'อัพเดทข้อมูลสำเร็จ' })
+        }
+        // if (this.state.isComplete) window.location.href = '/'
       })
       .catch(res => this.setState(res))
   }
@@ -180,6 +187,7 @@ export default class Profile extends Component {
           >
           {this.state.ValidateDialogMessage}
         </Dialog>
+        <Snackbar open={this.state.isShowSnackbar} message={this.state.SnackbarMessage} autoHideDuration={3000} onRequestClose={this.handleSnackbarClose} />
         {this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? this.renderStaffProfile() : this.renderPatientProfile()}
       </div>
   }
