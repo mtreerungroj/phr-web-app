@@ -88,3 +88,10 @@ npm start
 - [ ] render `InAccessible` page only if path is not match
 - [x] redirect to '/' when log out
 - [x] check DatePicker value
+- [ ] Warning when editting my empty profile:
+```
+A component is changing an uncontrolled input of type text to be controlled.
+Input elements should not switch from uncontrolled to controlled (or vice versa).
+Decide between using a controlled or uncontrolled input element for the lifetime of the component.
+More info: https://fb.me/react-controlled-components
+```
