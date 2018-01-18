@@ -4,7 +4,6 @@ import SelectField from 'material-ui/SelectField'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
-import DatePicker from 'material-ui/DatePicker'
 import Snackbar from 'material-ui/Snackbar'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
@@ -12,6 +11,8 @@ import Toggle from 'material-ui/Toggle'
 import { grey200, grey300, grey400, grey500, grey600 } from 'material-ui/styles/colors'
 import { getPatientStatus, updateProfile, uploadFileToStorage } from '../../../services/helpers'
 import { gender, _status, race, region, bloodTypes } from '../../../services/enum'
+
+import GeneralProfile from './GeneralProfile'
 
 export default class PatientInformation extends Component {
   constructor (props) {
@@ -126,17 +127,58 @@ export default class PatientInformation extends Component {
     let profile = {}
     if (this.state.role === 'patient') {
       let {
-        patient_code, id_card, role, gender, firstname, lastname, birthdate,
-        status, race, region, address, career, phone, cousin_name, cousin_phone,
-        medical_condition, current_medicine, allergic_food, allergic_medicine,
-        is_smoking, is_lung_disease, blood_type, weight, height, bmi
+        patient_code,
+        id_card,
+        role,
+        gender,
+        firstname,
+        lastname,
+        birthdate,
+        status,
+        race,
+        region,
+        address,
+        career,
+        phone,
+        cousin_name,
+        cousin_phone,
+        medical_condition,
+        current_medicine,
+        allergic_food,
+        allergic_medicine,
+        is_smoking,
+        is_lung_disease,
+        blood_type,
+        weight,
+        height,
+        bmi
       } = await this.state
       profile = await {
-        patient_code, id_card, role, gender, firstname, lastname, birthdate,
-        status, race, region, address, career, phone, cousin_name, cousin_phone,
-        medical_condition, current_medicine, allergic_food, allergic_medicine,
-        is_smoking: is_smoking.toString(), is_lung_disease: is_lung_disease.toString(),
-        blood_type, weight, height, bmi
+        patient_code,
+        id_card,
+        role,
+        gender,
+        firstname,
+        lastname,
+        birthdate,
+        status,
+        race,
+        region,
+        address,
+        career,
+        phone,
+        cousin_name,
+        cousin_phone,
+        medical_condition,
+        current_medicine,
+        allergic_food,
+        allergic_medicine,
+        is_smoking: is_smoking.toString(),
+        is_lung_disease: is_lung_disease.toString(),
+        blood_type,
+        weight,
+        height,
+        bmi
       }
     }
 
@@ -169,14 +211,14 @@ export default class PatientInformation extends Component {
 
   handleUploadFile = e => this.setState({ file: e.target.files[0] })
 
-  _handleOnToggle = (e, value) =>  this.setState({ [e.target.name]: value })
+  _handleOnToggle = (e, value) => this.setState({ [e.target.name]: value })
 
   calculateBMI = () => {
     if (this.state.weight !== undefined && this.state.height !== undefined && this.state.weight.length !== 0 && this.state.height.length !== 0) {
       const weight = parseInt(this.state.weight, 10)
       const height = parseInt(this.state.height, 10) / 100
       const bmi = weight / (height * height)
-      this.setState({ bmi: bmi.toFixed(2).toString()})
+      this.setState({ bmi: bmi.toFixed(2).toString() })
     } else this.setState({ bmi: 0 })
   }
 
@@ -186,7 +228,7 @@ export default class PatientInformation extends Component {
       date = new Date(this.state.birthdate)
       date.setDate(date.getDate() + 1)
     } else this._handleDatePickerChangeValue(date, 'birthdate')
-    
+
     const actions = [
       <FlatButton label='ยกเลิก' primary onClick={this.handleDialogUploadFileClose} />,
       <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogCloseWithSubmit} />
@@ -201,7 +243,13 @@ export default class PatientInformation extends Component {
       ? <div>Loading...</div>
       : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>
         <div style={styles.container}>
-          <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isUploadFileDialogOpen} onRequestClose={this.handleUploadFileDialogClose}>
+          <Dialog
+            title='เลือกรูปโปรไฟล์ของคุณ'
+            actions={actions}
+            modal={false}
+            open={this.state.isUploadFileDialogOpen}
+            onRequestClose={this.handleUploadFileDialogClose}
+            >
             <input type='file' onChange={this.handleUploadFile} />
           </Dialog>
           <Dialog
@@ -234,178 +282,17 @@ export default class PatientInformation extends Component {
           </div>
           <form>
             <div style={styles.header}>ข้อมูลประวัติส่วนตัว (กรอกทั้งหมด)</div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <TextField
-                name='email'
-                floatingLabelText='อีเมลที่ใช้ลงทะเบียน'
-                value={this.state.email}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                fullWidth
-                disabled
-                style={{ marginRight: 10 }}
-                />
-              <TextField
-                name='id_card'
-                floatingLabelText='รหัสบัตรประชาชน'
-                value={this.state.id_card}
-                errorText={this.state.id_card === undefined ? 'กรุณาติดต่อพยาบาลเพื่อกรอกข้อมูลนี้' : ''}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                fullWidth
-                style={{ marginLeft: 10 }}
-                />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <SelectField
-                value={this.state.gender}
-                floatingLabelText='เพศ'
-                onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'gender')}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ width: 220, marginRight: 20 }}
-                >
-                {this.menuItems(gender)}
-              </SelectField>
-              <TextField
-                name='firstname'
-                type='text'
-                floatingLabelText='ชื่อ'
-                value={this.state.firstname}
-                errorText={this.state.firstname === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                onChange={this._handleChangeValue}
-                fullWidth
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ marginRight: 20 }}
-                />
-              <TextField
-                name='lastname'
-                type='text'
-                floatingLabelText='นามสกุล'
-                value={this.state.lastname}
-                errorText={this.state.lastname === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                onChange={this._handleChangeValue}
-                fullWidth
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <SelectField
-                value={this.state.status}
-                floatingLabelText='สถานะ'
-                onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'status')}
-                fullWidth
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ marginRight: 10 }}
-                >
-                {this.menuItems(_status)}
-              </SelectField>
-              <SelectField
-                value={this.state.race}
-                floatingLabelText='เชื้อชาติ'
-                onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'race')}
-                fullWidth
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ marginLeft: 10, marginRight: 10 }}
-                >
-                {this.menuItems(race)}
-              </SelectField>
-              <SelectField
-                value={this.state.region}
-                floatingLabelText='ศาสนา'
-                onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'region')}
-                fullWidth
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ marginLeft: 10 }}
-                >
-                {this.menuItems(region)}
-              </SelectField>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <DatePicker
-                floatingLabelText='วันเกิด'
-                container='inline'
-                mode='landscape'
-                defaultDate={date}
-                maxDate={new Date()}
-                autoOk
-                openToYearSelection
-                onChange={(foo, date) => this._handleDatePickerChangeValue(date, 'birthdate')}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ marginRight: 10 }}
-                />
-              <TextField
-                name='career'
-                type='text'
-                defaultValue={this.state.career}
-                errorText={this.state.career === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                floatingLabelText='อาชีพปัจจุบัน'
-                onChange={this._handleChangeValue}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ width: 200, marginLeft: 10 }}
-                />
-            </div>
-            <br/> <div style={styles.header}>ข้อมูลการติดต่อ (กรอกทั้งหมด)</div>
-            <TextField
-              name='address'
-              type='text'
-              defaultValue={this.state.address}
-              errorText={this.state.address === undefined ? 'กรุณากรอกข้อมูล' : ''}
-              floatingLabelText='ที่อยู่ปัจจุบัน'
-              rows={2}
-              rowsMax={4}
-              multiLine
-              fullWidth
-              onChange={this._handleChangeValue}
-              underlineStyle={styles.underlineStyle}
-              underlineFocusStyle={styles.underlineStyle}
-              style={{ marginRight: 20 }}
+
+            <GeneralProfile
+              styles={styles}
+              {...this.state}
+              date={date}
+              menuItems={this.menuItems}
+              _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
+              _handleChangeValue={this._handleChangeValue}
+              _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
               />
-            <TextField
-              name='phone'
-              type='text'
-              defaultValue={this.state.phone}
-              errorText={this.state.phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
-              floatingLabelText='เบอร์โทรศัพท์ผู้ป่วย'
-              maxLength='10'
-              onChange={this._handleChangeValue}
-              underlineStyle={styles.underlineStyle}
-              underlineFocusStyle={styles.underlineStyle}
-              style={{ width: 200 }}
-              />
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <TextField
-                name='cousin_name'
-                type='text'
-                defaultValue={this.state.cousin_name}
-                errorText={this.state.cousin_name === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                floatingLabelText='ชื่อ-นามสกุล ญาติผู้ป่วย'
-                onChange={this._handleChangeValue}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ width: 350, marginRight: 20 }}
-                />
-              <TextField
-                name='cousin_phone'
-                type='text'
-                defaultValue={this.state.cousin_phone}
-                errorText={this.state.cousin_phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                floatingLabelText='เบอร์ติดต่อญาติผู้ป่วย'
-                maxLength='10'
-                onChange={this._handleChangeValue}
-                underlineStyle={styles.underlineStyle}
-                underlineFocusStyle={styles.underlineStyle}
-                style={{ width: 200, marginRight: 20 }}
-                />
-            </div>
-            
+
             <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
 
             <div align='left' style={{ lineHeight: '2em' }}>
@@ -416,7 +303,7 @@ export default class PatientInformation extends Component {
                   onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'blood_type')}
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
-                  style={{ width:150, marginRight: 20 }}
+                  style={{ width: 150, marginRight: 20 }}
                   >
                   {this.menuItems(bloodTypes)}
                 </SelectField>
@@ -431,7 +318,7 @@ export default class PatientInformation extends Component {
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
                   style={{ width: 150, marginRight: 20 }}
-                  />  
+                  />
                 <TextField
                   name='height'
                   type='number'
@@ -443,7 +330,7 @@ export default class PatientInformation extends Component {
                   underlineStyle={styles.underlineStyle}
                   underlineFocusStyle={styles.underlineStyle}
                   style={{ width: 150, marginRight: 20 }}
-                  />  
+                  />
                 <TextField
                   name='bmi'
                   type='text'
@@ -492,7 +379,7 @@ export default class PatientInformation extends Component {
                   underlineFocusStyle={styles.underlineStyle}
                   style={{ marginRight: 20 }}
                   fullWidth
-                />
+                  />
                 <TextField
                   name='allergic_food'
                   type='text'
@@ -506,14 +393,30 @@ export default class PatientInformation extends Component {
                   />
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', marginTop: 40 }}>
-                <Toggle name='is_smoking' label="ประวัติการสูบบุหรี่ (เคย/ไม่เคย)" defaultToggled={(typeof(this.state.is_smoking)==='boolean') ? this.state.is_smoking : false} onToggle={this._handleOnToggle} style={{ marginRight: 10 }} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }}/>
-                <Toggle name='is_lung_disease' label="ประวัติการเป็นโรคทางปอด (เคย/ไม่เคย)" defaultToggled={(typeof(this.state.is_lung_disease)==='boolean') ? this.state.is_lung_disease : false} onToggle={this._handleOnToggle} thumbStyle={{backgroundColor: grey200 }} trackStyle={{backgroundColor: grey400 }} style={{ marginLeft: 10 }} />
+                <Toggle
+                  name='is_smoking'
+                  label='ประวัติการสูบบุหรี่ (เคย/ไม่เคย)'
+                  defaultToggled={typeof this.state.is_smoking === 'boolean' ? this.state.is_smoking : false}
+                  onToggle={this._handleOnToggle}
+                  style={{ marginRight: 10 }}
+                  thumbStyle={{ backgroundColor: grey200 }}
+                  trackStyle={{ backgroundColor: grey400 }}
+                  />
+                <Toggle
+                  name='is_lung_disease'
+                  label='ประวัติการเป็นโรคทางปอด (เคย/ไม่เคย)'
+                  defaultToggled={typeof this.state.is_lung_disease === 'boolean' ? this.state.is_lung_disease : false}
+                  onToggle={this._handleOnToggle}
+                  thumbStyle={{ backgroundColor: grey200 }}
+                  trackStyle={{ backgroundColor: grey400 }}
+                  style={{ marginLeft: 10 }}
+                  />
               </div>
 
               <div style={styles.button}>
-              <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary />
+                <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary />
               </div>
-              
+
               <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
                 วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
                 ประเภทของโรคหัวใจ: {'โรคหลอดเลือดหัวใจอุดตัน'} <br />
