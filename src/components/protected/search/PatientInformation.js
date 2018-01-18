@@ -7,6 +7,7 @@ import { getPatientStatus, updateProfile, uploadFileToStorage } from '../../../s
 import { gender, _status, race, region, bloodTypes } from '../../../services/enum'
 
 import DialogProfile from './DialogProfile'
+import UploadFile from './UploadFile'
 import GeneralProfile from './GeneralProfile'
 import HealthProdile from './HealthProfile'
 
@@ -235,15 +236,7 @@ export default class PatientInformation extends Component {
             _handleCloseValidateDialog={this._handleCloseValidateDialog}
             />
 
-          <div style={styles.inner}>
-            <img
-              src={this.state.picture_uri !== undefined ? this.state.picture_uri : require('../../../assets/images/default-profile-picture.png')}
-              alt=''
-              style={{ maxWidth: '200px', width: '100%', height: 'auto', marginBottom: 10 }}
-              />
-            <br />
-            <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogUploadFileOpen} primary />
-          </div>
+          <UploadFile styles={styles} {...this.state} handleDialogUploadFileOpen={this.handleDialogUploadFileOpen} />
 
           <form>
             <div style={styles.header}>ข้อมูลประวัติส่วนตัว (กรอกทั้งหมด)</div>
