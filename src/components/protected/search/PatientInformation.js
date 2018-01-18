@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
-import Snackbar from 'material-ui/Snackbar'
 import MenuItem from 'material-ui/MenuItem'
 
 import { grey300, grey500, grey600 } from 'material-ui/styles/colors'
 import { getPatientStatus, updateProfile, uploadFileToStorage } from '../../../services/helpers'
 import { gender, _status, race, region, bloodTypes } from '../../../services/enum'
 
+import DialogProfile from './DialogProfile'
 import GeneralProfile from './GeneralProfile'
 import HealthProdile from './HealthProfile'
 
@@ -221,54 +219,21 @@ export default class PatientInformation extends Component {
   }
 
   render () {
-    let date = new Date()
-    if (this.state.birthdate) {
-      date = new Date(this.state.birthdate)
-      date.setDate(date.getDate() + 1)
-    } else this._handleDatePickerChangeValue(date, 'birthdate')
-
-    const actions = [
-      <FlatButton label='ยกเลิก' primary onClick={this.handleDialogUploadFileClose} />,
-      <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogCloseWithSubmit} />
-    ]
-    const confirmActions = [
-      <FlatButton label='ยกเลิก' primary onClick={this._handleCloseConfirmDialog} />,
-      <FlatButton label='ยืนยัน' primary keyboardFocused onClick={this._handleCloseConfirmDialogWithSubmit} />
-    ]
-    const validateActions = [<FlatButton label='ตกลง' primary onClick={this._handleCloseValidateDialog} />]
-
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={{ backgroundColor: grey300, paddingBottom: 40 }}>
         <div style={styles.container}>
-          <Dialog
-            title='เลือกรูปโปรไฟล์ของคุณ'
-            actions={actions}
-            modal={false}
-            open={this.state.isUploadFileDialogOpen}
-            onRequestClose={this.handleUploadFileDialogClose}
-            >
-            <input type='file' onChange={this.handleUploadFile} />
-          </Dialog>
-          <Dialog
-            title='ยืนยันการบันทึกข้อมูล'
-            actions={confirmActions}
-            modal={false}
-            open={this.state.isConfirmDialogOpen}
-            onRequestClose={this._handleCloseConfirmDialog}
-            >
-            {this.state.confirmDialogMessage}
-          </Dialog>
-          <Dialog
-            title='เกิดข้อผิดพลาด'
-            actions={validateActions}
-            modal={false}
-            open={this.state.isValidateDialogOpen}
-            onRequestClose={this._handleCloseConfirmDialog}
-            >
-            {this.state.ValidateDialogMessage}
-          </Dialog>
-          <Snackbar open={this.state.isShowSnackbar} message={this.state.SnackbarMessage} autoHideDuration={3000} onRequestClose={this.handleSnackbarClose} />
+          <DialogProfile
+            {...this.state}
+            handleUploadFile={this.handleUploadFile}
+            handleSnackbarClose={this.handleSnackbarClose}
+            handleDialogUploadFileClose={this.handleDialogUploadFileClose}
+            handleDialogCloseWithSubmit={this.handleDialogCloseWithSubmit}
+            _handleCloseConfirmDialog={this._handleCloseConfirmDialog}
+            _handleCloseConfirmDialogWithSubmit={this._handleCloseConfirmDialogWithSubmit}
+            _handleCloseValidateDialog={this._handleCloseValidateDialog}
+            />
+
           <div style={styles.inner}>
             <img
               src={this.state.picture_uri !== undefined ? this.state.picture_uri : require('../../../assets/images/default-profile-picture.png')}
@@ -278,12 +243,12 @@ export default class PatientInformation extends Component {
             <br />
             <RaisedButton label='เปลี่ยนรูปโปรไฟล์' onClick={this.handleDialogUploadFileOpen} primary />
           </div>
+
           <form>
             <div style={styles.header}>ข้อมูลประวัติส่วนตัว (กรอกทั้งหมด)</div>
             <GeneralProfile
               styles={styles}
               {...this.state}
-              date={date}
               menuItems={this.menuItems}
               _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
               _handleChangeValue={this._handleChangeValue}

@@ -6,6 +6,12 @@ import { gender, _status, race, region } from '../../../services/enum'
 
 export default class GeneralProfile extends Component {
   render () {
+    let date = new Date()
+    if (this.props.birthdate) {
+      date = new Date(this.props.birthdate)
+      date.setDate(date.getDate() + 1)
+    } else this._handleDatePickerChangeValue(date, 'birthdate')
+
     return (
       <div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -105,7 +111,7 @@ export default class GeneralProfile extends Component {
             floatingLabelText='วันเกิด'
             container='inline'
             mode='landscape'
-            defaultDate={this.props.date}
+            defaultDate={date}
             maxDate={new Date()}
             autoOk
             openToYearSelection
