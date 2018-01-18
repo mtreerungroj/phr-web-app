@@ -186,20 +186,21 @@ export default class PatientInformation extends Component {
       .catch(res => this.setState(res))
   }
 
-  handleDialogUploadFileOpen = () => this.setState({ isDialogUploadFileOpen: true })
+  handleDialogUploadFileOpen = () => this.setState({ isUploadFileDialogOpen: true })
 
-  handleDialogUploadFileClose = () => this.setState({ isDialogUploadFileOpen: false, file: null })
+  handleDialogUploadFileClose = () => this.setState({ isUploadFileDialogOpen: false, file: null })
 
   handleDialogCloseWithSubmit = () => {
     if (this.state.file != null) {
       uploadFileToStorage(this.props.userid, this.state.file)
         .then(async res => {
           this.setState(res)
+          this.setState({ isUploadFileDialogOpen: false })
           await this.updateUserStatus()
         })
         .catch(res => this.setState(res))
     } else {
-      this.setState({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด กรุณาเลือกรูปภาพก่อน' })
+      this.setState({ isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด กรุณาเลือกรูปภาพก่อน' })
     }
   }
 
