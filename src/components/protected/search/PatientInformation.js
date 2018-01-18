@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import Snackbar from 'material-ui/Snackbar'
 import MenuItem from 'material-ui/MenuItem'
-import Toggle from 'material-ui/Toggle'
 
-import { grey200, grey300, grey400, grey500, grey600 } from 'material-ui/styles/colors'
+import { grey300, grey500, grey600 } from 'material-ui/styles/colors'
 import { getPatientStatus, updateProfile, uploadFileToStorage } from '../../../services/helpers'
 import { gender, _status, race, region, bloodTypes } from '../../../services/enum'
 
 import GeneralProfile from './GeneralProfile'
+import HealthProdile from './HealthProfile'
 
 export default class PatientInformation extends Component {
   constructor (props) {
@@ -282,7 +280,6 @@ export default class PatientInformation extends Component {
           </div>
           <form>
             <div style={styles.header}>ข้อมูลประวัติส่วนตัว (กรอกทั้งหมด)</div>
-
             <GeneralProfile
               styles={styles}
               {...this.state}
@@ -294,128 +291,20 @@ export default class PatientInformation extends Component {
               />
 
             <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
+            <HealthProdile
+              styles={styles}
+              {...this.state}
+              menuItems={this.menuItems}
+              _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
+              _handleChangeValue={this._handleChangeValue}
+              _handleOnToggle={this._handleOnToggle}
+              />
+
+            <div style={styles.button}>
+              <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary />
+            </div>
 
             <div align='left' style={{ lineHeight: '2em' }}>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <SelectField
-                  value={this.state.blood_type}
-                  floatingLabelText='หมู่เลือด *'
-                  onChange={(event, index, value) => this._handleSelectFieldChangeValue(event, index, value, 'blood_type')}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  style={{ width: 150, marginRight: 20 }}
-                  >
-                  {this.menuItems(bloodTypes)}
-                </SelectField>
-                <TextField
-                  name='weight'
-                  type='number'
-                  defaultValue={this.state.weight}
-                  errorText={this.state.weight === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='น้ำหนัก (กิโลกรัม) *'
-                  maxLength='3'
-                  onChange={this._handleChangeValue}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  style={{ width: 150, marginRight: 20 }}
-                  />
-                <TextField
-                  name='height'
-                  type='number'
-                  defaultValue={this.state.height}
-                  errorText={this.state.height === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='ส่วนสูง (เซนติเมตร) *'
-                  maxLength='3'
-                  onChange={this._handleChangeValue}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  style={{ width: 150, marginRight: 20 }}
-                  />
-                <TextField
-                  name='bmi'
-                  type='text'
-                  value={this.state.bmi}
-                  floatingLabelText='ค่าค่าดัชนีมวลกาย'
-                  disabled
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  style={{ width: 150, marginRight: 20 }}
-                  />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <TextField
-                  name='medical_condition'
-                  type='text'
-                  defaultValue={this.state.medical_condition}
-                  errorText={this.state.medical_condition === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='โรคประจำตัว'
-                  onChange={this._handleChangeValue}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  fullWidth
-                  style={{ marginRight: 20 }}
-                  />
-                <TextField
-                  name='current_medicine'
-                  type='text'
-                  defaultValue={this.state.current_medicine}
-                  errorText={this.state.current_medicine === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='ยาที่ใช้ปัจจุบัน'
-                  onChange={this._handleChangeValue}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  fullWidth
-                  />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <TextField
-                  name='allergic_medicine'
-                  type='text'
-                  defaultValue={this.state.allergic_medicine}
-                  errorText={this.state.allergic_medicine === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='ยาที่แพ้'
-                  onChange={this._handleChangeValue}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  style={{ marginRight: 20 }}
-                  fullWidth
-                  />
-                <TextField
-                  name='allergic_food'
-                  type='text'
-                  defaultValue={this.state.allergic_food}
-                  errorText={this.state.allergic_food === undefined ? 'กรุณากรอกข้อมูล' : ''}
-                  floatingLabelText='อาหารที่แพ้'
-                  onChange={this._handleChangeValue}
-                  underlineStyle={styles.underlineStyle}
-                  underlineFocusStyle={styles.underlineStyle}
-                  fullWidth
-                  />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row', marginTop: 40 }}>
-                <Toggle
-                  name='is_smoking'
-                  label='ประวัติการสูบบุหรี่ (เคย/ไม่เคย)'
-                  defaultToggled={typeof this.state.is_smoking === 'boolean' ? this.state.is_smoking : false}
-                  onToggle={this._handleOnToggle}
-                  style={{ marginRight: 10 }}
-                  thumbStyle={{ backgroundColor: grey200 }}
-                  trackStyle={{ backgroundColor: grey400 }}
-                  />
-                <Toggle
-                  name='is_lung_disease'
-                  label='ประวัติการเป็นโรคทางปอด (เคย/ไม่เคย)'
-                  defaultToggled={typeof this.state.is_lung_disease === 'boolean' ? this.state.is_lung_disease : false}
-                  onToggle={this._handleOnToggle}
-                  thumbStyle={{ backgroundColor: grey200 }}
-                  trackStyle={{ backgroundColor: grey400 }}
-                  style={{ marginLeft: 10 }}
-                  />
-              </div>
-
-              <div style={styles.button}>
-                <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary />
-              </div>
 
               <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
                 วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
