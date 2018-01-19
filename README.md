@@ -82,7 +82,7 @@ npm start
 - [x] get all patients list with basic data from server
 - [x] show all patients: patient_code, gender, firstname, lastname, admit_date
 - [x] can filter patients by patient_code, firstname, lastname
-- [ ] can view profile data of selected patient
+- [x] can view profile data of selected patient
 - [ ] *can edit all profile data of selected patient*
 - [ ] show Snackbar if update profile successfully
 - [ ] *have authorization to access all patient data (profile data and activities result summary)*
