@@ -2,15 +2,34 @@ import React, { Component } from 'react'
 import { getPieChartData } from '../../../services/helpers'
 import { Pie } from 'react-chartjs-2'
 
-import { grey300 } from 'material-ui/styles/colors'
+import {
+  grey300,
+  purple300,
+  indigo300,
+  blue300,
+  lightGreen300,
+  yellow300,
+  orange300,
+  red300,
+  grey400,
+  purple400,
+  indigo400,
+  blue400,
+  lightGreen400,
+  yellow400,
+  orange400,
+  red400
+} from 'material-ui/styles/colors'
+
+let count = [0, 0, 0, 0, 0, 0, 0, 0] // level 0 - 7
 
 const data = {
-  labels: ['Red', 'Green', 'Yellow'],
+  labels: ['ยังไม่เริ่มทำกิจกรรม', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5', 'Level 6', 'Level 7'],
   datasets: [
     {
-      data: [300, 50, 100],
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      data: count,
+      backgroundColor: [grey300, purple300, indigo300, blue300, lightGreen300, yellow300, orange300, red300],
+      hoverBackgroundColor: [grey400, purple400, indigo400, blue400, lightGreen400, yellow400, orange400, red400]
     }
   ]
 }
@@ -20,16 +39,29 @@ export default class Overview extends Component {
     super(props)
     this.state = {
       isLoading: true,
-      data: []
+      data: {}
+      // count: [0, 0, 0, 0, 0, 0, 0, 0]
     }
   }
 
   async componentDidMount () {
-    await getPieChartData().then(res => this.setState({ data: res, isLoading: false })).catch(res => this.setState({ data: res, isLoading: false }))
+    await getPieChartData()
+      .then(res => {
+        this.setState({ data: res })
+        this.computeDataForChart()
+      })
+      .catch(res => this.setState({ data: res, isLoading: false }))
+  }
+
+  computeDataForChart = async () => {
+    let patients = this.state.data
+    for (let userid in patients) {
+      await count[parseInt(patients[userid].level, 10)]++
+    }
+    this.setState({ isLoading: false })
   }
 
   render () {
-    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={styles.container}>
