@@ -194,4 +194,12 @@ const uploadFileToStorage = (userid, file) => {
   })
 }
 
-export { getUserStatus, getPatientStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage }
+const getPieChartData = () => {
+  return new Promise((resolve, reject) => {
+    const path = `${server_ip}overview/piechart`
+
+    fetch(path).then(res => res.json()).then(res => resolve(res.data)).catch(res => reject(res))
+  })
+}
+
+export { getUserStatus, getPatientStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage, getPieChartData }
