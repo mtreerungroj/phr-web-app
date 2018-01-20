@@ -4,6 +4,7 @@ import { Pie } from 'react-chartjs-2'
 
 import {
   grey300,
+  grey400,
   purple300,
   indigo300,
   blue300,
@@ -11,7 +12,7 @@ import {
   yellow300,
   orange300,
   red300,
-  grey400,
+  grey500,
   purple400,
   indigo400,
   blue400,
@@ -28,8 +29,8 @@ const data = {
   datasets: [
     {
       data: count,
-      backgroundColor: [grey300, purple300, indigo300, blue300, lightGreen300, yellow300, orange300, red300],
-      hoverBackgroundColor: [grey400, purple400, indigo400, blue400, lightGreen400, yellow400, orange400, red400]
+      backgroundColor: [grey400, purple300, indigo300, blue300, lightGreen300, yellow300, orange300, red300],
+      hoverBackgroundColor: [grey500, purple400, indigo400, blue400, lightGreen400, yellow400, orange400, red400]
     }
   ]
 }
