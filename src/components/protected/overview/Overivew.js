@@ -35,6 +35,17 @@ const data = {
   ]
 }
 
+let dataLevel = {
+  dataLevel0: [],
+  dataLevel1: [],
+  dataLevel2: [],
+  dataLevel3: [],
+  dataLevel4: [],
+  dataLevel5: [],
+  dataLevel6: [],
+  dataLevel7: []
+}
+
 export default class Overview extends Component {
   constructor (props) {
     super(props)
@@ -57,9 +68,13 @@ export default class Overview extends Component {
   computeDataForChart = async () => {
     let patients = this.state.data
     for (let userid in patients) {
-      await count[parseInt(patients[userid].level, 10)]++
+      let level = await patients[userid].level
+      await count[parseInt(level, 10)]++
+      await dataLevel['dataLevel' + level].push(patients[userid])
     }
     this.setState({ isLoading: false })
+    console.log(count)
+    console.log(dataLevel)
   }
 
   render () {
@@ -80,7 +95,9 @@ export default class Overview extends Component {
               }}
               />
           </div>
-          <div style={styles.inner}>555</div>
+          <div style={styles.inner}>
+              ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: {}
+          </div>
         </div>
       </div>
   }
