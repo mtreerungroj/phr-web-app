@@ -10,6 +10,7 @@ import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
 import Profile from './components/protected/profile/Profile'
 import Search from './components/protected/search/Search'
+import Overivew from './components/protected/overview/Overivew'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -97,6 +98,7 @@ export default class App extends Component {
                       path='/'
                       component={props => (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? <IndexStaff /> : <IndexPatient />)}
                       />
+                    <PrivateRoute authed={this.state.authed} path='/overview' component={props => <Overivew />} />
                     <PrivateRoute authed={this.state.authed} path='/search' component={props => <Search />} />
                     <PrivateRoute authed={this.state.authed} path='/profile' component={props => <Profile />} />
                     <Route component={() => <Page404 />} />
