@@ -66,7 +66,7 @@ export default class PatientProfile extends Component {
         <Snackbar open={this.state.isShowSnackbar} message={this.state.SnackbarMessage} autoHideDuration={3000} onRequestClose={this.handleSnackbarClose} />
         <div style={styles.inner}>
           <img
-            src={this.props.picture_uri !== undefined ? this.props.picture_uri : require('../../../assets/images/default-profile-picture.png')}
+            src={profile.picture_uri !== undefined ? profile.picture_uri : require('../../../assets/images/default-profile-picture.png')}
             alt=''
             style={{ maxWidth: '200px', width: '100%', height: 'auto', marginBottom: 10 }}
           />
@@ -79,7 +79,7 @@ export default class PatientProfile extends Component {
             <TextField
               name='email'
               floatingLabelText='อีเมลที่ใช้ลงทะเบียน'
-              value={this.props.email}
+              value={profile.email}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               fullWidth
@@ -89,8 +89,8 @@ export default class PatientProfile extends Component {
             <TextField
               name='id_card'
               floatingLabelText='รหัสบัตรประชาชน'
-              value={this.props.id_card}
-              errorText={this.props.id_card === undefined ? 'กรุณาติดต่อพยาบาลเพื่อกรอกข้อมูลนี้' : ''}
+              value={profile.id_card}
+              errorText={profile.id_card === undefined ? 'กรุณาติดต่อพยาบาลเพื่อกรอกข้อมูลนี้' : ''}
               underlineStyle={styles.underlineStyle}
               underlineFocusStyle={styles.underlineStyle}
               fullWidth
@@ -100,7 +100,7 @@ export default class PatientProfile extends Component {
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <SelectField
-              value={this.props.gender}
+              value={profile.gender}
               floatingLabelText='เพศ'
               onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'gender')}
               underlineStyle={styles.underlineStyle}
@@ -113,8 +113,8 @@ export default class PatientProfile extends Component {
               name='firstname'
               type='text'
               floatingLabelText='ชื่อ'
-              value={this.props.firstname}
-              errorText={this.props.firstname === undefined ? 'กรุณากรอกข้อมูล' : ''}
+              value={profile.firstname}
+              errorText={profile.firstname === undefined ? 'กรุณากรอกข้อมูล' : ''}
               onChange={this.props._handleChangeValue}
               fullWidth
               underlineStyle={styles.underlineStyle}
@@ -126,8 +126,8 @@ export default class PatientProfile extends Component {
               name='lastname'
               type='text'
               floatingLabelText='นามสกุล'
-              value={this.props.lastname}
-              errorText={this.props.lastname === undefined ? 'กรุณากรอกข้อมูล' : ''}
+              value={profile.lastname}
+              errorText={profile.lastname === undefined ? 'กรุณากรอกข้อมูล' : ''}
               onChange={this.props._handleChangeValue}
               fullWidth
               underlineStyle={styles.underlineStyle}
@@ -136,7 +136,7 @@ export default class PatientProfile extends Component {
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <SelectField
-              value={this.props.status}
+              value={profile.status}
               floatingLabelText='สถานะ'
               onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'status')}
               fullWidth
@@ -148,7 +148,7 @@ export default class PatientProfile extends Component {
             </SelectField>
 
             <SelectField
-              value={this.props.race}
+              value={profile.race}
               floatingLabelText='เชื้อชาติ'
               onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'race')}
               fullWidth
@@ -160,7 +160,7 @@ export default class PatientProfile extends Component {
             </SelectField>
 
             <SelectField
-              value={this.props.region}
+              value={profile.region}
               floatingLabelText='ศาสนา'
               onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'region')}
               fullWidth
@@ -188,8 +188,8 @@ export default class PatientProfile extends Component {
             <TextField
               name='career'
               type='text'
-              defaultValue={this.props.career}
-              errorText={this.props.career === undefined ? 'กรุณากรอกข้อมูล' : ''}
+              defaultValue={profile.career}
+              errorText={profile.career === undefined ? 'กรุณากรอกข้อมูล' : ''}
               floatingLabelText='อาชีพปัจจุบัน'
               onChange={this.props._handleChangeValue}
               underlineStyle={styles.underlineStyle}
@@ -201,8 +201,8 @@ export default class PatientProfile extends Component {
           <TextField
             name='address'
             type='text'
-            defaultValue={this.props.address}
-            errorText={this.props.address === undefined ? 'กรุณากรอกข้อมูล' : ''}
+            defaultValue={profile.address}
+            errorText={profile.address === undefined ? 'กรุณากรอกข้อมูล' : ''}
             floatingLabelText='ที่อยู่ปัจจุบัน'
             rows={2}
             rowsMax={4}
@@ -216,8 +216,8 @@ export default class PatientProfile extends Component {
           <TextField
             name='phone'
             type='text'
-            defaultValue={this.props.phone}
-            errorText={this.props.phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
+            defaultValue={profile.phone}
+            errorText={profile.phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
             floatingLabelText='เบอร์โทรศัพท์ผู้ป่วย'
             maxLength='10'
             onChange={this.props._handleChangeValue}
@@ -229,8 +229,8 @@ export default class PatientProfile extends Component {
             <TextField
               name='cousin_name'
               type='text'
-              defaultValue={this.props.cousin_name}
-              errorText={this.props.cousin_name === undefined ? 'กรุณากรอกข้อมูล' : ''}
+              defaultValue={profile.cousin_name}
+              errorText={profile.cousin_name === undefined ? 'กรุณากรอกข้อมูล' : ''}
               floatingLabelText='ชื่อ-นามสกุล ญาติผู้ป่วย'
               onChange={this.props._handleChangeValue}
               underlineStyle={styles.underlineStyle}
@@ -240,8 +240,8 @@ export default class PatientProfile extends Component {
             <TextField
               name='cousin_phone'
               type='text'
-              defaultValue={this.props.cousin_phone}
-              errorText={this.props.cousin_phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
+              defaultValue={profile.cousin_phone}
+              errorText={profile.cousin_phone === undefined ? 'กรุณากรอกข้อมูล' : ''}
               floatingLabelText='เบอร์ติดต่อญาติผู้ป่วย'
               maxLength='10'
               onChange={this.props._handleChangeValue}
