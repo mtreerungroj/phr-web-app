@@ -20,7 +20,9 @@ import {
   lightGreen400,
   yellow400,
   orange400,
-  red400
+  red400,
+  grey50,
+  cyan500
 } from 'material-ui/styles/colors'
 
 let count = [0, 0, 0, 0, 0, 0, 0, 0] // level 0 - 7
@@ -105,18 +107,16 @@ export default class Overview extends Component {
   }
 
   renderLevelDetail = level => (
-    <div key={level}>
-      <div style={styles.marginTop}>
-        {level === 0 && 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน '}
-        {level > 0 && 'ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' + +count[level] + ' คน '}
-        {count[level] > 0 &&
-          <FlatButton
-            label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
-            primary
-            onClick={() => this.setState({ ['isShowLevel' + level]: !this.state['isShowLevel' + level] })}
-          />}
-      </div>
-      <div style={{ display: this.state['isShowLevel' + level] ? '' : 'none' }}>
+    <div style={styles.marginTop} key={level}>
+      {level === 0 && 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน '}
+      {level > 0 && 'ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' + +count[level] + ' คน '}
+      {count[level] > 0 &&
+        <FlatButton
+          label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
+          primary
+          onClick={() => this.setState({ ['isShowLevel' + level]: !this.state['isShowLevel' + level] })}
+        />}
+      <div style={{ display: this.state['isShowLevel' + level] ? '' : 'none', ...styles.levelDetail }}>
         {this.renderPatientInLevel(level)}
       </div>
     </div>
@@ -170,5 +170,14 @@ const styles = {
   },
   marginLeft: {
     marginLeft: 20
+  },
+  levelDetail: {
+    marginLeft: 20,
+    marginRight: 60,
+    backgroundColor: grey50,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: cyan500,
+    borderRadius: 10
   }
 }
