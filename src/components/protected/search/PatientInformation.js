@@ -182,6 +182,7 @@ export default class PatientInformation extends Component {
     updateProfile(this.props.userid, profile)
       .then(async res => {
         await this.setState(res)
+        this.setState({ isShowSnackbar: true, SnackbarMessage: 'อัพเดทข้อมูลสำเร็จ' })
         // if (this.state.isComplete) window.location.href = '/search'
       })
       .catch(res => this.setState(res))
