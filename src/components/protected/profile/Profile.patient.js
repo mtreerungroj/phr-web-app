@@ -56,6 +56,8 @@ export default class PatientProfile extends Component {
       <FlatButton label='บันทึก' primary keyboardFocused onClick={this.handleDialogCloseWithSubmit} />
     ]
 
+    const profile = this.props
+
     return (
       <div style={styles.container}>
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleDialogClose}>
@@ -253,15 +255,46 @@ export default class PatientProfile extends Component {
           </div>
           <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
           <div align='left' style={{ lineHeight: '2em' }}>
-            น้ำหนัก: {'50'} กิโลกรัม <br />
-            ส่วนสูง: {'160'} เซนติเมตร <br />
-            ค่าดัชนีมวลกาย (BMI): {'19.53'} <br />
-            หมู่เลือด: B<br />
-            โรคประจำตัวผู้ป่วย: {'ชอบกินปลาเส้น'} <br />
-            ยาที่ใช้ปัจจุบัน: {'ทาโร่'}<br />
-            ยาที่แพ้: {'ฟิชโช่'}<br />
-            อาหารที่แพ้: {'ปลาเส้น'}<br />
-            ประวัติการสูบบุหรี่: {'ไม่มีประวัติการสูบบุหรี่'} <br />
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={styles.profileElement}>
+                {'น้ำหนัก: ' + (profile.weight ? profile.weight + ' กิโลกรัม' : 'ยังไม่ได้กรอกข้อมูล')} <br />
+              </div>
+              <div style={styles.profileElement}>
+                {'ส่วนสูง: ' + (profile.height ? profile.height + ' เซนติเมตร' : 'ยังไม่ได้กรอกข้อมูล')} <br />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={styles.profileElement}>
+                {'หมู่เลือด: ' + (profile.blood_type ? profile.blood_type : 'ยังไม่ได้กรอกข้อมูล')} <br />
+              </div>
+              <div style={styles.profileElement}>
+                {'ค่าดัชนีมวลกาย: ' + (profile.bmi ? profile.bmi : '-')} <br />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={styles.profileElement}>
+                {'โรคประจำตัว: ' + (profile.medical_condition ? profile.medical_condition : '-')} <br />
+              </div>
+              <div style={styles.profileElement}>
+                {'ยาที่ใช้ปัจจุบัน: ' + (profile.current_medicine ? profile.current_medicine : '-')} <br />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={styles.profileElement}>
+                {'ยาที่แพ้: ' + (profile.allergic_food ? profile.allergic_food : '-')} <br />
+              </div>
+              <div style={styles.profileElement}>
+                {'อาหารที่แพ้: ' + (profile.bmi ? profile.bmi : '-')} <br />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={styles.profileElement}>
+                {'ประวัติการสูบบุหรี่: ' + (profile.is_smoking ? 'มี' : 'ไม่มี')} <br />
+              </div>
+              <div style={styles.profileElement}>
+                {'ประวัติการเป็นโรคทางปอด: ' + (profile.is_lung_disease ? 'มี' : 'ไม่มี')} <br />
+              </div>
+            </div>
 
             <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
             วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
@@ -315,5 +348,9 @@ const styles = {
   button: {
     paddingTop: 30,
     textAlign: 'center'
+  },
+  profileElement: {
+    marginRight: 20,
+    flex: 1
   }
 }
