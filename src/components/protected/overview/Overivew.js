@@ -105,10 +105,10 @@ export default class Overview extends Component {
   }
 
   renderLevelDetail = level => (
-    <div>
+    <div key={level}>
       <div style={styles.marginTop}>
-        {level === 0 && ('ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน ')}
-        {level > 0 && ('ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' +  + count[level] + ' คน ')}
+        {level === 0 && 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน '}
+        {level > 0 && 'ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' + +count[level] + ' คน '}
         {count[level] > 0 &&
           <FlatButton
             label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
@@ -141,14 +141,7 @@ export default class Overview extends Component {
               />
           </div>
           <div style={styles.inner}>
-            {this.renderLevelDetail(0)}
-            {this.renderLevelDetail(1)}
-            {this.renderLevelDetail(2)}
-            {this.renderLevelDetail(3)}
-            {this.renderLevelDetail(4)}
-            {this.renderLevelDetail(5)}
-            {this.renderLevelDetail(6)}
-            {this.renderLevelDetail(7)}
+            {[0, 1, 2, 3, 4, 5, 6, 7].map(item => this.renderLevelDetail(item))}
           </div>
         </div>
       </div>
