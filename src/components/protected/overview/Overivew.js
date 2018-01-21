@@ -107,7 +107,8 @@ export default class Overview extends Component {
   renderLevelDetail = level => (
     <div>
       <div style={styles.marginTop}>
-        {level === 0 ? 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' : 'ผู้ป่วยที่ทำได้ถึงระดับ ' + count[level] + ' คน '}
+        {level === 0 && ('ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน ')}
+        {level > 0 && ('ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' +  + count[level] + ' คน ')}
         {count[level] > 0 &&
           <FlatButton
             label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
