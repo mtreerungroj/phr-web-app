@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FlatButton from 'material-ui/FlatButton'
 import { getPieChartData } from '../../../services/helpers'
 import { Pie } from 'react-chartjs-2'
 
@@ -51,8 +52,15 @@ export default class Overview extends Component {
     super(props)
     this.state = {
       isLoading: true,
-      data: {}
-      // count: [0, 0, 0, 0, 0, 0, 0, 0]
+      data: {},
+      isShowLevel0: false,
+      isShowLevel1: false,
+      isShowLevel2: false,
+      isShowLevel3: false,
+      isShowLevel4: false,
+      isShowLevel5: false,
+      isShowLevel6: false,
+      isShowLevel7: false
     }
   }
 
@@ -115,10 +123,46 @@ export default class Overview extends Component {
               />
           </div>
           <div style={styles.inner}>
-            <div style={styles.marginTop}>ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: {count[0]} คน {count[0] > 0 && 'ได้แก่'}</div>
-            {count[0] > 0 && this.renderPatientInLevel(0)}
-            <div style={styles.marginTop}>ผู้ป่วยที่ทำได้ถึงระดับ 1: {count[1]} คน {count[1] > 0 && 'ได้แก่'}</div>
-            {count[1] > 0 && this.renderPatientInLevel(1)}
+
+            <div style={styles.marginTop}>
+              {'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[0] + ' คน '}
+              {count[0] > 0 &&
+              <FlatButton
+                label={this.state.isShowLevel0 ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
+                primary
+                onClick={() => this.setState({ isShowLevel0: !this.state.isShowLevel0 })}
+                  />}
+            </div>
+            <div style={{ display: this.state.isShowLevel0 ? '' : 'none' }}>
+              {this.renderPatientInLevel(0)}
+            </div>
+
+            <div style={styles.marginTop}>
+              {'ผู้ป่วยที่ทำได้ถึงระดับ 1: ' + count[1] + ' คน '}
+              {count[1] > 0 &&
+              <FlatButton
+                label={this.state.isShowLevel1 ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
+                primary
+                onClick={() => this.setState({ isShowLevel1: !this.state.isShowLevel1 })}
+                  />}
+            </div>
+            <div style={{ display: this.state.isShowLevel1 ? '' : 'none' }}>
+              {this.renderPatientInLevel(1)}
+            </div>
+
+            <div style={styles.marginTop}>
+              {'ผู้ป่วยที่ทำได้ถึงระดับ 2: ' + count[2] + ' คน '}
+              {count[2] > 0 &&
+              <FlatButton
+                label={this.state.isShowLevel2 ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
+                primary
+                onClick={() => this.setState({ isShowLevel2: !this.state.isShowLevel2 })}
+                  />}
+            </div>
+            <div style={{ display: this.state.isShowLevel2 ? '' : 'none' }}>
+              {this.renderPatientInLevel(2)}
+            </div>
+
             <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 2: {count[2]} คน {count[2] > 0 && 'ได้แก่'}</div>
             {count[2] > 0 && this.renderPatientInLevel(2)}
             <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 3: {count[3]} คน {count[3] > 0 && 'ได้แก่'}</div>
