@@ -83,25 +83,33 @@ npm start
 - [x] show all patients: patient_code, gender, firstname, lastname, admit_date
 - [x] can filter patients by patient_code, firstname, lastname
 - [x] can view profile data of selected patient
-- [ ] *can edit all profile data of selected patient*
-- [ ] show Snackbar if update profile successfully
+- [x] *can edit all profile data of selected patient*
+- [x] show Snackbar if update profile successfully
 - [ ] *have authorization to access all patient data (profile data and activities result summary)*
 - [x] show date format as DD/MM/YYYY
 
 ### [staff] Report
 - [ ] show all activity result of every patient
+#### Pie Chart
+- [x] show user's activity result in pie chart: number of patients in each level
+- [x] show more details: who're in each level: firstname, lastname
+#### Line Chart
+- [ ] show patient's activity result compare to other patients in line chart: : `x-axis = day (1,2,3,...)`, `y-axis = level`
+- [ ] can select patient to show in chart
 
 ### [patient] Report
-- [ ] show user's activity result in line chart: default is `x-axis = date`, `y-axis = level`
+- [ ] show patient's activity result in line chart: default is `x-axis = date`, `y-axis = level`
 - [ ] show more details: is pass screening test?, is pass breathing exercise?
 - [ ] click at data point to show more information: full result
+- [ ] can choose range of date to show data
 
 ### Bugs/Others
 - [ ] render `InAccessible` page only if path is not match
 - [x] redirect to '/' when log out
 - [x] check DatePicker value
-- [ ] refactor PatientInformation component
-- [ ] initialize admit_date to the day that make a registration and not change when update profile
+- [x] refactor PatientInformation component
+- [x] initialize admit_date to the day that make a registration and not change when update profile
+- [ ] is surgery data still need?
 - [ ] Warning when editting my empty profile:
 ```
 A component is changing an uncontrolled input of type text to be controlled.
