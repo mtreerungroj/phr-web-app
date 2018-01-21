@@ -104,6 +104,23 @@ export default class Overview extends Component {
     }
   }
 
+  renderLevelDetail = level => (
+    <div>
+      <div style={styles.marginTop}>
+        {level === 0 ? 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' : 'ผู้ป่วยที่ทำได้ถึงระดับ ' + count[level] + ' คน '}
+        {count[level] > 0 &&
+          <FlatButton
+            label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
+            primary
+            onClick={() => this.setState({ ['isShowLevel' + level]: !this.state['isShowLevel' + level] })}
+          />}
+      </div>
+      <div style={{ display: this.state['isShowLevel' + level] ? '' : 'none' }}>
+        {this.renderPatientInLevel(level)}
+      </div>
+    </div>
+  )
+
   render () {
     return this.state.isLoading
       ? <div>Loading...</div>
@@ -123,58 +140,14 @@ export default class Overview extends Component {
               />
           </div>
           <div style={styles.inner}>
-
-            <div style={styles.marginTop}>
-              {'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[0] + ' คน '}
-              {count[0] > 0 &&
-              <FlatButton
-                label={this.state.isShowLevel0 ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
-                primary
-                onClick={() => this.setState({ isShowLevel0: !this.state.isShowLevel0 })}
-                  />}
-            </div>
-            <div style={{ display: this.state.isShowLevel0 ? '' : 'none' }}>
-              {this.renderPatientInLevel(0)}
-            </div>
-
-            <div style={styles.marginTop}>
-              {'ผู้ป่วยที่ทำได้ถึงระดับ 1: ' + count[1] + ' คน '}
-              {count[1] > 0 &&
-              <FlatButton
-                label={this.state.isShowLevel1 ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
-                primary
-                onClick={() => this.setState({ isShowLevel1: !this.state.isShowLevel1 })}
-                  />}
-            </div>
-            <div style={{ display: this.state.isShowLevel1 ? '' : 'none' }}>
-              {this.renderPatientInLevel(1)}
-            </div>
-
-            <div style={styles.marginTop}>
-              {'ผู้ป่วยที่ทำได้ถึงระดับ 2: ' + count[2] + ' คน '}
-              {count[2] > 0 &&
-              <FlatButton
-                label={this.state.isShowLevel2 ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
-                primary
-                onClick={() => this.setState({ isShowLevel2: !this.state.isShowLevel2 })}
-                  />}
-            </div>
-            <div style={{ display: this.state.isShowLevel2 ? '' : 'none' }}>
-              {this.renderPatientInLevel(2)}
-            </div>
-
-            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 2: {count[2]} คน {count[2] > 0 && 'ได้แก่'}</div>
-            {count[2] > 0 && this.renderPatientInLevel(2)}
-            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 3: {count[3]} คน {count[3] > 0 && 'ได้แก่'}</div>
-            {count[3] > 0 && this.renderPatientInLevel(3)}
-            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 4: {count[4]} คน {count[4] > 0 && 'ได้แก่'}</div>
-            {count[4] > 0 && this.renderPatientInLevel(4)}
-            <div style={{}}> ผู้ป่วยที่ทำได้ถึงระดับ 5: {count[5]} คน {count[5] > 0 && 'ได้แก่'}</div>
-            {count[5] > 0 && this.renderPatientInLevel(5)}
-            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 6: {count[6]} คน {count[6] > 0 && 'ได้แก่'}</div>
-            {count[6] > 0 && this.renderPatientInLevel(6)}
-            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 7: {count[7]} คน {count[7] > 0 && 'ได้แก่'}</div>
-            {count[7] > 0 && this.renderPatientInLevel(7)}
+            {this.renderLevelDetail(0)}
+            {this.renderLevelDetail(1)}
+            {this.renderLevelDetail(2)}
+            {this.renderLevelDetail(3)}
+            {this.renderLevelDetail(4)}
+            {this.renderLevelDetail(5)}
+            {this.renderLevelDetail(6)}
+            {this.renderLevelDetail(7)}
           </div>
         </div>
       </div>
