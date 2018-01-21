@@ -65,6 +65,20 @@ export default class Overview extends Component {
       .catch(res => this.setState({ data: res, isLoading: false }))
   }
 
+  componentWillUnmount () {
+    count = [0, 0, 0, 0, 0, 0, 0]
+    dataLevel = {
+      dataLevel0: [],
+      dataLevel1: [],
+      dataLevel2: [],
+      dataLevel3: [],
+      dataLevel4: [],
+      dataLevel5: [],
+      dataLevel6: [],
+      dataLevel7: []
+    }
+  }
+
   computeDataForChart = async () => {
     let patients = this.state.data
     for (let userid in patients) {
@@ -73,8 +87,6 @@ export default class Overview extends Component {
       await dataLevel['dataLevel' + level].push(patients[userid])
     }
     this.setState({ isLoading: false })
-    console.log(count)
-    console.log(dataLevel)
   }
 
   renderPatientInLevel = level => {
