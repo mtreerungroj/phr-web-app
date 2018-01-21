@@ -125,6 +125,7 @@ export default class PatientInformation extends Component {
     if (this.state.role === 'patient') {
       let {
         patient_code,
+        admit_date,
         id_card,
         role,
         gender,
@@ -152,6 +153,7 @@ export default class PatientInformation extends Component {
       } = await this.state
       profile = await {
         patient_code,
+        admit_date,
         id_card,
         role,
         gender,

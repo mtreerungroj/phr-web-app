@@ -85,8 +85,9 @@ const createUser = (email, password, isStaff) => {
           const pin_code = await getPinCode(userid, appid, email)
           resolve({ isAuthed: true, level: 2, isStaff, userid, appid, pin_code })
         } else {
-          const patient_code = await getPatientCode(userid, appid, email)
-          resolve({ isAuthed: true, level: 2, isStaff, userid, appid, patient_code })
+          let admit_date = new Date().toISOString().substring(0, 10)
+          const patient_code = await getPatientCode(userid, appid, email, admit_date)
+          resolve({ isAuthed: true, level: 2, isStaff, userid, appid, patient_code, admit_date })
         }
       })
       .catch(error => {
@@ -99,8 +100,8 @@ const createUser = (email, password, isStaff) => {
 
 const updateProfile = async (userid, profile) => {
   if (profile.role === 'patient') {
-    let { patient_code, gender, firstname, lastname } = (await profile) || ''
-    let admit_date = new Date().toISOString().substring(0, 10)
+    let { patient_code, gender, firstname, lastname, admit_date } = (await profile) || ''
+    // let admit_date = new Date().toISOString().substring(0, 10)
     let _profile = { patient_code, gender, firstname, lastname, admit_date }
     await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
   }
@@ -125,9 +126,9 @@ const updateProfile = async (userid, profile) => {
   })
 }
 
-const getPatientCode = (userid, appid, email) => {
+const getPatientCode = (userid, appid, email, admit_date) => {
   return new Promise((resolve, reject) => {
-    const path = `${server_ip}patient_code/generate?appid=${appid}&userid=${userid}&email=${email}`
+    const path = `${server_ip}patient_code/generate?appid=${appid}&userid=${userid}&email=${email}&admit_date=${admit_date}`
 
     fetch(path).then(res => res.json()).then(res => resolve(res.patient_code)).catch(res => reject(res.errorMessage))
   })

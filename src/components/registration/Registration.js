@@ -79,6 +79,7 @@ export default class Registration extends Component {
     } else if (this.state.role === 'patient') {
       let {
         role,
+        admit_date,
         patient_code,
         email,
         id_card,
@@ -97,6 +98,7 @@ export default class Registration extends Component {
       } = await this.state
       profile = await {
         role,
+        admit_date,
         patient_code,
         email,
         id_card,
