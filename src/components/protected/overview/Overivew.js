@@ -77,6 +77,13 @@ export default class Overview extends Component {
     console.log(dataLevel)
   }
 
+  renderPatientInLevel = level => {
+    const patients = dataLevel['dataLevel' + level]
+    for (var patient in patients) {
+      return <div style={styles.marginLeft}>{'- '}{patients[patient].firstname} {' '} {patients[patient].lastname}</div>
+    }
+  }
+
   render () {
     return this.state.isLoading
       ? <div>Loading...</div>
@@ -85,7 +92,7 @@ export default class Overview extends Component {
           <div style={styles.header}>แผนภูมิแสดงจำนวนผู้ป่วยแบ่งตามระดับขั้นกิจกรรมปัจจุบันที่ทำได้</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={styles.inner}>
+          <div style={styles.chart}>
             <Pie
               data={data}
               width={400}
@@ -96,15 +103,23 @@ export default class Overview extends Component {
               />
           </div>
           <div style={styles.inner}>
-              ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: {count[0]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 1: {count[1]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 2: {count[2]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 3: {count[3]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 4: {count[4]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 5: {count[5]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 6: {count[6]} คน
-              ผู้ป่วยที่ทำได้ถึงระดับ 7: {count[7]} คน
-            </div>
+            <div style={styles.marginTop}>ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: {count[0]} คน {count[0] > 0 && 'ได้แก่'}</div>
+            {count[0] > 0 && this.renderPatientInLevel(0)}
+            <div style={styles.marginTop}>ผู้ป่วยที่ทำได้ถึงระดับ 1: {count[1]} คน {count[1] > 0 && 'ได้แก่'}</div>
+            {count[1] > 0 && this.renderPatientInLevel(1)}
+            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 2: {count[2]} คน {count[2] > 0 && 'ได้แก่'}</div>
+            {count[2] > 0 && this.renderPatientInLevel(2)}
+            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 3: {count[3]} คน {count[3] > 0 && 'ได้แก่'}</div>
+            {count[3] > 0 && this.renderPatientInLevel(3)}
+            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 4: {count[4]} คน {count[4] > 0 && 'ได้แก่'}</div>
+            {count[4] > 0 && this.renderPatientInLevel(4)}
+            <div style={{}}> ผู้ป่วยที่ทำได้ถึงระดับ 5: {count[5]} คน {count[5] > 0 && 'ได้แก่'}</div>
+            {count[5] > 0 && this.renderPatientInLevel(5)}
+            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 6: {count[6]} คน {count[6] > 0 && 'ได้แก่'}</div>
+            {count[6] > 0 && this.renderPatientInLevel(6)}
+            <div style={styles.marginTop}> ผู้ป่วยที่ทำได้ถึงระดับ 7: {count[7]} คน {count[7] > 0 && 'ได้แก่'}</div>
+            {count[7] > 0 && this.renderPatientInLevel(7)}
+          </div>
         </div>
       </div>
   }
@@ -125,5 +140,12 @@ const styles = {
     fontSize: 20,
     marginTop: 20,
     marginBottom: 20
+  },
+  chart: { flex: 1, minWidth: 400, maxWidth: 600, width: '100%' },
+  marginTop: {
+    marginTop: 10
+  },
+  marginLeft: {
+    marginLeft: 20
   }
 }
