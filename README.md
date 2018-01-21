@@ -101,6 +101,7 @@ npm start
 - [x] redirect to '/' when log out
 - [x] check DatePicker value
 - [ ] refactor PatientInformation component
+- [ ] initialize admit_date to the day that make a registration and not change when update profile
 - [ ] Warning when editting my empty profile:
 ```
 A component is changing an uncontrolled input of type text to be controlled.
