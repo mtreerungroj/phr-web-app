@@ -4,6 +4,9 @@ import { Line } from 'react-chartjs-2'
 import { getUserStatus, getActivityResult } from '../../../services/helpers'
 import { grey300 } from 'material-ui/styles/colors'
 
+let results = []
+let dates = []
+
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
@@ -46,12 +49,24 @@ export default class Progress extends Component {
         await this.setState(res)
         let today = await new Date().toISOString().substring(0, 10)
         await getActivityResult(this.state.userid, this.state.profile.admit_date, today).then(res => this.setState(res)).catch(res => this.setState(res))
+        this.prepareDataForLineChart()
       })
       .catch(res => this.setState(res))
   }
 
+  prepareDataForLineChart = () => {
+    const activityResults = this.state.activityResults
+    activityResults.forEach(result => {
+      let data = result[Object.keys(result)[0]].activity_result_1.result
+      dates.push(data.date + ', ' + data.time.substring(0, 5))
+      results.push(data.result.maxLevel)
+    })
+    console.log(dates)
+    console.log(results)
+  }
+
   render () {
-    console.log(this.state.activityResults)
+    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : this.state.profile.role !== 'patient'
