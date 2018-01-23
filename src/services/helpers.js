@@ -207,7 +207,7 @@ const getActivityResult = (userid, start_date, end_date) => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}activity_result/1?userid=${userid}&appid=${appid}&start_date=${start_date}&end_date=${end_date}`
 
-    fetch(path).then(res => res.json()).then(res => resolve({ activityResults: res.data, isFetchDataComplete: true })).catch(res => reject(res))
+    fetch(path).then(res => res.json()).then(res => resolve({ activityResults: res.data })).catch(res => reject(res))
   })
 }
 
