@@ -203,4 +203,12 @@ const getPieChartData = () => {
   })
 }
 
-export { getUserStatus, getPatientStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage, getPieChartData }
+const getActivityResult = (userid, start_date, end_date) => {
+  return new Promise((resolve, reject) => {
+    const path = `${server_ip}activity_result/1?userid=${userid}&appid=${appid}&start_date=${start_date}&end_date=${end_date}`
+
+    fetch(path).then(res => res.json()).then(res => resolve(res)).catch(res => reject(res))
+  })
+}
+
+export { getUserStatus, getPatientStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage, getPieChartData, getActivityResult }
