@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Line } from 'react-chartjs-2'
 
 import { getUserStatus, getActivityResult } from '../../../services/helpers'
+import { grey300 } from 'material-ui/styles/colors'
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -53,6 +54,28 @@ export default class Progress extends Component {
     console.log(this.state.activityResults)
     return this.state.isLoading
       ? <div>Loading...</div>
-      : this.state.profile.role !== 'patient' ? <div>Inaccessible</div> : !this.state.isFetchDataComplete ? <div>Loading data...</div> : <Line data={data} />
+      : this.state.profile.role !== 'patient'
+          ? <div>Inaccessible</div>
+          : !this.state.isFetchDataComplete
+              ? <div>Loading data...</div>
+              : <div style={styles.container}>
+                <Line
+                  data={data}
+                  width={400}
+                  height={400}
+                  options={{
+                    maintainAspectRatio: false
+                  }}
+                  />
+              </div>
+  }
+}
+
+const styles = {
+  container: {
+    backgroundColor: grey300,
+    padding: 20,
+    width: '90%',
+    margin: 'auto'
   }
 }
