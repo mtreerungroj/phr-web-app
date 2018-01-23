@@ -112,7 +112,9 @@ export default class Overview extends Component {
             onClick={() => this.setState({ ['isShowLevel' + level]: !this.state['isShowLevel' + level] })}
           />}
         <div style={{ display: this.state['isShowLevel' + level] ? '' : 'none', ...styles.levelDetail }}>
-          {Object.keys(patients).map((key, index) => <div style={styles.marginLeft}>{'- '}{patients[key].firstname} {' '} {patients[key].lastname}</div>)}
+          {Object.keys(patients).map((key, index) => (
+            <div key={patients[key].patient_code} style={styles.marginLeft}>{'- '}{patients[key].firstname} {' '} {patients[key].lastname}</div>
+          ))}
         </div>
       </div>
     )
