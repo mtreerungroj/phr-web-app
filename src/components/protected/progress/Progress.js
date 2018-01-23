@@ -34,6 +34,13 @@ const data = {
   ]
 }
 
+const convertDateFormat = inputDate => {
+  let date = new Date(inputDate)
+  if (!isNaN(date.getTime())) {
+    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
+  }
+}
+
 export default class Progress extends Component {
   constructor (props) {
     super(props)
@@ -56,9 +63,11 @@ export default class Progress extends Component {
 
   prepareDataForLineChart = async () => {
     const activityResults = this.state.activityResults
-    await activityResults.forEach(result => {
-      let data = result[Object.keys(result)[0]].activity_result_1.result
-      dates.push(data.date + ', ' + data.time.substring(0, 5))
+    await activityResults.forEach(async result => {
+      let data = await result[Object.keys(result)[0]].activity_result_1.result
+      // dates.push(data.date + ', ' + data.time.substring(0, 5)) // with time
+      let formattedData = convertDateFormat(data.date)
+      dates.push(formattedData)
       results.push(data.result.maxLevel)
     })
     this.setState({ isFetchDataComplete: true })
