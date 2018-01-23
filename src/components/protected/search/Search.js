@@ -5,7 +5,7 @@ import SearchInput, { createFilter } from 'react-search-input'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import { grey300 } from 'material-ui/styles/colors'
-import { getPatientList } from '../../../services/helpers'
+import { getUserStatus, getPatientList } from '../../../services/helpers'
 import PatientInformation from './PatientInformation'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
@@ -53,9 +53,11 @@ export default class Search extends Component {
           })
         }
 
-        await that.setState({ patients, isLoading: false })
+        await that.setState({ patients })
       })
       .catch(res => that.setState(res))
+
+    await getUserStatus().then(res => this.setState(res)).catch(res => this.setState(res))
   }
 
   searchUpdated = term => this.setState({ searchTerm: term })
@@ -111,7 +113,9 @@ export default class Search extends Component {
   }
 
   render () {
-    return this.state.isLoading ? <div>Loading...</div> : this.renderContent()
+    return this.state.isLoading
+      ? <div>Loading...</div>
+      : this.state.profile.role === 'nurse' || this.state.profile.role === 'doctor' ? this.renderContent() : <div>Inaccessible</div>
   }
 }
 
