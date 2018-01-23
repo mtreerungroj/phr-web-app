@@ -99,28 +99,24 @@ export default class Overview extends Component {
     this.setState({ isLoading: false })
   }
 
-  renderPatientInLevel = level => {
+  renderLevelDetail = level => {
     const patients = dataLevel['dataLevel' + level]
-    for (var patient in patients) {
-      return <div style={styles.marginLeft}>{'- '}{patients[patient].firstname} {' '} {patients[patient].lastname}</div>
-    }
-  }
-
-  renderLevelDetail = level => (
-    <div style={styles.marginTop} key={level}>
-      {level === 0 && 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน '}
-      {level > 0 && 'ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' + +count[level] + ' คน '}
-      {count[level] > 0 &&
-        <FlatButton
-          label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
-          primary
-          onClick={() => this.setState({ ['isShowLevel' + level]: !this.state['isShowLevel' + level] })}
-        />}
-      <div style={{ display: this.state['isShowLevel' + level] ? '' : 'none', ...styles.levelDetail }}>
-        {this.renderPatientInLevel(level)}
+    return (
+      <div style={styles.marginTop} key={level}>
+        {level === 0 && 'ผู้ป่วยที่ยังไม่เริ่มทำกิจกรรม: ' + count[level] + ' คน '}
+        {level > 0 && 'ผู้ป่วยที่ทำได้ถึงระดับ ' + level + ': ' + +count[level] + ' คน '}
+        {count[level] > 0 &&
+          <FlatButton
+            label={this.state['isShowLevel' + level] ? 'ซ่อนรายชื่อ' : 'แสดงรายชื่อ'}
+            primary
+            onClick={() => this.setState({ ['isShowLevel' + level]: !this.state['isShowLevel' + level] })}
+          />}
+        <div style={{ display: this.state['isShowLevel' + level] ? '' : 'none', ...styles.levelDetail }}>
+          {Object.keys(patients).map((key, index) => <div style={styles.marginLeft}>{'- '}{patients[key].firstname} {' '} {patients[key].lastname}</div>)}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   render () {
     return this.state.isLoading
