@@ -123,6 +123,7 @@ export default class Profile extends Component {
       let {
         patient_code,
         admit_date,
+        role,
         gender,
         firstname,
         lastname,
@@ -139,6 +140,7 @@ export default class Profile extends Component {
       profile = await {
         patient_code,
         admit_date,
+        role,
         gender,
         firstname,
         lastname,
