@@ -8,7 +8,7 @@ let results = []
 let dates = []
 
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: dates,
   datasets: [
     {
       label: 'My First dataset',
@@ -29,7 +29,7 @@ const data = {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: results
     }
   ]
 }
@@ -54,15 +54,14 @@ export default class Progress extends Component {
       .catch(res => this.setState(res))
   }
 
-  prepareDataForLineChart = () => {
+  prepareDataForLineChart = async () => {
     const activityResults = this.state.activityResults
-    activityResults.forEach(result => {
+    await activityResults.forEach(result => {
       let data = result[Object.keys(result)[0]].activity_result_1.result
       dates.push(data.date + ', ' + data.time.substring(0, 5))
       results.push(data.result.maxLevel)
     })
-    console.log(dates)
-    console.log(results)
+    this.setState({ isFetchDataComplete: true })
   }
 
   render () {
