@@ -11,6 +11,7 @@ import Registration from './components/registration/Registration'
 import Profile from './components/protected/profile/Profile'
 import Search from './components/protected/search/Search'
 import Overivew from './components/protected/overview/Overview'
+import Progress from './components/protected/progress/Progress'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
@@ -100,6 +101,7 @@ export default class App extends Component {
                       />
                     <PrivateRoute authed={this.state.authed} path='/overview' component={props => <Overivew />} />
                     <PrivateRoute authed={this.state.authed} path='/search' component={props => <Search />} />
+                    <PrivateRoute authed={this.state.authed} path='/progress' component={props => <Progress />} />
                     <PrivateRoute authed={this.state.authed} path='/profile' component={props => <Profile />} />
                     <Route component={() => <Page404 />} />
                   </Switch>

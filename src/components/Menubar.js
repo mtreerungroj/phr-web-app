@@ -29,6 +29,12 @@ export default class Menubar extends Component {
     </div>
   )
 
+  renderMenuForPatient = () => (
+    <div>
+      <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/progress' />}>ผลการทำกิจกรรม</MenuItem>
+    </div>
+  )
+
   render () {
     return this.state.authed
       ? <div>
@@ -43,7 +49,7 @@ export default class Menubar extends Component {
           <Drawer docked={false} open={this.state.isDrawerOpen} onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}>
             <AppBar showMenuIconButton={false} title='เมนู' />
             <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/' />}>หน้าแรก</MenuItem>
-            {(this.props.role === 'doctor' || this.props.role === 'nurse') && this.renderMenuForStaff()}
+            {this.props.role === 'doctor' || this.props.role === 'nurse' ? this.renderMenuForStaff() : this.renderMenuForPatient()}
             <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/profile' />}>ประวัติส่วนตัว</MenuItem>
             <MenuItem onTouchTap={this.handleLogout}>ออกจากระบบ</MenuItem>
           </Drawer>
