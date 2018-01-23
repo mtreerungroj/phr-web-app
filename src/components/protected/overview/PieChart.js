@@ -49,7 +49,7 @@ let dataLevel = {
   dataLevel7: []
 }
 
-export default class Overview extends Component {
+export default class PieChart extends Component {
   constructor (props) {
     super(props)
     this.state = {

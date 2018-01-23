@@ -10,7 +10,7 @@ import IndexPatient from './components/protected/Index.patient'
 import Registration from './components/registration/Registration'
 import Profile from './components/protected/profile/Profile'
 import Search from './components/protected/search/Search'
-import Overivew from './components/protected/overview/Overivew'
+import Overivew from './components/protected/overview/Overview'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
