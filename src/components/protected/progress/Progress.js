@@ -11,7 +11,7 @@ const data = {
   labels: dates,
   datasets: [
     {
-      label: 'My First dataset',
+      label: 'ผลการทำกิจกรรมของผู้ป่วย',
       fill: false,
       lineTension: 0.1,
       backgroundColor: 'rgba(75,192,192,0.4)',
@@ -87,7 +87,34 @@ export default class Progress extends Component {
                   width={400}
                   height={400}
                   options={{
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [
+                        {
+                          ticks: {
+                            max: 7,
+                            min: 0,
+                            stepSize: 1
+                          },
+                          scaleLabel: {
+                            display: true,
+                            labelString: 'ระดับขั้นที่ทำได้ (level)'
+                          }
+                        }
+                      ],
+                      xAxes: [
+                        {
+                          scaleLabel: {
+                            display: true,
+                            labelString: 'วันที่ (วัน/เดือน/ปี)'
+                          }
+                        }
+                      ]
+                    },
+                    title: { display: 'title', text: 'ผลการทำกิจกรรมของผู้ป่วย' }
                   }}
                   />
               </div>
