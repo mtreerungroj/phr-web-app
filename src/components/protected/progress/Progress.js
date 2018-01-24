@@ -37,7 +37,7 @@ const data = {
 const convertDateFormat = inputDate => {
   let date = new Date(inputDate)
   if (!isNaN(date.getTime())) {
-    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
+    return date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear()
   }
 }
 
