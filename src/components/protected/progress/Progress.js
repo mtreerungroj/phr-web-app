@@ -66,15 +66,14 @@ export default class Progress extends Component {
     await activityResults.forEach(async result => {
       let data = await result[Object.keys(result)[0]].activity_result_1.result
       // dates.push(data.date + ', ' + data.time.substring(0, 5)) // with time
-      let formattedData = convertDateFormat(data.date)
-      dates.push(formattedData)
+      let date = convertDateFormat(Object.keys(result)[0].split('_')[2])
+      dates.push(date)
       results.push(data.result.maxLevel)
     })
     this.setState({ isFetchDataComplete: true })
   }
 
   render () {
-    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : this.state.profile.role !== 'patient'
