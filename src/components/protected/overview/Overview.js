@@ -40,7 +40,7 @@ export default class Overview extends Component {
   render () {
     return this.state.isLoading
       ? <div>Loading...</div>
-      : this.state.profile.role !== 'nurse' || this.state.profile.role !== 'doctor'
+      : this.state.profile.role !== 'nurse' && this.state.profile.role !== 'doctor'
           ? <div>Inaccessible</div>
           : <div>
             <Tabs onChange={this.handleChange} value={this.state.slideIndex}>
