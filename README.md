@@ -98,9 +98,11 @@ npm start
 - [ ] can select patient to show in chart
 
 ### [patient] Report
-- [ ] show patient's activity result in line chart: default is `x-axis = date`, `y-axis = level`
+- [x] show patient's activity result in line chart: default is `x-axis = date`, `y-axis = level`
+- [x] if not pass screening test, show level 0
 - [ ] show more details: is pass screening test?, is pass breathing exercise?
 - [ ] click at data point to show more information: full result
+- [ ] hover on data point to show tooltip information
 - [ ] can choose range of date to show data
 
 ### Bugs/Others
