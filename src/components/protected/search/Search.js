@@ -6,16 +6,10 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import { grey300 } from 'material-ui/styles/colors'
 import { getUserStatus, getPatientList } from '../../../services/helpers'
+import { convertDateFormat } from '../../../services/utils'
 import PatientInformation from './PatientInformation'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
-
-const convertDateFormat = inputDate => {
-  let date = new Date(inputDate)
-  if (!isNaN(date.getTime())) {
-    return date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear()
-  }
-}
 
 export default class Search extends Component {
   constructor (props) {

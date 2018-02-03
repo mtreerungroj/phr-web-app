@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2'
 
 import { getUserStatus, getActivityResult } from '../../../services/helpers'
 import { grey300 } from 'material-ui/styles/colors'
+import { convertDateFormat } from '../../../services/utils'
 
 let results = []
 let dates = []
@@ -32,13 +33,6 @@ const data = {
       data: results
     }
   ]
-}
-
-const convertDateFormat = inputDate => {
-  let date = new Date(inputDate)
-  if (!isNaN(date.getTime())) {
-    return date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear()
-  }
 }
 
 export default class Progress extends Component {
