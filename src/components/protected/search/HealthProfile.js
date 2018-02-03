@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import Toggle from 'material-ui/Toggle'
+import DatePicker from 'material-ui/DatePicker'
 import { bloodTypes } from '../../../services/enum'
 import { grey200, grey400 } from 'material-ui/styles/colors'
 
@@ -9,6 +10,18 @@ export default class HealthProfile extends Component {
   render () {
     return (
       <div>
+        <DatePicker
+          floatingLabelText='วันที่รับผู้ป่วยเข้าโรงพยาบาล'
+          container='inline'
+          mode='landscape'
+          defaultDate={new Date(this.props.admit_date)}
+          maxDate={new Date()}
+          autoOk
+          openToYearSelection
+          onChange={(foo, date) => this.props._handleDatePickerChangeValue(date, 'admit_date')}
+          underlineStyle={this.props.styles.underlineStyle}
+          underlineFocusStyle={this.props.styles.underlineStyle}
+        />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <SelectField
             value={this.props.blood_type}

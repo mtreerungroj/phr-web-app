@@ -261,6 +261,7 @@ export default class PatientInformation extends Component {
               menuItems={this.menuItems}
               _handleSelectFieldChangeValue={this._handleSelectFieldChangeValue}
               _handleChangeValue={this._handleChangeValue}
+              _handleDatePickerChangeValue={this._handleDatePickerChangeValue}
               _handleOnToggle={this._handleOnToggle}
               />
 
