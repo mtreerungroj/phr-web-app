@@ -13,11 +13,11 @@ const data = {
   labels: dates,
   datasets: [
     {
-      label: 'ผลการทำกิจกรรมของผู้ป่วย',
+      label: 'ระดับกิจกรรมสูงสุดที่ทำได้',
       fill: false,
       lineTension: 0.1,
       backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
+      borderColor: cyan500,
       borderCapStyle: 'butt',
       borderDash: [],
       borderDashOffset: 0.0,
