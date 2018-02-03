@@ -55,7 +55,7 @@ const signIn = (email, password) => {
         })
       })
       .catch(error => {
-        reject({ isDialogOpen: true, dialogMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', isLoading: false })
+        reject({ isShowSnackbar: true, snackbarMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง', isLoading: false })
       })
   })
 }

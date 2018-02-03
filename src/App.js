@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import Menubar from './components/Menubar'
+import Snackbar from 'material-ui/Snackbar'
 
 import Login from './components/Login'
 import Page404 from './components/Page404'
@@ -47,8 +48,8 @@ export default class App extends Component {
     this.state = {
       authed: false,
       isLoading: true,
-      isDialogOpen: false,
-      dialogMessage: ''
+      isShowSnackbar: false,
+      snackbarMessage: ''
     }
   }
 
@@ -58,30 +59,34 @@ export default class App extends Component {
   }
 
   handleLoginSubmit = (email, password) => {
-    const that = this
-    that.setState({ isLoading: true })
-    signIn(email, password).then(res => that.setState(res)).catch(res => that.setState(res))
+    this.setState({ isLoading: true })
+    signIn(email, password).then(res => this.setState(res)).catch(res => this.setState(res))
   }
 
   handleLogoutSubmit = () => {
-    const that = this
-    that.setState({ isLoading: true })
+    this.setState({ isLoading: true })
     signOut()
       .then(res => {
-        that.setState(res)
+        this.setState(res)
         window.location.href = '/'
       })
-      .catch(res => that.setState(res))
+      .catch(res => this.setState(res))
   }
 
-  handleChangePath = path => {
-    window.location.href = '/' + path
-  }
+  handleChangePath = path => (window.location.href = '/' + path)
+
+  handleRequestSnackbarClose = () => this.setState({ isShowSnackbar: false, snackbarMessage: '' })
 
   render () {
     return this.state.isLoading
       ? <div style={styles.container}>Loading...</div>
       : <MuiThemeProvider muiTheme={muiTheme}>
+        <Snackbar
+          open={this.state.isShowSnackbar}
+          message={this.state.snackbarMessage}
+          autoHideDuration={8000}
+          onRequestClose={this.handleRequestSnackbarClose}
+          />
         <BrowserRouter>
           <div style={styles.container}>
             {!this.state.authed
