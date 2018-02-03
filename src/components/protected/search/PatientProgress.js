@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Line } from 'react-chartjs-2'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import { getPatientStatus, getActivityResult } from '../../../services/helpers'
 import { grey300, red500, cyan500 } from 'material-ui/styles/colors'
@@ -83,42 +84,47 @@ export default class PatientProgress extends Component {
       : !this.state.isFetchDataComplete
           ? <div>Loading data...</div>
           : <div style={styles.container}>
-            <Line
-              data={data}
-              width={400}
-              height={400}
-              options={{
-                maintainAspectRatio: false,
-                legend: {
-                  display: false
-                },
-                scales: {
-                  yAxes: [
-                    {
-                      ticks: {
-                        max: 7,
-                        min: 0,
-                        stepSize: 1
-                      },
-                      scaleLabel: {
-                        display: true,
-                        labelString: 'ระดับขั้นที่ทำได้ (level)'
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <RaisedButton label='< ย้อนกลับ' onClick={this.props.handleBackButton} style={{ marginBottom: 20 }} />
+              <div style={{ width: '80%', textAlign: 'center' }}> พัฒนาการของผู้ป่วย: {this.state.profile.firstname + ' ' + this.state.profile.lastname}</div>
+            </div>
+            <div style={{ height: 400 }}>
+              <Line
+                data={data}
+                width={400}
+                height={400}
+                options={{
+                  maintainAspectRatio: false,
+                  legend: {
+                    display: false
+                  },
+                  scales: {
+                    yAxes: [
+                      {
+                        ticks: {
+                          max: 7,
+                          min: 0,
+                          stepSize: 1
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'ระดับขั้นที่ทำได้ (level)'
+                        }
                       }
-                    }
-                  ],
-                  xAxes: [
-                    {
-                      scaleLabel: {
-                        display: true,
-                        labelString: 'วันที่ (วัน/เดือน/ปี)'
+                    ],
+                    xAxes: [
+                      {
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'วันที่ (วัน/เดือน/ปี)'
+                        }
                       }
-                    }
-                  ]
-                },
-                title: { display: 'title', text: 'ผลการทำกิจกรรมของผู้ป่วย' }
-              }}
-              />
-
+                    ]
+                  },
+                  title: { display: 'title', text: 'ผลการทำกิจกรรมของผู้ป่วย' }
+                }}
+                />
+            </div>
               คำอธิบาย: <span style={{ color: red500, fontSize: 20 }}>•</span> ผู้ป่วยไม่ผ่านแบบทดสอบความพร้อมก่อนเริ่มทำกิจกรรม{' '}
           </div>
   }
