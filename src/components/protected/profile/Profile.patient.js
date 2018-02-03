@@ -9,6 +9,7 @@ import Snackbar from 'material-ui/Snackbar'
 import { grey500, grey600 } from 'material-ui/styles/colors'
 import { gender, _status, race, region } from '../../../services/enum'
 import { uploadFileToStorage } from '../../../services/helpers'
+import { convertDateFormat } from '../../../services/utils'
 
 export default class PatientProfile extends Component {
   constructor (props) {
@@ -57,7 +58,6 @@ export default class PatientProfile extends Component {
     ]
 
     const profile = this.props
-
     return (
       <div style={styles.container}>
         <Dialog title='เลือกรูปโปรไฟล์ของคุณ' actions={actions} modal={false} open={this.state.isDialogOpen} onRequestClose={this.handleDialogClose}>
@@ -255,6 +255,9 @@ export default class PatientProfile extends Component {
           </div>
           <br /><div style={styles.header}>ข้อมูลทางสุขภาพ</div>
           <div align='left' style={{ lineHeight: '2em' }}>
+            <div style={styles.profileElement}>
+              {'วันที่รับผู้ป่วยเข้าโรงพยาบาล: ' + convertDateFormat(profile.admit_date)} <br />
+            </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <div style={styles.profileElement}>
                 {'น้ำหนัก: ' + (profile.weight ? profile.weight + ' กิโลกรัม' : 'ยังไม่ได้กรอกข้อมูล')} <br />
@@ -287,16 +290,19 @@ export default class PatientProfile extends Component {
                 {'อาหารที่แพ้: ' + (profile.bmi ? profile.bmi : '-')} <br />
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <div style={styles.profileElement}>
-                {'ประวัติการสูบบุหรี่: ' + (profile.is_smoking ? 'มี' : 'ไม่มี')} <br />
-              </div>
-              <div style={styles.profileElement}>
-                {'ประวัติการเป็นโรคทางปอด: ' + (profile.is_lung_disease ? 'มี' : 'ไม่มี')} <br />
-              </div>
+            <div style={styles.profileElement}>
+              {'ประวัติการสูบบุหรี่: ' + (profile.is_smoking ? 'มี' : 'ไม่มี')} <br />
+            </div>
+            <div style={styles.profileElement}>
+              {'ประวัติการเป็นโรคทางปอด: ' + (profile.is_lung_disease ? 'มี' : 'ไม่มี')} <br />
+            </div>
+            <div style={styles.profileElement}>
+              {'จำนวนของเส้นเลือดจากขาที่นำมาทำทางเบี่ยง (Sapheneous vein): ' +
+                (profile.surgery_sapheneous_vein ? profile.surgery_sapheneous_vein + ' เส้น' : 'ไม่ได้ระบุ')}
+              <br />
             </div>
 
-            <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
+            {/* <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
             วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
             ประเภทของโรคหัวใจ: {'โรคหลอดเลือดหัวใจอุดตัน'} <br />
             ระดับความรุนแรงของโรคหัวใจ (1-4): {'4'} <br />
@@ -309,7 +315,7 @@ export default class PatientProfile extends Component {
             ระยะเวลาการหนีบหลอดเลือดแดงใหญ่เอออร์ตา (Aorta): {'15'} นาที <br />
             ระยะเวลาที่ใส่ท่อช่วยหายใจ: {'20'} นาที <br />
             การสูญเสียเลือดระหว่างผ่าตัด: {'0.8'} ลิตร <br />
-            จำนวนของเส้นเลือดทั้งหมดที่ทำทางเบี่ยง: {'3'} เส้น ได้แก่ {'1 Sapheneous vein, 1 Radial artery, 1 Internal mammary artery'}<br />
+            จำนวนของเส้นเลือดทั้งหมดที่ทำทางเบี่ยง: {'3'} เส้น ได้แก่ {'1 Sapheneous vein, 1 Radial artery, 1 Internal mammary artery'}<br /> */}
           </div>
         </form>
       </div>
