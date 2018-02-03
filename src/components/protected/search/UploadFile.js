@@ -5,6 +5,7 @@ export default class UploadFile extends Component {
   render () {
     return (
       <div style={this.props.styles.inner}>
+        <RaisedButton label='< ย้อนกลับ' onClick={this.props.handleBackButton} style={{ marginBottom: 20 }} fullWidth />
         <img
           src={this.props.picture_uri !== undefined ? this.props.picture_uri : require('../../../assets/images/default-profile-picture.png')}
           alt=''

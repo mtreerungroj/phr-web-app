@@ -58,6 +58,8 @@ export default class Search extends Component {
 
   handleClickButton = userid => this.setState({ isSelectPatient: true, selectedPatient: userid })
 
+  handleBackButton = () => this.setState({ isSelectPatient: false, selectedPatient: '' })
+
   searchTableColumns = [
     {
       Header: 'รหัสผู้ป่วย',
@@ -94,7 +96,7 @@ export default class Search extends Component {
   renderContent = () => {
     const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return this.state.isSelectPatient
-      ? <PatientInformation isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
+      ? <PatientInformation handleBackButton={this.handleBackButton} isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
           <div style={styles.headerContainer}>

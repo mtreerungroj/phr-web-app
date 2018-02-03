@@ -241,7 +241,12 @@ export default class PatientInformation extends Component {
             _handleCloseValidateDialog={this._handleCloseValidateDialog}
             />
 
-          <UploadFile styles={styles} {...this.state} handleDialogUploadFileOpen={this.handleDialogUploadFileOpen} />
+          <UploadFile
+            styles={styles}
+            {...this.state}
+            handleBackButton={this.props.handleBackButton}
+            handleDialogUploadFileOpen={this.handleDialogUploadFileOpen}
+            />
 
           <form>
             <div style={styles.header}>ข้อมูลประวัติส่วนตัว (กรอกทั้งหมด)</div>
