@@ -62,6 +62,8 @@ export default class Progress extends Component {
   }
 
   prepareDataForLineChart = async () => {
+    results.length = 0
+    dates.length = 0
     const activityResults = this.state.activityResults
     await activityResults.forEach(async result => {
       let data = await result[Object.keys(result)[0]].activity_result_1.result
@@ -69,7 +71,6 @@ export default class Progress extends Component {
       // dates.push(data.date + ', ' + data.time.substring(0, 5)) // with time
       let date = convertDateFormat(Object.keys(result)[0].split('_')[2])
       let level = data.result.maxLevel || 0
-      // if (Object.keys(data.result).length !== 0) level = data.result.maxLevel
 
       dates.push(date)
       results.push(level)
