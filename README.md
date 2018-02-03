@@ -24,7 +24,7 @@ npm start
 - [x] show different page for different user role: staff (doctor/nurse) and patient
 - [ ] user can reset password
 - [ ] use stepper showing current step
-- [ ] show dialog message when login failed
+- [x] show snackbar message when login failed
 
 ### Server
 - [x] create `pin_code` table: store userid, pin_code
@@ -99,10 +99,9 @@ npm start
 ### [patient] Report
 - [x] show patient's activity result in line chart: default is `x-axis = date`, `y-axis = level`
 - [x] if not pass screening test, show level 0
-- [ ] data point color: green = pass screening test, red = not pass screening test
-- [ ] show more details: is pass screening test?, is pass breathing exercise?
+- [x] data point color: green = pass screening test, red = not pass screening test
 - [ ] click at data point to show more information: full result
-- [ ] hover on data point to show tooltip information
+- [x] hover on data point to show tooltip information: cannot customize chart
 - [ ] can choose range of date to show data
 
 ### Bugs/Others
@@ -111,7 +110,7 @@ npm start
 - [x] check DatePicker value
 - [x] refactor PatientInformation component
 - [x] initialize admit_date to the day that make a registration and not change when update profile
-- [ ] is surgery data still need? // NO...
+- [x] is surgery data still need? // NO...
 - [ ] Warning when editting my empty profile:
 ```
 A component is changing an uncontrolled input of type text to be controlled.
