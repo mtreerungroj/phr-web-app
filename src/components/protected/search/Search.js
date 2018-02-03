@@ -8,6 +8,7 @@ import { grey300 } from 'material-ui/styles/colors'
 import { getUserStatus, getPatientList } from '../../../services/helpers'
 import { convertDateFormat } from '../../../services/utils'
 import PatientInformation from './PatientInformation'
+import PatientProgress from './PatientProgress'
 
 const KEYS_TO_FILTERS = ['patient_code', 'firstname', 'lastname']
 
@@ -19,7 +20,8 @@ export default class Search extends Component {
       patients: [],
       searchTerm: '',
       isSelectPatient: false,
-      selectedPatient: ''
+      selectedPatient: '',
+      selectedType: ''
     }
   }
 
@@ -56,9 +58,11 @@ export default class Search extends Component {
 
   searchUpdated = term => this.setState({ searchTerm: term })
 
-  handleClickButton = userid => this.setState({ isSelectPatient: true, selectedPatient: userid })
+  handleClickProfileButton = userid => this.setState({ selectedType: 'profile', isSelectPatient: true, selectedPatient: userid })
 
-  handleBackButton = () => this.setState({ isSelectPatient: false, selectedPatient: '' })
+  handleClickProgressButton = userid => this.setState({ selectedType: 'progress', isSelectPatient: true, selectedPatient: userid })
+
+  handleBackButton = () => this.setState({ selectedType: '', isSelectPatient: false, selectedPatient: '' })
 
   searchTableColumns = [
     {
@@ -89,14 +93,25 @@ export default class Search extends Component {
     {
       Header: 'ดูข้อมูลผู้ป่วย',
       accessor: 'userid',
-      Cell: props => <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary onClick={() => this.handleClickButton(props.value)} /></div>
+      Cell: props => (
+        <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary onClick={() => this.handleClickProfileButton(props.value)} /></div>
+      )
+    },
+    {
+      Header: 'ดูพัฒนาการ',
+      accessor: 'userid',
+      Cell: props => (
+        <div style={{ textAlign: 'center' }}><RaisedButton label='เลือก' primary onClick={() => this.handleClickProgressButton(props.value)} /></div>
+      )
     }
   ]
 
   renderContent = () => {
     const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return this.state.isSelectPatient
-      ? <PatientInformation handleBackButton={this.handleBackButton} isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
+      ? this.state.selectedType === 'progress'
+          ? <PatientProgress />
+          : <PatientInformation handleBackButton={this.handleBackButton} isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
           <div style={styles.headerContainer}>
