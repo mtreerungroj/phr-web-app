@@ -110,7 +110,7 @@ export default class Search extends Component {
     const filteredPatients = this.state.patients.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return this.state.isSelectPatient
       ? this.state.selectedType === 'progress'
-          ? <PatientProgress />
+          ? <PatientProgress handleBackButton={this.handleBackButton} isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
           : <PatientInformation handleBackButton={this.handleBackButton} isSelectPatient={this.state.isSelectPatient} userid={this.state.selectedPatient} />
       : <div style={styles.container}>
         <div style={styles.tableContainer}>
