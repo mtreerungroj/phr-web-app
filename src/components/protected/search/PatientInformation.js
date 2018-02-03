@@ -269,7 +269,7 @@ export default class PatientInformation extends Component {
               <RaisedButton label='อัพเดทข้อมูล' onClick={this._handleOpenConfirmDialog} primary />
             </div>
 
-            <div align='left' style={{ lineHeight: '2em' }}>
+            {/* <div align='left' style={{ lineHeight: '2em' }}>
 
               <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
                 วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
@@ -285,7 +285,7 @@ export default class PatientInformation extends Component {
                 ระยะเวลาที่ใส่ท่อช่วยหายใจ: {'20'} นาที <br />
                 การสูญเสียเลือดระหว่างผ่าตัด: {'0.8'} ลิตร <br />
                 จำนวนของเส้นเลือดทั้งหมดที่ทำทางเบี่ยง: {'3'} เส้น ได้แก่ {'1 Sapheneous vein, 1 Radial artery, 1 Internal mammary artery'}<br />
-            </div>
+            </div> */}
           </form>
         </div>
       </div>
