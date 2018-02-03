@@ -85,11 +85,10 @@ npm start
 - [x] can view profile data of selected patient
 - [x] *can edit all profile data of selected patient*
 - [x] show Snackbar if update profile successfully
-- [ ] *have authorization to access all patient data (profile data and activities result summary)*
+- [x] *have authorization to access all patient data (profile data and activities result summary)*
 - [x] show date format as DD/MM/YYYY
 
 ### [staff] Report
-- [ ] show all activity result of every patient
 #### Pie Chart
 - [x] show user's activity result in pie chart: number of patients in each level
 - [x] show more details: who're in each level: firstname, lastname
@@ -98,9 +97,12 @@ npm start
 - [ ] can select patient to show in chart
 
 ### [patient] Report
-- [ ] show patient's activity result in line chart: default is `x-axis = date`, `y-axis = level`
+- [x] show patient's activity result in line chart: default is `x-axis = date`, `y-axis = level`
+- [x] if not pass screening test, show level 0
+- [ ] data point color: green = pass screening test, red = not pass screening test
 - [ ] show more details: is pass screening test?, is pass breathing exercise?
 - [ ] click at data point to show more information: full result
+- [ ] hover on data point to show tooltip information
 - [ ] can choose range of date to show data
 
 ### Bugs/Others
@@ -109,7 +111,7 @@ npm start
 - [x] check DatePicker value
 - [x] refactor PatientInformation component
 - [x] initialize admit_date to the day that make a registration and not change when update profile
-- [ ] is surgery data still need?
+- [ ] is surgery data still need? // NO...
 - [ ] Warning when editting my empty profile:
 ```
 A component is changing an uncontrolled input of type text to be controlled.
