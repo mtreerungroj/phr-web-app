@@ -118,9 +118,9 @@ export default class IndexStaff extends Component {
             </div>
           </div>
           <div>
-            {'ค้นหาผู้ป่วยด้วยชื่อ, นามสกุล หรือรหัสผู้ป่วย'}
-            <RaisedButton label='ค้นหาผู้ป่วย' primary onClick={this.handleClickToSearch} style={{ marginLeft: 20 }} />
-            <br />
+            <div style={{ marginBottom: 20 }}>
+              <RaisedButton label='🔎 ค้นหาผู้ป่วยด้วยชื่อ, นามสกุล หรือรหัสผู้ป่วย' primary onClick={this.handleClickToSearch} />
+            </div>
               ผู้ป่วยที่ไม่ถึงเกณฑ์
             </div>
         </div>
