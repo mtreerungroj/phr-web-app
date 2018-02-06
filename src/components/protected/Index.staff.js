@@ -68,7 +68,8 @@ export default class IndexStaff extends Component {
     super(props)
     this.state = {
       isLoading: true,
-      data: {}
+      data: {},
+      isAlert: false
     }
   }
 
@@ -94,6 +95,7 @@ export default class IndexStaff extends Component {
                     let firstDate = await firstResultData.date
                     let userLevel = await parseInt(patientStatus.profile.level)
                     isAlert = await checkStatus(firstDate, today, userLevel)
+                    isAlert && (await this.setState({ isAlert: true }))
                   }
                 })
                 .catch(res => console.log('catch', res))
@@ -143,6 +145,8 @@ export default class IndexStaff extends Component {
 
   render () {
     console.log(this.state)
+    let patients = this.state.patients
+
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={styles.container}>
@@ -167,8 +171,23 @@ export default class IndexStaff extends Component {
             <div style={{ marginBottom: 20 }}>
               <RaisedButton label='🔎 ค้นหาผู้ป่วยด้วยชื่อ นามสกุล หรือรหัสผู้ป่วย' primary onClick={this.handleClickToSearch} />
             </div>
-              ผู้ป่วยที่ไม่ถึงเกณฑ์
-            </div>
+            {this.state.isAlert
+                ? <div style={{ marginRight: 20 }}>
+                  {'⚠️ กรุณาตรวจเช็คผู้ป่วยต่อไปนี้ อาจมีผลการทำกิจกรรมล่าช้ากว่าปกติ'}
+                  {Object.keys(patients).map(
+                      (key, index) =>
+                        patients[key].isAlert &&
+                        <div key={patients[key].patient_code} style={styles.marginLeft}>
+                          {'- รหัสผู้ป่วย '} {patients[key].patient_code} {' '}
+                          {' : คุณ'}{patients[key].firstname} {' '} {patients[key].lastname}
+                          <RaisedButton label='ดูพัฒนาการ' primary onClick={this.handleClickToPatientProgress} style={{ marginLeft: 20 }} />
+                        </div>
+                    )}
+                </div>
+                : <div style={{ marginRight: 20 }}>
+                  {'ไม่มีผู้ป่วยที่มีผลการทำกิจกรรมล่าช้ากว่าปกติ'}
+                </div>}
+          </div>
         </div>
       </div>
   }
