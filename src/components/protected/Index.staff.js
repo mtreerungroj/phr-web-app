@@ -48,6 +48,21 @@ let dataLevel = {
   dataLevel7: []
 }
 
+const calculateDiffDate = (date_1, date_2) => {
+  let date1 = new Date(date_1)
+  let date2 = new Date(date_2)
+  let timeDiff = Math.abs(date2.getTime() - date1.getTime())
+  let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
+  return diffDays
+}
+
+const checkStatus = async (firstDate, today, userLevel) => {
+  let diffDate = await calculateDiffDate(firstDate, today)
+  if (diffDate >= 5 && userLevel <= 3) return true
+  else if (diffDate >= 3 && userLevel <= 1) return true
+  return false
+}
+
 export default class IndexStaff extends Component {
   constructor (props) {
     super(props)
@@ -68,12 +83,21 @@ export default class IndexStaff extends Component {
           let data = await patient[Object.keys(patient)[0]].patient_code
           await getPatientStatus(data.userid)
             .then(async patientStatus => {
+              let isAlert = false
               await getActivityResult(data.userid, patientStatus.profile.admit_date, today)
-                .then(activityResults => {
-                  if (Object.keys(activityResults).length > 0) console.log(activityResults)
+                .then(async activityResults => {
+                  // check alert in case of 'already start doing activity'
+                  // not check if user not start doing activity
+                  if (Object.keys(activityResults['activityResults']).length > 0) {
+                    let firstResultArray = await activityResults['activityResults'][0]
+                    let firstResultData = await firstResultArray[Object.keys(firstResultArray)[0]].activity_result_1.result
+                    let firstDate = await firstResultData.date
+                    let userLevel = await parseInt(patientStatus.profile.level)
+                    isAlert = await checkStatus(firstDate, today, userLevel)
+                  }
                 })
                 .catch(res => console.log('catch', res))
-              patients.push({ ...patientStatus.profile, userid: data.userid })
+              patients.push({ ...patientStatus.profile, userid: data.userid, isAlert })
             })
             .catch(res => console.log('catch', res))
         }
