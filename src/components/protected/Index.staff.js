@@ -3,6 +3,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { getPieChartData, getPatientList, getPatientStatus, getActivityResult } from '../../services/helpers'
 import { Pie } from 'react-chartjs-2'
 
+import PatientProgress from './PatientProgress'
+
 import {
   grey300,
   grey400,
@@ -68,7 +70,9 @@ export default class IndexStaff extends Component {
     this.state = {
       isLoading: true,
       data: {},
-      isAlert: false
+      isAlert: false,
+      isShowProgress: false,
+      useridToShowProgress: ''
     }
   }
 
@@ -138,59 +142,70 @@ export default class IndexStaff extends Component {
     this.setState({ isLoading: false })
   }
 
+  handleBackButton = () => this.setState({ isShowProgress: false, useridToShowProgress: '' })
+
   handleClickToOverview = () => (window.location.href = '/overview')
 
   handleClickToSearch = () => (window.location.href = '/search')
+
+  handleClickToPatientProgress = userid => this.setState({ isShowProgress: true, useridToShowProgress: userid })
 
   render () {
     let patients = this.state.patients
     let user = this.props.user
     return this.state.isLoading
       ? <div>Loading...</div>
-      : <div style={styles.container}>
-        <div style={styles.inner}>
-          <div style={styles.header}>ภาพรวมของผู้ป่วยทั้งหมด</div>
-          <div style={{ ...styles.header, textAlign: 'right', marginRight: 40 }}>
-            {'ยินดีต้อนรับคุณ'}{user.firstname}{' '}{user.lastname}
-          </div>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={styles.chart}>
-            <Pie
-              data={data}
-              width={300}
-              height={300}
-              options={{
-                maintainAspectRatio: false
-              }}
-              />
-            <div style={styles.buttonContainer}>
-              <RaisedButton label='ดูกราฟโดยละเอียด' primary onClick={this.handleClickToOverview} />
+      : this.state.isShowProgress
+          ? <PatientProgress userid={this.state.useridToShowProgress} handleBackButton={this.handleBackButton} />
+          : <div style={styles.container}>
+            <div style={styles.inner}>
+              <div style={styles.header}>ภาพรวมของผู้ป่วยทั้งหมด</div>
+              <div style={{ ...styles.header, textAlign: 'right', marginRight: 40 }}>
+                {'ยินดีต้อนรับคุณ'}{user.firstname}{' '}{user.lastname}
+              </div>
             </div>
-          </div>
-          <div>
-            <div style={{ marginBottom: 20 }}>
-              <RaisedButton label='🔎 ค้นหาผู้ป่วยด้วยชื่อ นามสกุล หรือรหัสผู้ป่วย' primary onClick={this.handleClickToSearch} />
-            </div>
-            {this.state.isAlert
-                ? <div style={{ marginRight: 20 }}>
-                  {'⚠️ กรุณาตรวจเช็คผู้ป่วยต่อไปนี้ อาจมีผลการทำกิจกรรมล่าช้ากว่าปกติ'}
-                  {Object.keys(patients).map(
-                      (key, index) =>
-                        patients[key].isAlert &&
-                        <div key={patients[key].patient_code} style={styles.marginLeft}>
-                          {'- รหัสผู้ป่วย '} {patients[key].patient_code} {' '}
-                          {' : คุณ'}{patients[key].firstname} {' '} {patients[key].lastname}
-                          <RaisedButton label='ดูพัฒนาการ' primary onClick={this.handleClickToPatientProgress} style={{ marginLeft: 20 }} />
-                        </div>
-                    )}
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div style={styles.chart}>
+                <Pie
+                  data={data}
+                  width={300}
+                  height={300}
+                  options={{
+                    maintainAspectRatio: false
+                  }}
+                  />
+                <div style={styles.buttonContainer}>
+                  <RaisedButton label='ดูกราฟโดยละเอียด' primary onClick={this.handleClickToOverview} />
                 </div>
-                : <div style={{ marginRight: 20 }}>
-                  {'ไม่มีผู้ป่วยที่มีผลการทำกิจกรรมล่าช้ากว่าปกติ'}
-                </div>}
+              </div>
+              <div>
+                <div style={{ marginBottom: 20 }}>
+                  <RaisedButton label='🔎 ค้นหาผู้ป่วยด้วยชื่อ นามสกุล หรือรหัสผู้ป่วย' primary onClick={this.handleClickToSearch} />
+                </div>
+                {this.state.isAlert
+                    ? <div style={{ marginRight: 20 }}>
+                      {'⚠️ กรุณาตรวจเช็คผู้ป่วยต่อไปนี้ อาจมีผลการทำกิจกรรมล่าช้ากว่าปกติ'}
+                      {Object.keys(patients).map(
+                          (key, index) =>
+                            patients[key].isAlert &&
+                            <div key={patients[key].patient_code} style={styles.marginLeft}>
+                              {'- รหัสผู้ป่วย '} {patients[key].patient_code} {' '}
+                              {' : คุณ'}{patients[key].firstname} {' '} {patients[key].lastname}
+                              <RaisedButton
+                                label='ดูพัฒนาการ'
+                                primary
+                                onClick={() => this.handleClickToPatientProgress(patients[key].userid)}
+                                style={{ marginLeft: 20 }}
+                              />
+                            </div>
+                        )}
+                    </div>
+                    : <div style={{ marginRight: 20 }}>
+                      {'ไม่มีผู้ป่วยที่มีผลการทำกิจกรรมล่าช้ากว่าปกติ'}
+                    </div>}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
   }
 }
 
