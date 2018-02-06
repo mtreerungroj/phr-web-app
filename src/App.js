@@ -81,16 +81,16 @@ export default class App extends Component {
     return this.state.isLoading
       ? <div style={styles.container}>Loading...</div>
       : <MuiThemeProvider muiTheme={muiTheme}>
-        <Snackbar
-          open={this.state.isShowSnackbar}
-          message={this.state.snackbarMessage}
-          autoHideDuration={8000}
-          onRequestClose={this.handleRequestSnackbarClose}
-          />
         <BrowserRouter>
           <div style={styles.container}>
             {!this.state.authed
                 ? <div>
+                  <Snackbar
+                    open={this.state.isShowSnackbar}
+                    message={this.state.snackbarMessage}
+                    autoHideDuration={8000}
+                    onRequestClose={this.handleRequestSnackbarClose}
+                    />
                   <Route exact path='/' component={() => <Login handleLoginSubmit={this.handleLoginSubmit} handleChangePath={this.handleChangePath} />} />
                   <Route path='/register' component={() => <Registration />} />
                   {/* <Route component={() => <InAccessible />} /> */}
