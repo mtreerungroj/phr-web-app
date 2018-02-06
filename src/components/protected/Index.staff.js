@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
+import TextField from 'material-ui/TextField'
 import { getPieChartData } from '../../services/helpers'
 import { Pie } from 'react-chartjs-2'
 
@@ -92,9 +92,9 @@ export default class IndexStaff extends Component {
     this.setState({ isLoading: false })
   }
 
-  handleClickToOverview = () => {
-    window.location.href = '/overview'
-  }
+  handleClickToOverview = () => (window.location.href = '/overview')
+
+  handleClickToSearch = () => (window.location.href = '/search')
 
   render () {
     return this.state.isLoading
@@ -118,8 +118,9 @@ export default class IndexStaff extends Component {
             </div>
           </div>
           <div>
-              Search here
-              <br />
+            {'ค้นหาผู้ป่วยด้วยชื่อ, นามสกุล หรือรหัสผู้ป่วย'}
+            <RaisedButton label='ค้นหาผู้ป่วย' primary onClick={this.handleClickToSearch} style={{ marginLeft: 20 }} />
+            <br />
               ผู้ป่วยที่ไม่ถึงเกณฑ์
             </div>
         </div>
