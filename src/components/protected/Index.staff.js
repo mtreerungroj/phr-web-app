@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
-import { getPieChartData } from '../../services/helpers'
+import { getPieChartData, getPatientList, getPatientStatus, getActivityResult } from '../../services/helpers'
+import { convertDateFormat } from '../../services/utils'
 import { Pie } from 'react-chartjs-2'
 
 import {
@@ -21,9 +21,7 @@ import {
   lightGreen400,
   yellow400,
   orange400,
-  red400,
-  grey50,
-  cyan500
+  red400
 } from 'material-ui/styles/colors'
 
 let count = [0, 0, 0, 0, 0, 0, 0, 0] // level 0 - 7
@@ -60,10 +58,33 @@ export default class IndexStaff extends Component {
   }
 
   async componentDidMount () {
+    const that = this
+    let today = await new Date().toISOString().substring(0, 10)
+
+    await getPatientList()
+      .then(async patientsData => {
+        let patients = []
+        for (let patient of patientsData.data) {
+          let data = await patient[Object.keys(patient)[0]].patient_code
+          await getPatientStatus(data.userid)
+            .then(async patientStatus => {
+              await getActivityResult(data.userid, patientStatus.profile.admit_date, today)
+                .then(activityResults => {
+                  if (Object.keys(activityResults).length > 0) console.log(activityResults)
+                })
+                .catch(res => console.log('catch', res))
+              patients.push({ ...patientStatus.profile, userid: data.userid })
+            })
+            .catch(res => console.log('catch', res))
+        }
+        that.setState({ patients })
+      })
+      .catch(res => that.setState(res))
+
     await getPieChartData()
       .then(res => {
-        this.setState({ data: res })
-        this.computeDataForChart()
+        that.setState({ data: res })
+        that.computeDataForChart()
       })
       .catch(res => this.setState({ data: res, isLoading: false }))
   }
@@ -97,6 +118,7 @@ export default class IndexStaff extends Component {
   handleClickToSearch = () => (window.location.href = '/search')
 
   render () {
+    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={styles.container}>
@@ -119,7 +141,7 @@ export default class IndexStaff extends Component {
           </div>
           <div>
             <div style={{ marginBottom: 20 }}>
-              <RaisedButton label='🔎 ค้นหาผู้ป่วยด้วยชื่อ, นามสกุล หรือรหัสผู้ป่วย' primary onClick={this.handleClickToSearch} />
+              <RaisedButton label='🔎 ค้นหาผู้ป่วยด้วยชื่อ นามสกุล หรือรหัสผู้ป่วย' primary onClick={this.handleClickToSearch} />
             </div>
               ผู้ป่วยที่ไม่ถึงเกณฑ์
             </div>
