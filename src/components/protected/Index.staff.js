@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import { getPieChartData } from '../../services/helpers'
 import { Pie } from 'react-chartjs-2'
 
@@ -54,15 +55,7 @@ export default class IndexStaff extends Component {
     super(props)
     this.state = {
       isLoading: true,
-      data: {},
-      isShowLevel0: false,
-      isShowLevel1: false,
-      isShowLevel2: false,
-      isShowLevel3: false,
-      isShowLevel4: false,
-      isShowLevel5: false,
-      isShowLevel6: false,
-      isShowLevel7: false
+      data: {}
     }
   }
 
@@ -99,6 +92,10 @@ export default class IndexStaff extends Component {
     this.setState({ isLoading: false })
   }
 
+  handleClickToOverview = () => {
+    window.location.href = '/overview'
+  }
+
   render () {
     return this.state.isLoading
       ? <div>Loading...</div>
@@ -116,9 +113,9 @@ export default class IndexStaff extends Component {
                 maintainAspectRatio: false
               }}
               />
-            <div>
-                ดูกราฟโดยละเอียด
-              </div>
+            <div style={styles.buttonContainer}>
+              <RaisedButton label='ดูกราฟโดยละเอียด' primary onClick={this.handleClickToOverview} />
+            </div>
           </div>
           <div>
               Search here
@@ -153,13 +150,8 @@ const styles = {
   marginLeft: {
     marginLeft: 20
   },
-  levelDetail: {
-    marginLeft: 20,
-    marginRight: 60,
-    backgroundColor: grey50,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: cyan500,
-    borderRadius: 10
+  buttonContainer: {
+    textAlign: 'center',
+    marginTop: 20
   }
 }
