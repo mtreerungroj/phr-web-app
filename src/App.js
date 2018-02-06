@@ -102,7 +102,10 @@ export default class App extends Component {
                       exact
                       authed={this.state.authed}
                       path='/'
-                      component={props => (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse' ? <IndexStaff /> : <IndexPatient />)}
+                      component={props =>
+                          (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse'
+                            ? <IndexStaff user={this.state.profile} />
+                            : <IndexPatient />)}
                       />
                     <PrivateRoute authed={this.state.authed} path='/overview' component={props => <Overivew />} />
                     <PrivateRoute authed={this.state.authed} path='/search' component={props => <Search />} />

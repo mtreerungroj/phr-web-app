@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import { getPieChartData, getPatientList, getPatientStatus, getActivityResult } from '../../services/helpers'
-import { convertDateFormat } from '../../services/utils'
 import { Pie } from 'react-chartjs-2'
 
 import {
@@ -93,7 +92,7 @@ export default class IndexStaff extends Component {
                     let firstResultArray = await activityResults['activityResults'][0]
                     let firstResultData = await firstResultArray[Object.keys(firstResultArray)[0]].activity_result_1.result
                     let firstDate = await firstResultData.date
-                    let userLevel = await parseInt(patientStatus.profile.level)
+                    let userLevel = await parseInt(patientStatus.profile.level, 10)
                     isAlert = await checkStatus(firstDate, today, userLevel)
                     isAlert && (await this.setState({ isAlert: true }))
                   }
@@ -144,14 +143,16 @@ export default class IndexStaff extends Component {
   handleClickToSearch = () => (window.location.href = '/search')
 
   render () {
-    console.log(this.state)
     let patients = this.state.patients
-
+    let user = this.props.user
     return this.state.isLoading
       ? <div>Loading...</div>
       : <div style={styles.container}>
         <div style={styles.inner}>
           <div style={styles.header}>ภาพรวมของผู้ป่วยทั้งหมด</div>
+          <div style={{ ...styles.header, textAlign: 'right', marginRight: 40 }}>
+            {'ยินดีต้อนรับคุณ'}{user.firstname}{' '}{user.lastname}
+          </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <div style={styles.chart}>
@@ -200,14 +201,17 @@ const styles = {
     flexDirection: 'column'
   },
   inner: {
-    flex: 1
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row'
   },
   header: {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 20,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    width: '100%'
   },
   chart: { flex: 1, minWidth: 400, maxWidth: 600, width: '100%' },
   marginTop: {
