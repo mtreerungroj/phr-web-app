@@ -22,4 +22,13 @@ const hospitals = [
 
 const bloodTypes = [{ id: 'A', name: 'A' }, { id: 'B', name: 'B' }, { id: 'AB', name: 'AB' }, { id: 'O', name: 'O' }]
 
-export { gender, _status, race, region, hospitals, bloodTypes }
+const nyhaClass = [{ id: '1', name: 'ระดับ 1' }, { id: '2', name: 'ระดับ 2' }, { id: '3', name: 'ระดับ 3' }, { id: '4', name: 'ระดับ 4' }]
+
+const ejectionFraction = [
+  { id: '0', name: 'แพทย์ไม่ระบุ' },
+  { id: '1', name: 'น้อยกว่า 40%' },
+  { id: '2', name: 'ระหว่าง 40% ถึง 50%' },
+  { id: '3', name: 'มากกว่า 50%' }
+]
+
+export { gender, _status, race, region, hospitals, bloodTypes, nyhaClass, ejectionFraction }
