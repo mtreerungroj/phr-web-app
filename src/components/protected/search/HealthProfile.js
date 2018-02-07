@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import Toggle from 'material-ui/Toggle'
 import DatePicker from 'material-ui/DatePicker'
-import { bloodTypes } from '../../../services/enum'
+import { bloodTypes, nyhaClass, ejectionFraction } from '../../../services/enum'
 import { grey200, grey400 } from 'material-ui/styles/colors'
 
 export default class HealthProfile extends Component {
@@ -138,17 +138,43 @@ export default class HealthProfile extends Component {
             style={{ marginLeft: 10 }}
           />
         </div>
-        <TextField
-          name='surgery_sapheneous_vein'
-          type='number'
-          defaultValue={this.props.surgery_sapheneous_vein || 0}
-          errorText={this.props.allergic_food === undefined ? 'กรุณากรอกข้อมูล' : ''}
-          floatingLabelText='จำนวนเส้นเลือด Sapheneous vein ที่นำมาทำทางเบี่ยง'
-          onChange={this.props._handleChangeValue}
-          underlineStyle={this.props.styles.underlineStyle}
-          underlineFocusStyle={this.props.styles.underlineStyle}
-          style={{ width: 400 }}
-        />
+        <div>
+          <TextField
+            name='surgery_sapheneous_vein'
+            type='number'
+            defaultValue={this.props.surgery_sapheneous_vein || 0}
+            errorText={this.props.allergic_food === undefined ? 'กรุณากรอกข้อมูล' : ''}
+            floatingLabelText='จำนวนเส้นเลือด Sapheneous vein ที่นำมาทำทางเบี่ยง'
+            onChange={this.props._handleChangeValue}
+            underlineStyle={this.props.styles.underlineStyle}
+            underlineFocusStyle={this.props.styles.underlineStyle}
+            style={{ width: 500 }}
+          />
+        </div>
+        <div>
+          <SelectField
+            value={this.props.nyha_class}
+            floatingLabelText='ระดับความรุนแรงของหัวใจตามเกณฑ์สมาคมโรคหัวใจ นิวยอร์ก (NYHA)'
+            onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'nyha_class')}
+            underlineStyle={this.props.styles.underlineStyle}
+            underlineFocusStyle={this.props.styles.underlineStyle}
+            style={{ marginRight: 10, width: 500 }}
+          >
+            {this.props.menuItems(nyhaClass)}
+          </SelectField>
+        </div>
+        <div>
+          <SelectField
+            value={this.props.ejection_fraction}
+            floatingLabelText='ประสิทธิภาพการบีบตัวของกล้ามเนื้อหัวใจ'
+            onChange={(event, index, value) => this.props._handleSelectFieldChangeValue(event, index, value, 'ejection_fraction')}
+            underlineStyle={this.props.styles.underlineStyle}
+            underlineFocusStyle={this.props.styles.underlineStyle}
+            style={{ marginRight: 10, width: 500 }}
+          >
+            {this.props.menuItems(ejectionFraction)}
+          </SelectField>
+        </div>
       </div>
     )
   }
