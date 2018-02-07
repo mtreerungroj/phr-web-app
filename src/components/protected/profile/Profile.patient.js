@@ -301,6 +301,16 @@ export default class PatientProfile extends Component {
                 (profile.surgery_sapheneous_vein ? profile.surgery_sapheneous_vein + ' เส้น' : 'ไม่ได้ระบุ')}
               <br />
             </div>
+            <div style={styles.profileElement}>
+              {'ระดับความรุนแรงของหัวใจตามเกณฑ์สมาคมโรคหัวใจนิวยอร์ก (NYHA 1-4) : ' + (profile.nyha_class ? profile.nyha_class : 'ไม่ระบุ')} <br />
+            </div>
+            <div style={styles.profileElement}>
+              {'ประสิทธิภาพการบีบตัวของกล้ามเนื้อหัวใจ: ' +
+                (profile.ejection_fraction
+                  ? profile.ejection_fraction === 1 ? 'น้อยกว่า 40%' : profile.ejection_fraction === 2 ? 'ระหว่าง 40% - 50%' : 'มากกว่า 50%'
+                  : 'ไม่ระบุ')}
+              <br />
+            </div>
 
             {/* <br /><div style={styles.header}>ข้อมูลเกี่ยวกับการรักษา/ผ่าตัด</div> <br />
             วันที่รับผู้ป่วยเข้าโรงพยาบาล: {'2017-12-31'} <br />
