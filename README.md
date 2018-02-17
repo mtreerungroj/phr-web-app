@@ -53,8 +53,8 @@ npm start
 - [x] store paired userid and patient code to `patient_code` table
 
 ### [staff] Dashboard
-- [ ] show profile data
-- [ ] can search for patient
+- [x] show profile data
+- [x] can search for patient
 
 ### [patient] Dashboard
 - [ ] show profile data
