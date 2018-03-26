@@ -109,7 +109,8 @@ export default class InformationForm extends Component {
 const styles = {
   container: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: 30
   },
   rowDirection: {
     display: 'flex',
