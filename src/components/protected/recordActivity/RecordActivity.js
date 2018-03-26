@@ -67,6 +67,9 @@ export default class RecordActivity extends Component {
     this.setState({ [key]: date, real_date })
   }
 
+  _handleRadioButtonChangeValue = (event, value, key) =>
+    this.setState({ [key]: value })
+
   _handleTimePickerChangeValue = async (date, key) => {
     let real_time = new Date(date)
     await real_time.setTime(real_time.getTime() + 7 * 60 * 60 * 1000)
@@ -107,7 +110,13 @@ export default class RecordActivity extends Component {
               <PostActivityForm />
               <ResultActivityForm
                 {...this.state}
+                _handleSelectFieldChangeValue={
+                    this._handleSelectFieldChangeValue
+                  }
                 _handleChangeValue={this._handleChangeValue}
+                _handleRadioButtonChangeValue={
+                    this._handleRadioButtonChangeValue
+                  }
                 />
             </div>
           </div>

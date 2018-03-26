@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import DatePicker from 'material-ui/DatePicker'
-import TimePicker from 'material-ui/TimePicker'
-import TextField from 'material-ui/TextField'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 
 import { grey500 } from 'material-ui/styles/colors'
 import { activityLevel } from '../../../services/enum'
@@ -49,11 +47,30 @@ export default class ResultForm extends Component {
             maxHeight={200}
             underlineStyle={styles.underlineStyle}
             underlineFocusStyle={styles.underlineStyle}
-            style={{ width: 300, marginRight: 40 }}
+            style={{ width: 300, marginRight: 40, marginBottom: 20 }}
             >
             {this.menuItems(activityLevel)}
           </SelectField>
         </div>
+        {'ผู้ป่วยทำกิจกรรมขั้นนี้สำเร็จหรือไม่?'}
+        <RadioButtonGroup
+          name='completedLevel'
+          onChange={(event, value) =>
+              this.props._handleRadioButtonChangeValue(
+                event,
+                value,
+                'completedLevel'
+              )}
+          style={{
+            ...styles.rowDirection,
+            width: 300,
+            marginTop: 20,
+            marginBottom: 10
+          }}
+          >
+          <RadioButton value label='สำเร็จ' />
+          <RadioButton value={false} label='ไม่สำเร็จ' />
+        </RadioButtonGroup>
       </div>
   }
 }
