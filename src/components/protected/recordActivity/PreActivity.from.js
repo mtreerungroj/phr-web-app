@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
-import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField'
+import Checkbox from 'material-ui/Checkbox'
 
 import { grey500 } from 'material-ui/styles/colors'
+
+const conditions = {
+  st: 'ST ≥ 120 ครั้ง/นาที',
+  pvc: 'PVC ชนิด bigeminy หรือมาติดกันมากกว่า 2-3 ตัว',
+  af: 'AF ≥ 100 ครั้ง/นาที',
+  svt: 'SVT',
+  bradycardia: 'Bradycardia ที่ใช้ pacemaker, VT, VF',
+  stSegment: 'มีความผิดปกติของ ST-segment'
+}
 
 export default class PreActivityForm extends Component {
   constructor (props) {
@@ -15,6 +24,16 @@ export default class PreActivityForm extends Component {
   async componentDidMount () {
     this.setState({ isLoading: false })
   }
+
+  checkbox = (condition, checked) => (
+    <Checkbox
+      label={conditions[condition]}
+      checked={this.props[condition]}
+      onCheck={(event, value) =>
+        this.props._handleOnCheckCheckbox(event, value, condition)}
+      style={{ width: 400 }}
+    />
+  )
 
   render () {
     return this.state.isLoading
@@ -43,9 +62,27 @@ export default class PreActivityForm extends Component {
             style={{ width: 300 }}
             />
         </div>
-        {
-            'ผลการทดสอบความพร้อมก่อนเริ่มทำกิจกรรมของผู้ป่วย (ทำเครื่องหมายหากมีอาการ)'
-          }
+
+        <div style={{ marginBottom: 10 }}>
+            ผลการทดสอบความพร้อมก่อนเริ่มทำกิจกรรมของผู้ป่วย (ทำเครื่องหมายหากมีอาการ)
+          </div>
+        <div style={{ marginLeft: 40 }}>
+          <div>
+            {'เกิดภาวะหัวใจเต้นผิดจังหวะ (กรณีมีเครื่องมอนิเตอร์)'}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('st')}
+            {this.checkbox('pvc')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('af')}
+            {this.checkbox('svt')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('bradycardia')}
+            {this.checkbox('stSegment')}
+          </div>
+        </div>
       </div>
   }
 }
@@ -62,5 +99,10 @@ const styles = {
   },
   underlineStyle: {
     borderColor: grey500
+  },
+  checkboxContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 10
   }
 }

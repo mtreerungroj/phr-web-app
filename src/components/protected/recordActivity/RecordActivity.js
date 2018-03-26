@@ -70,6 +70,9 @@ export default class RecordActivity extends Component {
   _handleRadioButtonChangeValue = (event, value, key) =>
     this.setState({ [key]: value })
 
+  _handleOnCheckCheckbox = (event, value, key) =>
+    this.setState({ [key]: value })
+
   _handleTimePickerChangeValue = async (date, key) => {
     let real_time = new Date(date)
     await real_time.setTime(real_time.getTime() + 7 * 60 * 60 * 1000)
@@ -109,6 +112,7 @@ export default class RecordActivity extends Component {
               <PreActivityForm
                 {...this.state}
                 _handleChangeValue={this._handleChangeValue}
+                _handleOnCheckCheckbox={this._handleOnCheckCheckbox}
                 />
               <PostActivityForm />
               <ResultActivityForm
