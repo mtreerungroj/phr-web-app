@@ -1,7 +1,8 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://192.168.3.128:5000/'
+const server_ip = 'http://172.20.10.4:5000/'
+// const server_ip = 'http://192.168.3.128:5000/'
 const appid = 'HPHR'
 
 const getUserStatus = () => {
