@@ -54,10 +54,29 @@ export default class RecordActivity extends Component {
       .catch(res => this.setState(res))
   }
 
+  _handleChangeValue = e => this.setState({ [e.target.name]: e.target.value })
+
   _handleSelectFieldChangeValue = (event, index, value, key) =>
     this.setState({ [key]: value })
 
+  _handleDatePickerChangeValue = async (date, key) => {
+    let real_date = new Date(date)
+    await real_date.setDate(real_date.getDate() + 1)
+    date = await date.toISOString().substring(0, 10)
+    real_date = await real_date.toISOString().substring(0, 10)
+    this.setState({ [key]: date, real_date })
+  }
+
+  _handleTimePickerChangeValue = async (date, key) => {
+    let real_time = new Date(date)
+    await real_time.setTime(real_time.getTime() + 7 * 60 * 60 * 1000)
+    date = await date.toISOString().substring(11, 19)
+    real_time = await real_time.toISOString().substring(11, 19)
+    this.setState({ [key]: date, real_time })
+  }
+
   render () {
+    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : this.state.profile.role !== 'nurse' &&
@@ -76,6 +95,13 @@ export default class RecordActivity extends Component {
                 _handleSelectFieldChangeValue={
                     this._handleSelectFieldChangeValue
                   }
+                _handleDatePickerChangeValue={
+                    this._handleDatePickerChangeValue
+                  }
+                _handleTimePickerChangeValue={
+                    this._handleTimePickerChangeValue
+                  }
+                _handleChangeValue={this._handleChangeValue}
                 />
               <PreActivityForm />
               <PostActivityForm />
@@ -102,7 +128,8 @@ const styles = {
     marginBottom: 20
   },
   content: {
-    marginLeft: 30,
-    marginRight: 30
+    maxWidth: '90%',
+    width: '70%',
+    alignSelf: 'center'
   }
 }
