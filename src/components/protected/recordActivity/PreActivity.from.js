@@ -59,7 +59,7 @@ export default class PreActivityForm extends Component {
             ผลการทดสอบความพร้อมก่อนเริ่มทำกิจกรรมของผู้ป่วย (ทำเครื่องหมายหากมีอาการ)
           </div>
         <div style={{ marginLeft: 40 }}>
-          <div style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
             {'เกิดภาวะหัวใจเต้นผิดจังหวะ (กรณีมีเครื่องมอนิเตอร์)'}
           </div>
           <div style={styles.checkboxContainer}>
@@ -74,7 +74,7 @@ export default class PreActivityForm extends Component {
             {this.checkbox('bradycardia')}
             {this.checkbox('stSegment')}
           </div>
-          <div style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 20, marginBottom: 10 }}>
             {'เกิดภาวะผิดปกติของการหายใจ'}
           </div>
           <div style={styles.checkboxContainer}>
@@ -88,7 +88,7 @@ export default class PreActivityForm extends Component {
           <div style={styles.checkboxContainer}>
             {this.checkbox('paO2')}
           </div>
-          <div style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 20, marginBottom: 10 }}>
             {'อาการผิดปกติอื่นๆ'}
           </div>
           <div style={styles.checkboxContainer}>

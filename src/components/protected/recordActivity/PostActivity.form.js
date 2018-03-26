@@ -42,6 +42,27 @@ export default class PostActivityForm extends Component {
             style={{ width: 300 }}
             />
         </div>
+        <div style={{ ...styles.rowDirection, marginBottom: 20 }}>
+          <TextField
+            name='borg'
+            type='number'
+            floatingLabelText='ระดับความเหนื่อยของผู้ป่วย (Borg scale: 1-13)'
+            inputprops={{ min: 1, max: 13, step: 1 }}
+            onChange={this.props._handleChangeValue}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.underlineStyle}
+            style={{ width: 400, marginRight: 40 }}
+            />
+          <TextField
+            name='assistant'
+            type='number'
+            floatingLabelText='จำนวนผู้ช่วยเหลือ (คน)'
+            onChange={this.props._handleChangeValue}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.underlineStyle}
+            style={{ width: 300, marginRight: 40 }}
+            />
+        </div>
       </div>
   }
 }

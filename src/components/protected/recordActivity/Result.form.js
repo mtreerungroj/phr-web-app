@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import TextField from 'material-ui/TextField'
 
 import { grey500 } from 'material-ui/styles/colors'
 import { activityLevel } from '../../../services/enum'
@@ -36,7 +37,7 @@ export default class ResultForm extends Component {
         <div style={styles.rowDirection}>
           <SelectField
             value={this.props.maxLevel}
-            floatingLabelText='ระดับขั้นที่ผู้ป่วยทำได้สูงสุด'
+            floatingLabelText='ระดับขั้นที่ผู้ป่วยทำได้สูงสุด (1-7)'
             onChange={(event, index, value) =>
                 this.props._handleSelectFieldChangeValue(
                   event,
@@ -71,6 +72,16 @@ export default class ResultForm extends Component {
           <RadioButton value label='สำเร็จ' />
           <RadioButton value={false} label='ไม่สำเร็จ' />
         </RadioButtonGroup>
+        {'หมายเหตุอื่นๆ: '}
+        <TextField
+          hintText='บันทึกอื่นๆ เช่น อาการเพิ่มเติม หรือสิ่งช่วยจำ'
+          multiLine
+          rows={1}
+          rowsMax={4}
+          fullWidth
+          underlineStyle={styles.underlineStyle}
+          underlineFocusStyle={styles.underlineStyle}
+          />
       </div>
   }
 }
