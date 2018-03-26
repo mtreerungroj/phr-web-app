@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import RaisedButton from 'material-ui/RaisedButton'
+
 import InformationForm from './Information.form'
 import PreActivityForm from './PreActivity.from'
 import PostActivityForm from './PostActivity.form'
@@ -128,6 +130,9 @@ export default class RecordActivity extends Component {
                     this._handleRadioButtonChangeValue
                   }
                 />
+              <div style={{ textAlign: 'center' }}>
+                <RaisedButton label='บันทึกข้อมูล' primary />
+              </div>
             </div>
           </div>
   }
@@ -152,6 +157,7 @@ const styles = {
   content: {
     maxWidth: '90%',
     width: '70%',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginBottom: 40
   }
 }
