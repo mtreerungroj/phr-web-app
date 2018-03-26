@@ -114,7 +114,10 @@ export default class RecordActivity extends Component {
                 _handleChangeValue={this._handleChangeValue}
                 _handleOnCheckCheckbox={this._handleOnCheckCheckbox}
                 />
-              <PostActivityForm />
+              <PostActivityForm
+                {...this.state}
+                _handleChangeValue={this._handleChangeValue}
+                />
               <ResultActivityForm
                 {...this.state}
                 _handleSelectFieldChangeValue={

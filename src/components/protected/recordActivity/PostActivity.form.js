@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import TextField from 'material-ui/TextField'
 
 import { grey500 } from 'material-ui/styles/colors'
 
@@ -18,8 +19,29 @@ export default class PostActivityForm extends Component {
     return this.state.isLoading
       ? <div>กำลังโหลดข้อมูล...</div>
       : <div style={styles.container}>
-        <div><b>ข้อมูลผลการทำกิจกรรม</b></div>
-
+        <div><b>ข้อมูลหลังการทำกิจกรรมเสร็จสิ้น</b></div>
+        <div style={{ ...styles.rowDirection, marginBottom: 20 }}>
+          <TextField
+            name='postHR'
+            type='number'
+            floatingLabelText='อัตราการเต้นของหัวใจ (bpm)'
+            maxLength='3'
+            onChange={this.props._handleChangeValue}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.underlineStyle}
+            style={{ width: 300, marginRight: 40 }}
+            />
+          <TextField
+            name='postBP'
+            type='text'
+            floatingLabelText='ความดันเลือด (Systolic/Diastolic)'
+            maxLength='7'
+            onChange={this.props._handleChangeValue}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.underlineStyle}
+            style={{ width: 300 }}
+            />
+        </div>
       </div>
   }
 }
