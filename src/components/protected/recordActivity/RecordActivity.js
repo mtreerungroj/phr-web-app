@@ -54,8 +54,10 @@ export default class RecordActivity extends Component {
       .catch(res => this.setState(res))
   }
 
+  _handleSelectFieldChangeValue = (event, index, value, key) =>
+    this.setState({ [key]: value })
+
   render () {
-    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : this.state.profile.role !== 'nurse' &&
@@ -68,7 +70,13 @@ export default class RecordActivity extends Component {
                 </div>
             </div>
             <div style={styles.content}>
-              <InformationForm patients={this.state.patients} />
+              <InformationForm
+                {...this.state}
+                patients={this.state.patients}
+                _handleSelectFieldChangeValue={
+                    this._handleSelectFieldChangeValue
+                  }
+                />
               <PreActivityForm />
               <PostActivityForm />
               <ResultActivityForm />
