@@ -4,7 +4,12 @@ import PreActivityForm from './PreActivity.from'
 import PostActivityForm from './PostActivity.form'
 import ResultActivityForm from './Result.form'
 
-import { getUserStatus } from '../../../services/helpers'
+import {
+  getUserStatus,
+  getPatientList,
+  getPatientStatus
+} from '../../../services/helpers'
+import { convertDateFormat } from '../../../services/utils'
 
 import { grey300 } from 'material-ui/styles/colors'
 
@@ -17,12 +22,40 @@ export default class RecordActivity extends Component {
   }
 
   async componentDidMount () {
+    const that = this
+    await getPatientList()
+      .then(async patientsData => {
+        let patients = []
+        for (let patient of patientsData.data) {
+          let data = await patient[Object.keys(patient)[0]].patient_code
+          let level = 0
+
+          await getPatientStatus(data.userid)
+            .then(async patientStatus => {
+              level = patientStatus.profile.level
+            })
+            .catch(res => console.log('catch', res))
+          await patients.push({
+            patient_code: data.patient_code,
+            gender: data.gender === 'women' ? 'หญิง' : 'ชาย',
+            firstname: data.firstname,
+            lastname: data.lastname,
+            admit_date: convertDateFormat(data.admit_date),
+            level: level,
+            userid: data.userid
+          })
+        }
+        await that.setState({ patients })
+      })
+      .catch(res => that.setState(res))
+
     await getUserStatus()
       .then(res => this.setState(res))
       .catch(res => this.setState(res))
   }
 
   render () {
+    console.log(this.state)
     return this.state.isLoading
       ? <div>Loading...</div>
       : this.state.profile.role !== 'nurse' &&
@@ -35,7 +68,7 @@ export default class RecordActivity extends Component {
                 </div>
             </div>
             <div style={styles.content}>
-              <InformationForm />
+              <InformationForm patients={this.state.patients} />
               <PreActivityForm />
               <PostActivityForm />
               <ResultActivityForm />
