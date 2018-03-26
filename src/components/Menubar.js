@@ -13,7 +13,10 @@ export default class Menubar extends Component {
     }
   }
 
-  handleLeftIconButtonTouchTap = () => (this.state.authed ? this.setState({ isDrawerOpen: true }) : alert('กรุณาเข้าสู่ระบบก่อน'))
+  handleLeftIconButtonTouchTap = () =>
+    (this.state.authed
+      ? this.setState({ isDrawerOpen: true })
+      : alert('กรุณาเข้าสู่ระบบก่อน'))
 
   handleClose = () => this.setState({ isDrawerOpen: false })
 
@@ -24,14 +27,35 @@ export default class Menubar extends Component {
 
   renderMenuForStaff = () => (
     <div>
-      <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/search' />}>ค้นหาผู้ป่วย</MenuItem>
-      <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/overview' />}>ภาพรวมของผู้ป่วย</MenuItem>
+      <MenuItem
+        onTouchTap={this.handleClose}
+        containerElement={<Link to='/search' />}
+      >
+        ค้นหาผู้ป่วย
+      </MenuItem>
+      <MenuItem
+        onTouchTap={this.handleClose}
+        containerElement={<Link to='/overview' />}
+      >
+        ภาพรวมของผู้ป่วย
+      </MenuItem>
+      <MenuItem
+        onTouchTap={this.handleClose}
+        containerElement={<Link to='/record' />}
+      >
+        บันทึกผลการทำกิจกรรมย้อนหลัง
+      </MenuItem>
     </div>
   )
 
   renderMenuForPatient = () => (
     <div>
-      <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/progress' />}>ผลการทำกิจกรรม</MenuItem>
+      <MenuItem
+        onTouchTap={this.handleClose}
+        containerElement={<Link to='/progress' />}
+      >
+        ผลการทำกิจกรรม
+      </MenuItem>
     </div>
   )
 
@@ -46,11 +70,27 @@ export default class Menubar extends Component {
             />
         </div>
         <div>
-          <Drawer docked={false} open={this.state.isDrawerOpen} onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}>
+          <Drawer
+            docked={false}
+            open={this.state.isDrawerOpen}
+            onRequestChange={isDrawerOpen => this.setState({ isDrawerOpen })}
+            >
             <AppBar showMenuIconButton={false} title='เมนู' />
-            <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/' />}>หน้าแรก</MenuItem>
-            {this.props.role === 'doctor' || this.props.role === 'nurse' ? this.renderMenuForStaff() : this.renderMenuForPatient()}
-            <MenuItem onTouchTap={this.handleClose} containerElement={<Link to='/profile' />}>ประวัติส่วนตัว</MenuItem>
+            <MenuItem
+              onTouchTap={this.handleClose}
+              containerElement={<Link to='/' />}
+              >
+                หน้าแรก
+              </MenuItem>
+            {this.props.role === 'doctor' || this.props.role === 'nurse'
+                ? this.renderMenuForStaff()
+                : this.renderMenuForPatient()}
+            <MenuItem
+              onTouchTap={this.handleClose}
+              containerElement={<Link to='/profile' />}
+              >
+                ประวัติส่วนตัว
+              </MenuItem>
             <MenuItem onTouchTap={this.handleLogout}>ออกจากระบบ</MenuItem>
           </Drawer>
         </div>

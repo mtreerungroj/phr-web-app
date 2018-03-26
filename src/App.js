@@ -13,11 +13,21 @@ import Profile from './components/protected/profile/Profile'
 import Search from './components/protected/search/Search'
 import Overivew from './components/protected/overview/Overview'
 import Progress from './components/protected/progress/Progress'
+import RecordActivity
+  from './components/protected/recordActivity/RecordActivity'
 
 import { getUserStatus, signIn, signOut } from './services/helpers'
 
 // Theme
-import { lightBlue500, lightBlue100, pink500, pink100, green500, grey100, grey300 } from 'material-ui/styles/colors'
+import {
+  lightBlue500,
+  lightBlue100,
+  pink500,
+  pink100,
+  green500,
+  grey100,
+  grey300
+} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -39,7 +49,16 @@ const muiTheme = getMuiTheme({
 })
 
 function PrivateRoute ({ component: Component, authed }) {
-  return <Route render={props => (authed === true ? <Component {...props} /> : <Redirect to={{ pathname: '/', state: { from: props.location } }} />)} />
+  return (
+    <Route
+      render={props =>
+        (authed === true
+          ? <Component {...props} />
+          : <Redirect
+            to={{ pathname: '/', state: { from: props.location } }}
+            />)}
+    />
+  )
 }
 
 export default class App extends Component {
@@ -55,12 +74,16 @@ export default class App extends Component {
 
   componentDidMount () {
     const that = this
-    getUserStatus().then(res => that.setState(res)).catch(res => that.setState(res))
+    getUserStatus()
+      .then(res => that.setState(res))
+      .catch(res => that.setState(res))
   }
 
   handleLoginSubmit = (email, password) => {
     this.setState({ isLoading: true })
-    signIn(email, password).then(res => this.setState(res)).catch(res => this.setState(res))
+    signIn(email, password)
+      .then(res => this.setState(res))
+      .catch(res => this.setState(res))
   }
 
   handleLogoutSubmit = () => {
@@ -75,7 +98,8 @@ export default class App extends Component {
 
   handleChangePath = path => (window.location.href = '/' + path)
 
-  handleRequestSnackbarClose = () => this.setState({ isShowSnackbar: false, snackbarMessage: '' })
+  handleRequestSnackbarClose = () =>
+    this.setState({ isShowSnackbar: false, snackbarMessage: '' })
 
   render () {
     return this.state.isLoading
@@ -91,26 +115,64 @@ export default class App extends Component {
                     autoHideDuration={8000}
                     onRequestClose={this.handleRequestSnackbarClose}
                     />
-                  <Route exact path='/' component={() => <Login handleLoginSubmit={this.handleLoginSubmit} handleChangePath={this.handleChangePath} />} />
-                  <Route path='/register' component={() => <Registration />} />
+                  <Route
+                    exact
+                    path='/'
+                    component={() => (
+                      <Login
+                        handleLoginSubmit={this.handleLoginSubmit}
+                        handleChangePath={this.handleChangePath}
+                        />
+                      )}
+                    />
+                  <Route
+                    path='/register'
+                    component={() => <Registration />}
+                    />
                   {/* <Route component={() => <InAccessible />} /> */}
                 </div>
                 : <div>
-                  <Menubar authed={this.state.authed} role={this.state.profile.role} handleLogoutSubmit={this.handleLogoutSubmit} />
+                  <Menubar
+                    authed={this.state.authed}
+                    role={this.state.profile.role}
+                    handleLogoutSubmit={this.handleLogoutSubmit}
+                    />
                   <Switch>
                     <PrivateRoute
                       exact
                       authed={this.state.authed}
                       path='/'
                       component={props =>
-                          (this.state.profile.role === 'doctor' || this.state.profile.role === 'nurse'
+                          (this.state.profile.role === 'doctor' ||
+                            this.state.profile.role === 'nurse'
                             ? <IndexStaff user={this.state.profile} />
                             : <IndexPatient />)}
                       />
-                    <PrivateRoute authed={this.state.authed} path='/overview' component={props => <Overivew />} />
-                    <PrivateRoute authed={this.state.authed} path='/search' component={props => <Search />} />
-                    <PrivateRoute authed={this.state.authed} path='/progress' component={props => <Progress />} />
-                    <PrivateRoute authed={this.state.authed} path='/profile' component={props => <Profile />} />
+                    <PrivateRoute
+                      authed={this.state.authed}
+                      path='/overview'
+                      component={props => <Overivew />}
+                      />
+                    <PrivateRoute
+                      authed={this.state.authed}
+                      path='/search'
+                      component={props => <Search />}
+                      />
+                    <PrivateRoute
+                      authed={this.state.authed}
+                      path='/progress'
+                      component={props => <Progress />}
+                      />
+                    <PrivateRoute
+                      authed={this.state.authed}
+                      path='/profile'
+                      component={props => <Profile />}
+                      />
+                    <PrivateRoute
+                      authed={this.state.authed}
+                      path='/record'
+                      component={props => <RecordActivity />}
+                      />
                     <Route component={() => <Page404 />} />
                   </Switch>
                 </div>}
