@@ -105,7 +105,10 @@ export default class RecordActivity extends Component {
                 />
               <PreActivityForm />
               <PostActivityForm />
-              <ResultActivityForm />
+              <ResultActivityForm
+                {...this.state}
+                _handleChangeValue={this._handleChangeValue}
+                />
             </div>
           </div>
   }
@@ -115,7 +118,8 @@ const styles = {
   container: {
     backgroundColor: grey300,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: 30
   },
   inner: {
     flex: 1

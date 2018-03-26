@@ -11,7 +11,12 @@ const _status = [
 
 const race = [{ id: 'Thai', name: 'ไทย' }, { id: 'others', name: 'อื่นๆ' }]
 
-const region = [{ id: 'Buddhism', name: 'พุทธ' }, { id: 'Christianity', name: 'คริสต์' }, { id: 'Islamism', name: 'อิสลาม' }, { id: 'others', name: 'อื่นๆ' }]
+const region = [
+  { id: 'Buddhism', name: 'พุทธ' },
+  { id: 'Christianity', name: 'คริสต์' },
+  { id: 'Islamism', name: 'อิสลาม' },
+  { id: 'others', name: 'อื่นๆ' }
+]
 
 const hospitals = [
   { id: '13779', name: 'รพ.สงขลานครินทร์ วิทยาเขตหาดใหญ่' },
@@ -20,9 +25,19 @@ const hospitals = [
   { id: '11527', name: 'รพ.ค่ายเสนาณรงค์' }
 ]
 
-const bloodTypes = [{ id: 'A', name: 'A' }, { id: 'B', name: 'B' }, { id: 'AB', name: 'AB' }, { id: 'O', name: 'O' }]
+const bloodTypes = [
+  { id: 'A', name: 'A' },
+  { id: 'B', name: 'B' },
+  { id: 'AB', name: 'AB' },
+  { id: 'O', name: 'O' }
+]
 
-const nyhaClass = [{ id: '1', name: 'ระดับ 1' }, { id: '2', name: 'ระดับ 2' }, { id: '3', name: 'ระดับ 3' }, { id: '4', name: 'ระดับ 4' }]
+const nyhaClass = [
+  { id: '1', name: 'ระดับ 1' },
+  { id: '2', name: 'ระดับ 2' },
+  { id: '3', name: 'ระดับ 3' },
+  { id: '4', name: 'ระดับ 4' }
+]
 
 const ejectionFraction = [
   { id: '0', name: 'แพทย์ไม่ระบุ' },
@@ -31,4 +46,24 @@ const ejectionFraction = [
   { id: '3', name: 'มากกว่า 50%' }
 ]
 
-export { gender, _status, race, region, hospitals, bloodTypes, nyhaClass, ejectionFraction }
+const activityLevel = [
+  { id: '1', name: 'ระดับ 1' },
+  { id: '2', name: 'ระดับ 2' },
+  { id: '3', name: 'ระดับ 3' },
+  { id: '4', name: 'ระดับ 4' },
+  { id: '5', name: 'ระดับ 5' },
+  { id: '6', name: 'ระดับ 6' },
+  { id: '7', name: 'ระดับ 7' }
+]
+
+export {
+  gender,
+  _status,
+  race,
+  region,
+  hospitals,
+  bloodTypes,
+  nyhaClass,
+  ejectionFraction,
+  activityLevel
+}
