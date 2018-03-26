@@ -10,7 +10,20 @@ const conditions = {
   af: 'AF ≥ 100 ครั้ง/นาที',
   svt: 'SVT',
   bradycardia: 'Bradycardia ที่ใช้ pacemaker, VT, VF',
-  stSegment: 'มีความผิดปกติของ ST-segment'
+  stSegment: 'มีความผิดปกติของ ST-segment',
+  agitation: 'กระสับกระส่าย',
+  dyspnea: 'หายใจลำบาก',
+  rr: 'หอบเหนื่อย อัตราการหายใจ ≥ 35 ครั้ง/นาที',
+  spO2: 'SpO2 ≥ 93%',
+  paO2: 'PaO2 ≥ 60 mmHg',
+  abnormalGlucose: 'ระดับน้ำตาลในเลือดผิดปกติ (≥ 80 mg% หรือ ≤ 300 mg%)',
+  weakMuscle: 'กล้ามเนื้อไม่แข็งแรง (Muscle power grade < 3)',
+  anemia: 'ใบหน้าซีด หรือ Hb < 10 gm%',
+  fatigue: 'เหนื่อยล้า อ่อนเพลีย',
+  nausea: 'คลื่นไส้',
+  chestPain: 'เจ็บแน่นหน้าอก',
+  dizziness: 'หน้ามืด มึนงง',
+  pain: 'ปวดแผล (pain score > 3)'
 }
 
 export default class PreActivityForm extends Component {
@@ -63,11 +76,11 @@ export default class PreActivityForm extends Component {
             />
         </div>
 
-        <div style={{ marginBottom: 10 }}>
+        <div>
             ผลการทดสอบความพร้อมก่อนเริ่มทำกิจกรรมของผู้ป่วย (ทำเครื่องหมายหากมีอาการ)
           </div>
         <div style={{ marginLeft: 40 }}>
-          <div>
+          <div style={{ marginTop: 10 }}>
             {'เกิดภาวะหัวใจเต้นผิดจังหวะ (กรณีมีเครื่องมอนิเตอร์)'}
           </div>
           <div style={styles.checkboxContainer}>
@@ -81,6 +94,39 @@ export default class PreActivityForm extends Component {
           <div style={styles.checkboxContainer}>
             {this.checkbox('bradycardia')}
             {this.checkbox('stSegment')}
+          </div>
+          <div style={{ marginTop: 10 }}>
+            {'เกิดภาวะผิดปกติของการหายใจ'}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('agitation')}
+            {this.checkbox('dyspnea')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('rr')}
+            {this.checkbox('spO2')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('paO2')}
+          </div>
+          <div style={{ marginTop: 10 }}>
+            {'อาการผิดปกติอื่นๆ'}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('abnormalGlucose')}
+            {this.checkbox('weakMuscle')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('anemia')}
+            {this.checkbox('fatigue')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('nausea')}
+            {this.checkbox('chestPain')}
+          </div>
+          <div style={styles.checkboxContainer}>
+            {this.checkbox('dizziness')}
+            {this.checkbox('pain')}
           </div>
         </div>
       </div>
