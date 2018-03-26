@@ -56,6 +56,28 @@ const activityLevel = [
   { id: '7', name: 'ระดับ 7' }
 ]
 
+const conditions = {
+  st: 'ST ≥ 120 ครั้ง/นาที',
+  pvc: 'PVC ชนิด bigeminy หรือมาติดกันมากกว่า 2-3 ตัว',
+  af: 'AF ≥ 100 ครั้ง/นาที',
+  svt: 'SVT',
+  bradycardia: 'Bradycardia ที่ใช้ pacemaker, VT, VF',
+  stSegment: 'มีความผิดปกติของ ST-segment',
+  agitation: 'กระสับกระส่าย',
+  dyspnea: 'หายใจลำบาก',
+  rr: 'หอบเหนื่อย อัตราการหายใจ ≥ 35 ครั้ง/นาที',
+  spO2: 'SpO2 ≥ 93%',
+  paO2: 'PaO2 ≥ 60 mmHg',
+  abnormalGlucose: 'ระดับน้ำตาลในเลือดผิดปกติ (≥ 80 mg% หรือ ≤ 300 mg%)',
+  weakMuscle: 'กล้ามเนื้อไม่แข็งแรง (Muscle power grade < 3)',
+  anemia: 'ใบหน้าซีด หรือ Hb < 10 gm%',
+  fatigue: 'เหนื่อยล้า อ่อนเพลีย',
+  nausea: 'คลื่นไส้',
+  chestPain: 'เจ็บแน่นหน้าอก',
+  dizziness: 'หน้ามืด มึนงง',
+  pain: 'ปวดแผล (pain score > 3)'
+}
+
 export {
   gender,
   _status,
@@ -65,5 +87,6 @@ export {
   bloodTypes,
   nyhaClass,
   ejectionFraction,
-  activityLevel
+  activityLevel,
+  conditions
 }
