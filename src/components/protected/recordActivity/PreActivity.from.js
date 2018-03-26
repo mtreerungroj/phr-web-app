@@ -47,7 +47,7 @@ export default class PreActivityForm extends Component {
             name='preBP'
             type='text'
             floatingLabelText='ความดันเลือด (Systolic/Diastolic)'
-            maxLength=''
+            maxLength='7'
             onChange={this.props._handleChangeValue}
             underlineStyle={styles.underlineStyle}
             underlineFocusStyle={styles.underlineStyle}
