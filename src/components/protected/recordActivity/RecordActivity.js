@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import InformationForm from './Information.form'
+import PreActivityForm from './PreActivity.from'
+import PostActivityForm from './PostActivity.form'
+import ResultActivityForm from './Result.form'
 
 import { getUserStatus } from '../../../services/helpers'
 
@@ -23,7 +27,10 @@ export default class RecordActivity extends Component {
           this.state.profile.role !== 'doctor'
           ? <div>Inaccessible</div>
           : <div>
-              บันทึกย้อนหลัง
-            </div>
+            <InformationForm />
+            <PreActivityForm />
+            <PostActivityForm />
+            <ResultActivityForm />
+          </div>
   }
 }
