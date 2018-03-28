@@ -56,7 +56,7 @@ const activityLevel = [
   { id: '7', name: 'ระดับ 7' }
 ]
 
-const conditions = {
+const preConditions = {
   st: 'ST ≥ 120 ครั้ง/นาที',
   pvc: 'PVC ชนิด bigeminy หรือมาติดกันมากกว่า 2-3 ตัว',
   af: 'AF ≥ 100 ครั้ง/นาที',
@@ -78,6 +78,24 @@ const conditions = {
   pain: 'ปวดแผล (pain score > 3)'
 }
 
+const postConditions = {
+  PVC_ชนิด_Bigeminy_หรือมาติดกันมากกว่า_2_ถึง_3_ตัว: 'PVC ชนิด bigeminy หรือมาติดกันมากกว่า 2-3 ตัว',
+  AF_มากกว่าหรือเท่ากับ_100_ครั้งต่อนาที: 'AF ≥ 100 ครั้ง/นาที',
+  SVT: 'SVT',
+  Bradycardia_ที่ใช้_pacemaker_VT_หรือ_VF: 'Bradycardia ที่ใช้ pacemaker, VT, VF',
+  มีความผิดปกติของ_stSegment: 'มีความผิดปกติของ ST-segment',
+  กระสับกระส่าย: 'กระสับกระส่าย',
+  หายใจลำบาก: 'หายใจลำบาก',
+  หอบเหนื่อย_อัตราการหายใจมากกว่าหรือเท่ากับ_35_ครั้งต่อนาที: 'หอบเหนื่อย อัตราการหายใจ ≥ 35 ครั้ง/นาที',
+  SpO2_น้อยกว่าหรือเท่ากับ_93: 'SpO2 ≤ 93%',
+  PaO2_มากกว่าหรือเท่ากับ_60_mmHg: 'PaO2 ≥ 60 mmHg',
+  อ่อนเพลีย: 'เหนื่อยล้า อ่อนเพลีย',
+  คลื่นไส้_อาเจียน: 'คลื่นไส้ อาเจียน',
+  เจ็บแน่นหน้าอก: 'เจ็บแน่นหน้าอก',
+  หน้ามืดมึนงง: 'หน้ามืด มึนงง',
+  เหงื่อออก_ตัวเย็น: 'เหงื่อออก ตัวเย็น'
+}
+
 export {
   gender,
   _status,
@@ -88,5 +106,6 @@ export {
   nyhaClass,
   ejectionFraction,
   activityLevel,
-  conditions
+  preConditions,
+  postConditions
 }

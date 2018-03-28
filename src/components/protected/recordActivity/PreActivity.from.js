@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 
 import { grey500 } from 'material-ui/styles/colors'
-import { conditions } from '../../../services/enum'
+import { preConditions } from '../../../services/enum'
 
 export default class PreActivityForm extends Component {
   constructor (props) {
@@ -19,7 +19,7 @@ export default class PreActivityForm extends Component {
 
   checkbox = (condition, checked) => (
     <Checkbox
-      label={conditions[condition]}
+      label={preConditions[condition]}
       checked={this.props[condition]}
       onCheck={(event, value) =>
         this.props._handleOnCheckCheckbox(event, value, condition)}
