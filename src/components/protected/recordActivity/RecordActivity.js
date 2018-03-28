@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
 import InformationForm from './Information.form'
 import PreActivityForm from './PreActivity.from'
@@ -20,7 +22,10 @@ export default class RecordActivity extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isLoading: true
+      isLoading: true,
+      isComplete: false,
+      isDialogOpen: false,
+      isConfirmDialogOpen: false
     }
   }
 
@@ -91,12 +96,65 @@ export default class RecordActivity extends Component {
   _handleOnSubmit = async () => {
     let data = await formatActivityData(this.state)
     recordActivityResult(data)
-      .then(res => console.log('complete, ', res))
-      .catch(res => console.log('failed, ', res))
+      .then(res =>
+        this.setState({
+          ...res,
+          isDialogOpen: true,
+          dialogMessage: 'บันทึกข้อมูลย้อนหลังสำเร็จ'
+        })
+      )
+      .catch(res =>
+        this.setState({
+          ...res,
+          isDialogOpen: true,
+          dialogMessage: 'เกิดข้อผิดพลาด กรุณากรอกข้อมูลที่จำเป็นให้ครบทุกช่อง และลองใหม่อีกครั้ง'
+        })
+      )
+  }
+
+  _handleConfirmDialogOpen = () => {
+    this.setState({ isConfirmDialogOpen: true })
+  }
+
+  _handleConfirmDialogclose = () => {
+    this.setState({ isConfirmDialogOpen: false })
+  }
+
+  _handleConfirmDialogcloseWithSubmit = () => {
+    this.setState({ isConfirmDialogOpen: false })
+    this._handleOnSubmit()
+  }
+
+  _handleDialogClose = () => {
+    this.setState({ isDialogOpen: false })
+    this.state.isComplete && (window.location.href = '/search')
   }
 
   render () {
     console.log(this.state)
+    const actions = [
+      <FlatButton
+        label='ตกลง'
+        primary
+        keyboardFocused
+        onClick={this._handleDialogClose}
+      />
+    ]
+    const confirmActions = [
+      <FlatButton
+        label='ยกเลิก'
+        primary
+        keyboardFocused
+        onClick={this._handleConfirmDialogclose}
+      />,
+      <FlatButton
+        label='ยืนยัน'
+        primary
+        keyboardFocused
+        onClick={this._handleConfirmDialogcloseWithSubmit}
+      />
+    ]
+
     return this.state.isLoading
       ? <div>Loading...</div>
       : this.state.profile.role !== 'nurse' &&
@@ -108,6 +166,22 @@ export default class RecordActivity extends Component {
                   บันทึกผลการทำกิจกรรมฟื้นฟูสมรรถภาพห้วใจของผู้ป่วยย้อนหลัง
                 </div>
             </div>
+            <Dialog
+              title={this.state.dialogMessage}
+              actions={actions}
+              modal={false}
+              open={this.state.isDialogOpen}
+              onRequestClose={this.handleClose}
+              />
+            <Dialog
+              title='ยืนยันการบันทึกผลการทำกิจกรรม'
+              actions={confirmActions}
+              modal={false}
+              open={this.state.isConfirmDialogOpen}
+              onRequestClose={this.handleClose}
+              >
+                ข้อมูลที่บันทึกไม่สามารถเปลี่ยนแปลงได้ภายหลัง กรุณากด ยืนยัน เพื่อบันทึกข้อมูล
+              </Dialog>
             <div style={styles.content}>
               <InformationForm
                 {...this.state}
@@ -147,7 +221,7 @@ export default class RecordActivity extends Component {
                 <RaisedButton
                   label='บันทึกข้อมูล'
                   primary
-                  onClick={this._handleOnSubmit}
+                  onClick={this._handleConfirmDialogOpen}
                   />
               </div>
             </div>
