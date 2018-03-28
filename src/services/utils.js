@@ -7,7 +7,7 @@ const convertDateFormat = inputDate => {
   }
 }
 
-const recordActivity = async state => {
+const formatActivityData = async state => {
   let DbpIncreaseAtLeast20mmHg = false
   let SbpDecreaseMoreThan20mmHg = false
   let SbpIncreaseMoreThan40mmHg = false
@@ -43,7 +43,7 @@ const recordActivity = async state => {
     appid,
     date: state.real_date,
     time: state.real_time,
-    result: {
+    results: {
       date: state.real_date,
       durationMillis: state.durationMinutes * 60000 || 0,
       durationMinutes: state.durationMinutes || 0,
@@ -106,4 +106,4 @@ const recordActivity = async state => {
   return data
 }
 
-export { convertDateFormat, recordActivity }
+export { convertDateFormat, formatActivityData }
