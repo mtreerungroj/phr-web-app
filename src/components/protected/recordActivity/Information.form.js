@@ -20,7 +20,7 @@ export default class InformationForm extends Component {
   async componentDidMount () {
     const patientsData = await this.props.patients
     await patientsData.map(patient => {
-      let id = patient.patient_code
+      let id = patient.userid
       let name =
         (patient.gender === 'ชาย' ? 'นาย' : 'นาง') +
         patient.firstname +

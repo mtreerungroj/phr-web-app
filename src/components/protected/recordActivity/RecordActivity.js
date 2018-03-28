@@ -9,9 +9,10 @@ import ResultActivityForm from './Result.form'
 import {
   getUserStatus,
   getPatientList,
-  getPatientStatus
+  getPatientStatus,
+  recordActivityResult
 } from '../../../services/helpers'
-import { recordActivity, convertDateFormat } from '../../../services/utils'
+import { formatActivityData, convertDateFormat } from '../../../services/utils'
 
 import { grey300 } from 'material-ui/styles/colors'
 
@@ -88,8 +89,10 @@ export default class RecordActivity extends Component {
   }
 
   _handleOnSubmit = async () => {
-    let data = await recordActivity(this.state)
-    console.log(data)
+    let data = await formatActivityData(this.state)
+    recordActivityResult(data)
+      .then(res => console.log('complete, ', res))
+      .catch(res => console.log('failed, ', res))
   }
 
   render () {
