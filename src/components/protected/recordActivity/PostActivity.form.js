@@ -132,7 +132,7 @@ export default class PostActivityForm extends Component {
         <div><b>ข้อมูลหลังการทำกิจกรรมเสร็จสิ้น</b></div>
         <div style={{ ...styles.rowDirection, marginBottom: 20 }}>
           <TextField
-            name='postHR'
+            name='postHr'
             type='number'
             floatingLabelText='อัตราการเต้นของหัวใจ (bpm)'
             maxLength='3'
@@ -142,7 +142,7 @@ export default class PostActivityForm extends Component {
             style={{ width: 300, marginRight: 40 }}
             />
           <TextField
-            name='postBP'
+            name='postBp'
             type='text'
             floatingLabelText='ความดันเลือด (Systolic/Diastolic)'
             maxLength='7'

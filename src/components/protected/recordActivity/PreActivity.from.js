@@ -34,7 +34,7 @@ export default class PreActivityForm extends Component {
         <div><b>ข้อมูลผู้ป่วยก่อนเริ่มทำกิจกรรม</b></div>
         <div style={{ ...styles.rowDirection, marginBottom: 20 }}>
           <TextField
-            name='preHR'
+            name='preHr'
             type='number'
             floatingLabelText='อัตราการเต้นของหัวใจ (bpm)'
             maxLength='3'
@@ -44,7 +44,7 @@ export default class PreActivityForm extends Component {
             style={{ width: 300, marginRight: 40 }}
             />
           <TextField
-            name='preBP'
+            name='preBp'
             type='text'
             floatingLabelText='ความดันเลือด (Systolic/Diastolic)'
             maxLength='7'
