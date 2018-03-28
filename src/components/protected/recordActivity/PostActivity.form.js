@@ -23,7 +23,21 @@ export default class PostActivityForm extends Component {
     this.setState({ isLoading: false })
   }
 
-  _handleOpenCheckbox = key => this.setState({ [key]: !this.state[key] })
+  clearDisorder = isDisorder => {
+    let disorder = ''
+    if (isDisorder === 'isCardiacDisorder') disorder = 'cardiacDisorder'
+    else if (isDisorder === 'isRespiratoryDisorder') {
+      disorder = 'respiratoryDisorder'
+    } else if (isDisorder === 'isOtherDisorder') disorder = 'otherDisorder'
+
+    this.setState({ [disorder]: [] })
+    this.props._handleChangeManualValue(disorder, [])
+  }
+
+  _handleOpenCheckbox = key => {
+    if (this.state[key]) this.clearDisorder(key)
+    this.setState({ [key]: !this.state[key] })
+  }
 
   _handleOnCheckCheckbox = async (disorder, condition) => {
     let stateDisorder = await this.state[disorder]
@@ -36,6 +50,7 @@ export default class PostActivityForm extends Component {
     }
 
     await this.setState({ [disorder]: stateDisorder })
+    await this.props._handleChangeManualValue(disorder, stateDisorder)
   }
 
   checkbox = (disorder, condition, checked) => (

@@ -83,6 +83,10 @@ export default class RecordActivity extends Component {
     this.setState({ [key]: date, real_time })
   }
 
+  _handleChangeManualValue = (key, value) => {
+    this.setState({ [key]: value })
+  }
+
   render () {
     console.log(this.state)
     return this.state.isLoading
@@ -119,6 +123,7 @@ export default class RecordActivity extends Component {
               <PostActivityForm
                 {...this.state}
                 _handleChangeValue={this._handleChangeValue}
+                _handleChangeManualValue={this._handleChangeManualValue}
                 />
               <ResultActivityForm
                 {...this.state}
