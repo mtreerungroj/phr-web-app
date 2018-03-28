@@ -74,11 +74,14 @@ export default class ResultForm extends Component {
         </RadioButtonGroup>
         {'หมายเหตุอื่นๆ: '}
         <TextField
+          name='note'
+          type='text'
           hintText='บันทึกอื่นๆ เช่น อาการเพิ่มเติม หรือสิ่งช่วยจำ'
           multiLine
           rows={1}
           rowsMax={4}
           fullWidth
+          onChange={this.props._handleChangeValue}
           underlineStyle={styles.underlineStyle}
           underlineFocusStyle={styles.underlineStyle}
           />

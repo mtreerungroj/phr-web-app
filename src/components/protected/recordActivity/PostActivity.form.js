@@ -126,7 +126,6 @@ export default class PostActivityForm extends Component {
   )
 
   render () {
-    console.log(this.state)
     return this.state.isLoading
       ? <div>กำลังโหลดข้อมูล...</div>
       : <div style={styles.container}>
