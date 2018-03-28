@@ -27,16 +27,15 @@ export default class PostActivityForm extends Component {
 
   _handleOnCheckCheckbox = async (disorder, condition) => {
     let stateDisorder = await this.state[disorder]
-    // var stateDisorderArray = await Object.keys(stateDisorder).map(
-    //   key => stateDisorder[key]
-    // )
-    // console.log(stateDisorderArray)
-    // console.log(typeof stateDisorderArray)
-    // console.log('cursor=', Object.keys(stateDisorder).length)
+    let conditionIndex = await stateDisorder.indexOf(condition)
 
-    // if (stateDisorder.includes(condition)) await stateDisorder[Object.size(myArray)] = condition
-    //  await stateDisorder[Object.keys(stateDisorder).length] = condition
-    // await this.setState({ [disorder]: stateDisorder.push(condition) })
+    if (conditionIndex === -1) {
+      stateDisorder.push(condition)
+    } else {
+      stateDisorder.splice(conditionIndex, 1)
+    }
+
+    await this.setState({ [disorder]: stateDisorder })
   }
 
   checkbox = (disorder, condition, checked) => (
