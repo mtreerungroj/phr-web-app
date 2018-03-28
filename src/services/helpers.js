@@ -1,9 +1,9 @@
 import 'firebase/auth'
 import firebase from './firebase'
 
-const server_ip = 'http://172.20.10.4:5000/'
-// const server_ip = 'http://192.168.3.128:5000/'
-const appid = 'HPHR'
+// const server_ip = 'http://172.20.10.4:5000/'
+const server_ip = 'http://192.168.182.128:5000/'
+export const appid = 'HPHR'
 
 const getUserStatus = () => {
   return new Promise((resolve, reject) => {
@@ -56,7 +56,11 @@ const signIn = (email, password) => {
         })
       })
       .catch(error => {
-        reject({ isShowSnackbar: true, snackbarMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง', isLoading: false })
+        reject({
+          isShowSnackbar: true,
+          snackbarMessage: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง',
+          isLoading: false
+        })
       })
   })
 }
@@ -67,10 +71,19 @@ const signOut = (email, password) => {
       .auth()
       .signOut()
       .then(() => {
-        resolve({ authed: false, isDialogOpen: true, dialogMessage: 'ออกจากระบบสำเร็จ', isLoading: false })
+        resolve({
+          authed: false,
+          isDialogOpen: true,
+          dialogMessage: 'ออกจากระบบสำเร็จ',
+          isLoading: false
+        })
       })
       .catch(error => {
-        reject({ isDialogOpen: true, dialogMessage: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', isLoading: false })
+        reject({
+          isDialogOpen: true,
+          dialogMessage: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+          isLoading: false
+        })
       })
   })
 }
@@ -84,24 +97,52 @@ const createUser = (email, password, isStaff) => {
         const userid = await firebase.auth().currentUser.uid
         if (isStaff) {
           const pin_code = await getPinCode(userid, appid, email)
-          resolve({ isAuthed: true, level: 2, isStaff, userid, appid, pin_code })
+          resolve({
+            isAuthed: true,
+            level: 2,
+            isStaff,
+            userid,
+            appid,
+            pin_code
+          })
         } else {
           let admit_date = new Date().toISOString().substring(0, 10)
-          const patient_code = await getPatientCode(userid, appid, email, admit_date)
-          resolve({ isAuthed: true, level: 2, isStaff, userid, appid, patient_code, admit_date })
+          const patient_code = await getPatientCode(
+            userid,
+            appid,
+            email,
+            admit_date
+          )
+          resolve({
+            isAuthed: true,
+            level: 2,
+            isStaff,
+            userid,
+            appid,
+            patient_code,
+            admit_date
+          })
         }
       })
       .catch(error => {
         let dialogMessage = 'กรุณาลองใหม่อีกครั้ง'
-        if (error.code === 'auth/email-already-in-use') dialogMessage = 'อีเมลนี้ถูกใช้งานแล้ว ' + dialogMessage
-        reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
+        if (error.code === 'auth/email-already-in-use') {
+          dialogMessage = 'อีเมลนี้ถูกใช้งานแล้ว ' + dialogMessage
+        }
+        reject({
+          isDialogOpen: true,
+          dialogMessage,
+          errorCode: error.code,
+          errorMessage: error.message
+        })
       })
   })
 }
 
 const updateProfile = async (userid, profile) => {
   if (profile.role === 'patient') {
-    let { patient_code, gender, firstname, lastname, admit_date } = (await profile) || ''
+    let { patient_code, gender, firstname, lastname, admit_date } =
+      (await profile) || ''
     // let admit_date = new Date().toISOString().substring(0, 10)
     let _profile = { patient_code, gender, firstname, lastname, admit_date }
     await updateBasicProfileInPatientCodeTable(appid, patient_code, _profile)
@@ -121,8 +162,14 @@ const updateProfile = async (userid, profile) => {
       .then(() => resolve({ isComplete: true }))
       .catch(error => {
         console.log(error)
-        const dialogMessage = 'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
-        reject({ isDialogOpen: true, dialogMessage, errorCode: error.code, errorMessage: error.message })
+        const dialogMessage =
+          'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
+        reject({
+          isDialogOpen: true,
+          dialogMessage,
+          errorCode: error.code,
+          errorMessage: error.message
+        })
       })
   })
 }
@@ -131,11 +178,18 @@ const getPatientCode = (userid, appid, email, admit_date) => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}patient_code/generate?appid=${appid}&userid=${userid}&email=${email}&admit_date=${admit_date}`
 
-    fetch(path).then(res => res.json()).then(res => resolve(res.patient_code)).catch(res => reject(res.errorMessage))
+    fetch(path)
+      .then(res => res.json())
+      .then(res => resolve(res.patient_code))
+      .catch(res => reject(res.errorMessage))
   })
 }
 
-const updateBasicProfileInPatientCodeTable = async (appid, patient_code, profile) => {
+const updateBasicProfileInPatientCodeTable = async (
+  appid,
+  patient_code,
+  profile
+) => {
   const path = `${server_ip}patient_code/generate`
   const data = await JSON.stringify({ appid, patient_code, profile })
 
@@ -157,7 +211,10 @@ const getPinCode = (userid, appid, email) => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}pin_code/generate?appid=${appid}&userid=${userid}&email=${email}`
 
-    fetch(path).then(res => res.json()).then(res => resolve(res.pin_code)).catch(res => reject(res.errorMessage))
+    fetch(path)
+      .then(res => res.json())
+      .then(res => resolve(res.pin_code))
+      .catch(res => reject(res.errorMessage))
   })
 }
 
@@ -165,12 +222,18 @@ const getPatientList = () => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}patient_code/all`
 
-    fetch(path).then(res => res.json()).then(res => resolve(res)).catch(res => reject(res.errorMessage))
+    fetch(path)
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(res => reject(res.errorMessage))
   })
 }
 
 const uploadFileToStorage = (userid, file) => {
-  const storageRef = firebase.storage().ref().child(`profile-picture/${appid}-${userid}.png`)
+  const storageRef = firebase
+    .storage()
+    .ref()
+    .child(`profile-picture/${appid}-${userid}.png`)
   return new Promise(async (resolve, reject) => {
     storageRef
       .put(file)
@@ -187,11 +250,29 @@ const uploadFileToStorage = (userid, file) => {
           },
           body: data
         })
-          .then(() => resolve({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'อัพเดทรูปโปรไฟล์สำเร็จ' }))
-          .catch(error => reject({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด ไม่สามารถอัพเดทรูปโปรไฟล์ได้ ' + error }))
+          .then(() =>
+            resolve({
+              isDialogOpen: false,
+              isShowSnackbar: true,
+              SnackbarMessage: 'อัพเดทรูปโปรไฟล์สำเร็จ'
+            })
+          )
+          .catch(error =>
+            reject({
+              isDialogOpen: false,
+              isShowSnackbar: true,
+              SnackbarMessage: 'เกิดข้อผิดพลาด ไม่สามารถอัพเดทรูปโปรไฟล์ได้ ' +
+                error
+            })
+          )
       })
       .catch(error => {
-        reject({ isDialogOpen: false, isShowSnackbar: true, SnackbarMessage: 'เกิดข้อผิดพลาด ไม่สามารถอัพเดทรูปโปรไฟล์ได้ ' + error })
+        reject({
+          isDialogOpen: false,
+          isShowSnackbar: true,
+          SnackbarMessage: 'เกิดข้อผิดพลาด ไม่สามารถอัพเดทรูปโปรไฟล์ได้ ' +
+            error
+        })
       })
   })
 }
@@ -200,7 +281,10 @@ const getPieChartData = () => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}overview/piechart`
 
-    fetch(path).then(res => res.json()).then(res => resolve(res.data)).catch(res => reject(res))
+    fetch(path)
+      .then(res => res.json())
+      .then(res => resolve(res.data))
+      .catch(res => reject(res))
   })
 }
 
@@ -208,8 +292,22 @@ const getActivityResult = (userid, start_date, end_date) => {
   return new Promise((resolve, reject) => {
     const path = `${server_ip}activity_result/1?userid=${userid}&appid=${appid}&start_date=${start_date}&end_date=${end_date}`
 
-    fetch(path).then(res => res.json()).then(res => resolve({ activityResults: res.data })).catch(res => reject(res))
+    fetch(path)
+      .then(res => res.json())
+      .then(res => resolve({ activityResults: res.data }))
+      .catch(res => reject(res))
   })
 }
 
-export { getUserStatus, getPatientStatus, signIn, signOut, createUser, updateProfile, getPatientList, uploadFileToStorage, getPieChartData, getActivityResult }
+export {
+  getUserStatus,
+  getPatientStatus,
+  signIn,
+  signOut,
+  createUser,
+  updateProfile,
+  getPatientList,
+  uploadFileToStorage,
+  getPieChartData,
+  getActivityResult
+}
