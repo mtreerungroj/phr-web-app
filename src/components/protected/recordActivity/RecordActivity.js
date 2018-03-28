@@ -100,14 +100,16 @@ export default class RecordActivity extends Component {
         this.setState({
           ...res,
           isDialogOpen: true,
-          dialogMessage: 'บันทึกข้อมูลย้อนหลังสำเร็จ'
+          dialogMessage: 'บันทึกข้อมูลย้อนหลังสำเร็จ',
+          messageDetail: 'ระบบจะนำท่านไปสู่หน้าแสดงผู้ป่วยทั้งหมด'
         })
       )
       .catch(res =>
         this.setState({
           ...res,
           isDialogOpen: true,
-          dialogMessage: 'เกิดข้อผิดพลาด กรุณากรอกข้อมูลที่จำเป็นให้ครบทุกช่อง และลองใหม่อีกครั้ง'
+          dialogMessage: 'เกิดข้อผิดพลาด',
+          messageDetail: 'กรุณากรอกข้อมูลอย่างถูกต้อง และลองใหม่อีกครั้ง'
         })
       )
   }
@@ -120,9 +122,39 @@ export default class RecordActivity extends Component {
     this.setState({ isConfirmDialogOpen: false })
   }
 
+  validateForm = () => {
+    if (
+      (this.state.patientid &&
+        this.state.real_date &&
+        this.state.real_time &&
+        this.state.durationMinutes &&
+        this.state.borg &&
+        this.state.assistant &&
+        this.state.postBp &&
+        this.state.postHr &&
+        this.state.preBp &&
+        this.state.preHr &&
+        this.state.maxLevel &&
+        this.state.completedLevel) !== '' &&
+      this.state.borg >= 0 &&
+      this.state.borg <= 13 &&
+      this.state.assistant >= 0 &&
+      this.state.durationMinutes > 0
+    ) {
+      return 1
+    }
+    return 0
+  }
+
   _handleConfirmDialogcloseWithSubmit = () => {
     this.setState({ isConfirmDialogOpen: false })
-    this._handleOnSubmit()
+    this.validateForm()
+      ? this._handleOnSubmit()
+      : this.setState({
+        isDialogOpen: true,
+        dialogMessage: 'กรุณากรอกข้อมูลให้ครบทุกช่อง',
+        messageDetail: 'กรุณาตรวจสอบว่าท่านได้กรอกข้อมูลดังต่อไปนี้แล้ว: ผู้ป่วยที่ต้องการบันทึกผล, วันและเวลาที่ทำกิจกรรม, ระยะเวลาที่ใช้ทำกิจกรรม, อัตราการเต้นของหัวใจและความดันเลือดก่อนและหลังทำกิจกรรม, ระดับความเหนื่อย, จำนวนผู้ช่วยเหลือ และระดับขั้นที่ผู้ป่วยทำสำเร็จหรือไม่สำเร็จ'
+      })
   }
 
   _handleDialogClose = () => {
@@ -172,7 +204,9 @@ export default class RecordActivity extends Component {
               modal={false}
               open={this.state.isDialogOpen}
               onRequestClose={this.handleClose}
-              />
+              >
+              {this.state.messageDetail}
+            </Dialog>
             <Dialog
               title='ยืนยันการบันทึกผลการทำกิจกรรม'
               actions={confirmActions}
