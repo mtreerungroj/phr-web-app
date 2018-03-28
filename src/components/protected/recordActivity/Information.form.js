@@ -85,6 +85,7 @@ export default class InformationForm extends Component {
           <TimePicker
             format='24hr'
             hintText='เวลาที่ทำกิจกรรม'
+            autoOk
             underlineStyle={styles.underlineStyle}
             underlineFocusStyle={styles.underlineStyle}
             style={{ marginRight: 40, marginLeft: 20 }}
