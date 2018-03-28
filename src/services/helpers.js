@@ -299,6 +299,34 @@ const getActivityResult = (userid, start_date, end_date) => {
   })
 }
 
+const recordActivityResult = async rawdata => {
+  console.log(rawdata)
+  return new Promise(async (resolve, reject) => {
+    const path = `${server_ip}activity_result/1`
+    const data = await JSON.stringify(rawdata)
+
+    await fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+      .then(() => resolve({ isComplete: true }))
+      .catch(error => {
+        console.log(error)
+        const dialogMessage =
+          'กรุณาลองใหม่อีกครั้ง ' + error.code + ' ' + error.message
+        reject({
+          isDialogOpen: true,
+          dialogMessage,
+          errorCode: error.code,
+          errorMessage: error.message
+        })
+      })
+  })
+}
+
 export {
   getUserStatus,
   getPatientStatus,
@@ -309,5 +337,6 @@ export {
   getPatientList,
   uploadFileToStorage,
   getPieChartData,
-  getActivityResult
+  getActivityResult,
+  recordActivityResult
 }
